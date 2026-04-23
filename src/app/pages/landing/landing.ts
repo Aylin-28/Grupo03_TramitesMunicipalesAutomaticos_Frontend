@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { SectionBranding } from '../../components/section-branding/section-branding';
 
 @Component({
   selector: 'app-landing',
-  imports: [],
+  imports: [SectionBranding],
   templateUrl: './landing.html',
   styleUrl: './landing.css',
 })
