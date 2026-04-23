@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root {
+  --color-neutral-900: #1e293b;
+  --color-neutral-800: #334155;
+  --color-neutral-700: #475569;
+  --color-neutral-600: #64748b;
+  --color-neutral-500: #94a3b8;
+  --color-neutral-400: #cbd5e1;
+  --color-neutral-300: #e2e8f0;
+  --color-neutral-200: #f1f5f9;
+  --color-neutral-100: #f8fafc;
+  --color-blue-900: #00203d;
+  --color-blue-800: #003b72;
+  --color-blue-700: #0254a2;
+  --color-blue-600: #046fd2;
+  --color-blue-500: #1289f8;
+  --color-blue-400: #45a1f7;
+  --color-blue-300: #77baf8;
+  --color-blue-200: #a9d3f9;
+  --color-blue-100: #d9ebfc;
+  --color-white: #ffffff;
+
+  --foreground: var(--color-neutral-700);
+  --background: var(--color-neutral-100);
+  --highlight: var(--color-blue-800);
+
+  /* Buttons */
+  --button-normal: var(--color-blue-800);
+  --button-hover: var(--color-blue-700);
+  --button-active: var(--color-blue-600);
+
+  /* Chat IA - Client */
+  --chat-bubble-background: var(--color-neutral-300);
+  --chat-bar-text: var(--color-white);
+
+  /* Input Box - Text */
+  --input-box-background: var(--color-neutral-200);
+  --input-box-placeholder: var(--color-neutral-600);
+
+  /* Input Cards IA */
+  --input-card-background: var(--color-white);
+
+  /* Section Progess */
+  --section-progress-background: var(--color-neutral-300);
+  --section-progress-bar-background: var(--color-blue-800);
+  --section-progress-bar-current: var(--color-neutral-200);
+
+  /* Border Radius */
+  --border-radius-s: 4px;
+  --border-radius-m: 8px;
+  --border-radius-l: 12px;
+
+  /* Fonts */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
+  --font-size-xs: 12px;
+  --font-size-s: 14px;
+  --font-size-m: 16px;
+  --font-size-l: 18px;
+  --font-size-xl: 24px;
+  --font-size-2xl: 36px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  color: var(--foreground);
+}
+
+body {
+  background-color: var(--background);
+  width: 100vw;
+  height: 100vh;
+}
