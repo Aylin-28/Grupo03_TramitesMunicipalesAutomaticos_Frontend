@@ -2,8 +2,10 @@ import { Routes } from '@angular/router';
 import { LayoutAuth } from './layout/layout-auth/layout-auth';
 import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
+import { Landing } from './pages/landing/landing';
 
 export const routes: Routes = [
+  { path: '', component: Landing },
   {
     path: 'auth',
     component: LayoutAuth,
