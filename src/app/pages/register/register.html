@@ -1,1 +1,50 @@
-<p>register works!</p>
+<div class="register-content">
+
+    <h2>Crear cuenta</h2>
+    <p class="subtitle">Complete sus datos oficiales</p>
+
+    <form (ngSubmit)="handleSubmit()">
+
+        <div class="input-field">
+            <label>APELLIDOS Y NOMBRES</label>
+            <div class="input-wrapper">
+                <input type="text" [(ngModel)]="form.nombre" name="nombre" placeholder="Nombre completo" />
+            </div>
+        </div>
+
+        <div class="input-field">
+            <label>DNI</label>
+            <div class="input-wrapper">
+                <input type="text" [(ngModel)]="form.dni" name="dni" placeholder="DNI" maxlength="8"
+                    (input)="validarDni()" />
+            </div>
+        </div>
+
+        <div class="input-field">
+            <label>CORREO</label>
+            <div class="input-wrapper">
+                <input type="email" [(ngModel)]="form.correo" name="correo" placeholder="usuario@email.com" />
+            </div>
+        </div>
+
+        <div class="input-field">
+            <label>CONTRASEÑA</label>
+            <div class="input-wrapper">
+                <input type="password" [(ngModel)]="form.password" name="password" placeholder="••••••••" />
+            </div>
+        </div>
+
+        <div class="checkbox-field">
+            <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="form.acepta" name="acepta" />
+                <span>Acepto términos y condiciones</span>
+            </label>
+        </div>
+
+        <button class="btn-primary" type="submit">
+            CREAR CUENTA
+        </button>
+
+    </form>
+
+</div>

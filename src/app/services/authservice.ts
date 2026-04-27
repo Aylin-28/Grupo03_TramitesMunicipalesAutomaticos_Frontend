@@ -15,8 +15,10 @@ export class Authservice implements Auth {
 
   register(user: any): void {
     const users = this.getAll();
-    if (!users.find(u => u.email === user.email)) {
+    //Busca en localstorage si en la lista de usuarios existe este. Si no existe, lo crea.
+    if (!users.find(u => u.correo === user.correo))  {
       users.push(user);
+      // Lo guarda como usuario activo
       sessionStorage.setItem(this.DB_KEY, JSON.stringify(users));
     }
   }
