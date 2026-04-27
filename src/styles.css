@@ -29,6 +29,9 @@
   --button-normal: var(--color-blue-800);
   --button-hover: var(--color-blue-700);
   --button-active: var(--color-blue-600);
+  --button-inverse: var(--color-white);
+  --button-inverse-hover: var(--color-neutral-300);
+  --button-inverse-active: var(--color-neutral-200);
 
   /* Chat IA - Client */
   --chat-bubble-background: var(--color-neutral-300);
