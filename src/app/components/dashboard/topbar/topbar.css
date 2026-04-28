@@ -1,0 +1,37 @@
+.main-navbar {
+  height: 64px;
+  padding: 0 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.nav-brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nav-title {
+  color: var(--highlight);
+  font-size: var(--font-size-l);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-actions ::ng-deep app-link a {
+  color: var(--foreground);
+}
+
+.profile-avatar {
+  border-radius: 12px;
+  border: 1px #f8fafc solid;
+  object-fit: cover;
+}

@@ -1,0 +1,41 @@
+<label class="input-container">
+  @if (showLabel()) {
+    <span>{{ label() }}</span>
+  }
+
+  <div class="input-wrapper">
+    @if (showPreIcon()) {
+      <app-icon-component
+        [name]="PreIcon()"
+        [style.cursor]="isPreIconClickable() ? 'pointer' : 'default'"
+        (click)="isPreIconClickable() ? clickPreIcon.emit() : null"
+      />
+    }
+
+    @if (type() === 'text') {
+      <input
+        type="text"
+        [class]="inputClass()"
+        [placeholder]="placeholder()"
+        [value]="value()"
+        (input)="handleInput($event)"
+      />
+    } @else {
+      <textarea
+        [class]="inputClass()"
+        [placeholder]="placeholder()"
+        [value]="value()"
+        (input)="handleInput($event)"
+        rows="1"
+      ></textarea>
+    }
+
+    @if (showSubIcon()) {
+      <app-icon-component
+        [name]="SubIcon()"
+        [style.cursor]="isSubIconClickable() ? 'pointer' : 'default'"
+        (click)="isSubIconClickable() ? clickSubIcon.emit() : null"
+      />
+    }
+  </div>
+</label>

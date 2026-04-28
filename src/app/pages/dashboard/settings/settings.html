@@ -1,0 +1,83 @@
+<main class="config-container">
+  <header class="config-header">
+    <h1 class="title">Configuración de Usuario</h1>
+    <p class="subtitle">
+      Administra tu identidad digital y preferencias de seguridad en la plataforma.
+    </p>
+  </header>
+
+  <section class="profile-section">
+    <div class="profile-card">
+      <div class="avatar-wrapper">
+        <img class="avatar-img" src="https://placehold.co/96x96" alt="Foto de perfil" />
+        <div class="avatar-badge">
+          <app-icon-component name="Edit"></app-icon-component>
+        </div>
+      </div>
+      <div class="profile-info">
+        <h2 class="user-name">JUAN PABLO</h2>
+        <span class="user-role">UN CIUDADANO</span>
+      </div>
+    </div>
+
+    <div class="settings-grid">
+      <section class="settings-card">
+        <div class="card-header">
+          <h3 class="card-title">Datos Personales</h3>
+          <div class="update-badge">
+            <span class="update-text">Última actualización: 12 Oct 2023</span>
+          </div>
+        </div>
+        <div class="form-grid">
+          <app-input-field
+            label="NOMBRES COMPLETOS"
+            placeholder="Ej. Example"
+            [showLabel]="true"
+          ></app-input-field>
+
+          <app-input-field
+            label="DNI / Documento de Identidad"
+            placeholder="Ej. Example"
+            [showLabel]="true"
+          ></app-input-field>
+
+          <app-input-field
+            label="APELLIDOS COMPLETOS"
+            placeholder="Ej. Example"
+            [showLabel]="true"
+          ></app-input-field>
+
+          <app-input-field
+            label="CORREO ELECTRÓNICO"
+            placeholder="Ej. Example"
+            [showLabel]="true"
+          ></app-input-field>
+
+          <div class="form-actions">
+            <app-button label="Guardar Cambios" variant="small" fontSize="m"></app-button>
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-card">
+        <div class="card-header">
+          <h3 class="card-title">Preferencias de Notificación</h3>
+        </div>
+        <div class="notification-list">
+          <app-setting-switch
+            icon="Description"
+            title="Notificaciones por Email"
+            description="Recibe avisos sobre tus trámites en curso."
+          ></app-setting-switch>
+
+          <app-setting-switch
+            icon="Forum"
+            title="Novedades de la Ciudad"
+            description="Eventos, participación y noticias locales."
+            [checked]="true"
+          ></app-setting-switch>
+        </div>
+      </section>
+    </div>
+  </section>
+</main>

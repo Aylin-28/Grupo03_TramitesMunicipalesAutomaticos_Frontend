@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { IconComponent } from '../../components/icon-component/icon-component';
+import { IconComponent } from '../../components/ui/icon-component/icon-component';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -13,6 +13,6 @@ export class Login {
   showPassword = signal(false);
 
   togglePassword() {
-    this.showPassword.update(value => !value);
+    this.showPassword.update((value) => !value);
   }
 }
