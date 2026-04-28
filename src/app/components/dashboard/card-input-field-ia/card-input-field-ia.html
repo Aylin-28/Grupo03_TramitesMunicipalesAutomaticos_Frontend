@@ -1,0 +1,15 @@
+<article class="input-card">
+  <header class="input-card__header">
+    <div class="icon-container">
+      <app-icon-component [name]="icon()" />
+    </div>
+    <span class="status-badge">{{ statusBadge() }}</span>
+  </header>
+  <section class="input-card__content">
+    <div class="input-heading">
+      <span class="input-title">{{ label() }}</span>
+      <p class="input-description">{{ description() }}</p>
+    </div>
+    <app-input-field [placeholder]="placeholder()" [showLabel]="false" />
+  </section>
+</article>

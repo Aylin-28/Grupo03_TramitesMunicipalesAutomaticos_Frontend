@@ -29,4 +29,28 @@ type IconName =
   | 'CheckList'
   | 'Warning'
   | 'KeyboardArrowRight'
-  | 'Download';
+  | 'Download'
+  | 'Close'
+  | 'LocationOn'
+  | 'Edit'
+  | 'Info';
+
+interface DownloadCardItem {
+  tag: string;
+  icon: any;
+  title: string;
+  description: string;
+  buttonLabel: string;
+}
+
+interface QuickReplyItem {
+  label: string;
+}
+
+interface InputFieldCardItem {
+  label: string;
+  description: string;
+  placeholder: string;
+  icon: any;
+  statusBadge: string;
+}

@@ -3,7 +3,8 @@ import { LayoutAuth } from './layout/layout-auth/layout-auth';
 import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
 import { Landing } from './pages/landing/landing';
-import { AuthComponent } from './pages/auth/auth';
+import { LayoutDashboard } from './layout/layout-dashboard/layout-dashboard';
+import { Assistant } from './pages/dashboard/assistant/assistant';
 
 export const routes: Routes = [
   { path: '', component: Landing },
@@ -15,5 +16,9 @@ export const routes: Routes = [
       { path: 'register', component: Register },
     ],
   },
-
+  {
+    path: 'dashboard',
+    component: LayoutDashboard,
+    children: [{ path: 'assistant', component: Assistant }],
+  },
 ];

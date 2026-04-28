@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IconComponent } from './icon-component';
+import { IAProcessing } from './iaprocessing';
 
-describe('IconComponent', () => {
-  let component: IconComponent;
-  let fixture: ComponentFixture<IconComponent>;
+describe('IAProcessing', () => {
+  let component: IAProcessing;
+  let fixture: ComponentFixture<IAProcessing>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IconComponent],
+      imports: [IAProcessing],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(IconComponent);
+    fixture = TestBed.createComponent(IAProcessing);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

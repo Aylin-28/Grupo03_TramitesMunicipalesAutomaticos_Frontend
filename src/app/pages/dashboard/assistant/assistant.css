@@ -1,0 +1,65 @@
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.chat-header {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px 20px;
+  transition: all 0.3s ease-out;
+}
+
+.chat-title {
+  color: var(--highlight);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.chat-subtitle {
+  font-size: var(--font-size-l);
+}
+
+.scroll-viewport {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  transition: padding 0.3s ease;
+}
+
+.messages-list {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px;
+  flex-shrink: 0;
+}
+
+.chat-title,
+.chat-subtitle {
+  flex-shrink: 0;
+}
+
+app-chat-input {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-bottom: 60px;
+}
