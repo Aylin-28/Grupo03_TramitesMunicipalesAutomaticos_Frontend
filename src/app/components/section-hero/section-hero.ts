@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IconComponent } from '../icon-component/icon-component';
+import { IconComponent } from '../ui/icon-component/icon-component';
 import { LayoutLanding } from '../../layout/layout-landing/layout-landing';
 import { Link } from '../ui/link/link';
 
@@ -9,4 +9,4 @@ import { Link } from '../ui/link/link';
   templateUrl: './section-hero.html',
   styleUrl: './section-hero.css',
 })
-export class SectionHero { }
+export class SectionHero {}
