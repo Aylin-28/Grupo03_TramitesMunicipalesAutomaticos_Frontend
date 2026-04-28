@@ -24,15 +24,9 @@
       <div class="input-wrapper">
         <app-icon-component name="Lock" class="input-icon left-icon"></app-icon-component>
 
-        <input
-          [type]="showPassword() ? 'text' : 'password'"
-          id="password"
-          placeholder="••••••••"
-        >
+        <input [type]="showPassword() ? 'text' : 'password'" id="password" placeholder="••••••••">
 
-        <app-icon-component
-          [name]="showPassword() ? 'VisibilityOff' : 'Visibility'"
-          class="input-icon right-icon"
+        <app-icon-component [name]="showPassword() ? 'VisibilityOff' : 'Visibility'" class="input-icon right-icon"
           (click)="togglePassword()">
         </app-icon-component>
       </div>
@@ -51,6 +45,12 @@
     <button type="submit" class="btn-primary">
       INGRESAR A LA CUENTA
     </button>
+
+    <div class="divider">
+      <span>¿Aún no tienes cuenta?</span>
+    </div>
+
+    <app-link to="/auth/register" label="Registrarse" variant="small" />
 
   </form>
 

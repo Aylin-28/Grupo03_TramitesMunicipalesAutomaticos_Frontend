@@ -1,22 +1,16 @@
 <app-layout-landing>
   <header class="header">
     <section class="header-main">
-      <h2>falta UN BUEN TITULO</h2>
+      <h2>AutoGov</h2>
       <div>
-        <app-link to="/#hero" label="Inicio" variant="inline" />
+        <app-link to="/" label="Inicio" variant="inline" />
         <app-link to="/#services" label="Servicios" variant="inline" />
         <app-link to="/#destacados" label="Destacados" variant="inline" />
       </div>
     </section>
     <section class="header-actions">
       <!-- Selected -->
-      <app-link
-        to="/"
-        variant="ghost"
-        [showLabel]="false"
-        [showPreIcon]="true"
-        PreIcon="ContactSupport"
-      />
+      <app-link to="/" variant="ghost" [showLabel]="false" [showPreIcon]="true" PreIcon="ContactSupport" />
       <app-link to="/auth/login" label="Iniciar Sesion" variant="small" />
     </section>
   </header>
