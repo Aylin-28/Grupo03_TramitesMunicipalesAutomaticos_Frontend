@@ -1,0 +1,54 @@
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--color-neutral-300);
+}
+
+/* IMPORTANTE: ahora es .tab, no .tabs button */
+.tab {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-neutral-500);
+  font-size: var(--font-size-s);
+  transition: all 0.2s ease;
+}
+
+/* estado activo */
+.tab.active {
+  color: var(--highlight);
+  border-bottom: 3px solid var(--highlight);
+}
+
+/* opcional: hover */
+.tab:hover {
+  color: var(--highlight);
+}
+
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 100vh;
+  width: 100%;
+
+  padding: 20px;
+  background: var(--background, #f5f5f5); 
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;  
+  background: white;
+  border-radius: 12px;
+
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.auth-content {
+  padding: 30px; 
+}

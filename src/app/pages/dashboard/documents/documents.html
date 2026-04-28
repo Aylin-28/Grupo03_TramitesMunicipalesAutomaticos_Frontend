@@ -1,0 +1,49 @@
+<section class="dashboard-wrapper">
+  <section class="categories-section">
+    <header class="section-header">
+      <h2 class="section-title">Categorías de Documentos</h2>
+      <app-link
+        label="Explorar mas"
+        variant="inline"
+        to="/categorias"
+        [showSubIcon]="true"
+        SubIcon="ArrowRightAlt"
+        fontWeight="semibold"
+      />
+    </header>
+    <div class="cards-grid">
+      @for (doc of documentCategories(); track doc.title) {
+        <app-document-card
+          variant="document"
+          [title]="doc.title"
+          [description]="doc.description"
+          [icon]="doc.icon"
+          [linkLabel]="doc.linkLabel"
+          [linkUrl]="doc.linkUrl"
+        />
+      }
+    </div>
+  </section>
+  <section class="records-section">
+    <header class="section-header">
+      <h2 class="section-title">Registros del Sistema Verificados</h2>
+      <nav class="filter-switch">
+        @for (tab of tabs(); track $index) {
+          <app-button
+            class="tab"
+            [class.active]="currentTab() === $index"
+            variant="ghost"
+            [label]="tab"
+            [fontWeight]="currentTab() === $index ? 'semibold' : 'medium'"
+            (click)="setCurrentTab($index)"
+          />
+        }
+      </nav>
+    </header>
+    <div class="records-grid">
+      @for (file of filteredCards(); track file.id) {
+        <app-file-card [title]="file.title" [date]="file.date" />
+      }
+    </div>
+  </section>
+</section>

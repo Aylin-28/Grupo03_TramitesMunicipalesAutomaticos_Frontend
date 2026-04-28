@@ -1,0 +1,14 @@
+.privacy-notice {
+  background: var(--color-neutral-300);
+  padding: 16px;
+  border-radius: var(--border-radius-m);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--highlight);
+}
+
+.notice-text {
+  font-size: var(--font-size-s);
+  color: var(--foreground);
+}

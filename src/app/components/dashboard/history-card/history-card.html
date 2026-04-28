@@ -1,0 +1,63 @@
+<article class="procedure-card {{ status() }}">
+  <div class="procedure-info">
+    <div class="procedure-icon-wrapper">
+      @switch (status()) {
+        @case ('action') {
+          <app-icon-component name="Warning" />
+        }
+        @case ('progress') {
+          <app-icon-component name="CheckList" />
+        }
+        @case ('completed') {
+          <app-icon-component [name]="icon()" />
+        }
+      }
+    </div>
+    <div class="procedure-content">
+      <div class="procedure-header">
+        <h3 class="procedure-name">{{ title() }}</h3>
+        <span class="procedure-tag">{{ label() }}</span>
+      </div>
+      <div class="procedure-meta">
+        <div class="meta-data">
+          <app-icon-component name="Calendary" />
+          <span class="meta-text">{{ date() }}</span>
+        </div>
+        <div class="meta-data">
+          <app-icon-component name="AccountBalance" />
+          <span class="meta-text">{{ department() }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="procedure-actions">
+    <div class="status-container">
+      <span class="status-title">ESTADO ACTUAL</span>
+      <div class="status-badge">
+        @if (status() === 'progress') {
+          <span class="status-dot"></span>
+        }
+        <span class="status-text">
+          @switch (status()) {
+            @case ('action') {
+              Acción Requerida
+            }
+            @case ('progress') {
+              En Progreso
+            }
+            @case ('completed') {
+              Completado
+            }
+          }
+        </span>
+      </div>
+    </div>
+    <app-link
+      [to]="linkUrl()"
+      variant="ghost"
+      [showSubIcon]="true"
+      [showLabel]="false"
+      SubIcon="ArrowRightAlt"
+    />
+  </div>
+</article>

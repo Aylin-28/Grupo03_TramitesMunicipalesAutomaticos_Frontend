@@ -1,0 +1,47 @@
+.service-card {
+  background: var(--card-background);
+  border-radius: var(--border-radius-l);
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  gap: 12px;
+  height: 100%;
+}
+
+.icon-container {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--border-radius-l);
+  background-color: var(--card-icon-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--highlight);
+}
+
+.service-content {
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.service-title {
+  color: var(--highlight);
+  font-size: var(--font-size-l);
+  font-weight: var(--font-weight-bold);
+}
+
+.service-footer {
+  flex: 1;
+  align-items: flex-end;
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Custom Link with Variant Inline */
+.service-footer ::ng-deep app-link a {
+  color: var(--highlight);
+}

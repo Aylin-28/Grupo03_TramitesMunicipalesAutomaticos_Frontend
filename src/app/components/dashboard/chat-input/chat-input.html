@@ -1,0 +1,62 @@
+<footer class="chat-footer">
+  <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)" multiple />
+
+  <div class="chat-input-container">
+    <div class="input-card-wrapper" [class.stacked-layout]="isLongText()">
+      <app-input-field
+        class="flex-grow"
+        type="textarea"
+        [(value)]="message"
+        [showLabel]="false"
+        [showPreIcon]="!isLongText()"
+        [isPreIconClickable]="true"
+        PreIcon="AttachFile"
+        placeholder="Escribe tu mensaje..."
+        (clickPreIcon)="fileInput.click()"
+        (keydown.enter)="$event.preventDefault(); send()"
+      ></app-input-field>
+
+      @if (isLongText()) {
+        <div class="actions-row">
+          <button class="attach-btn" (click)="fileInput.click()">
+            <app-icon-component name="AttachFile"></app-icon-component>
+          </button>
+          <div class="spacer"></div>
+          <app-button
+            label="Siguiente"
+            variant="small"
+            [showLabel]="isTramiteMode()"
+            [showSubIcon]="true"
+            [SubIcon]="isTramiteMode() ? 'ArrowRightAlt' : 'Send'"
+            (click)="send()"
+          ></app-button>
+        </div>
+      } @else {
+        <app-button
+          label="Siguiente"
+          variant="small"
+          [showLabel]="isTramiteMode()"
+          [showSubIcon]="true"
+          [SubIcon]="isTramiteMode() ? 'ArrowRightAlt' : 'Send'"
+          (click)="send()"
+        ></app-button>
+      }
+    </div>
+
+    @if (attachments().length > 0) {
+      <div class="attachments-container">
+        @for (file of attachments(); track $index) {
+          <div class="attachment-chip">
+            <div class="attachment-content">
+              <app-icon-component name="AttachFile" class="icon-small" />
+              <span class="attachment-text">{{ file.name }}</span>
+            </div>
+            <button class="remove-btn" (click)="removeFile($index)">
+              <app-icon-component name="Close" class="icon-close" />
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</footer>

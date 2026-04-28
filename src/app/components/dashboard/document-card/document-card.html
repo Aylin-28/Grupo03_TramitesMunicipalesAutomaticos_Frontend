@@ -1,0 +1,30 @@
+<article class="service-card {{ variant() }}">
+  <div class="icon-container">
+    <app-icon-component [name]="icon()" />
+  </div>
+  <div class="service-content">
+    <h3 class="service-title">{{ title() }}</h3>
+    <p class="service-description">{{ description() }}</p>
+  </div>
+  <footer class="service-footer">
+    @if (variant() === 'document') {
+      <app-link
+        variant="inline"
+        [label]="linkLabel()"
+        [to]="linkUrl()"
+        [showSubIcon]="true"
+        SubIcon="KeyboardArrowRight"
+        fontWeight="semibold"
+      />
+    } @else {
+      <app-link
+        variant="inline"
+        [label]="linkLabel()"
+        [to]="linkUrl()"
+        [showSubIcon]="true"
+        SubIcon="ArrowRightAlt"
+        fontWeight="semibold"
+      />
+    }
+  </footer>
+</article>

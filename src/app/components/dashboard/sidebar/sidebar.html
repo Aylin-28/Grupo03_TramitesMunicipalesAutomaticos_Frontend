@@ -1,0 +1,114 @@
+<aside class="sidebar" role="navigation" aria-label="Menú principal">
+  <header class="sidebar-header">
+    <div class="logo-wrapper">
+      <app-icon-component name="AccountBalance" aria-hidden="true"></app-icon-component>
+    </div>
+    <div class="branding-text">
+      <h2 class="brand-title">Falta un buen titulo</h2>
+      <p class="brand-tagline">no se algo</p>
+    </div>
+  </header>
+
+  <nav class="sidebar-nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <app-link
+          to="/dashboard/assistant"
+          label="Asistente"
+          [showPreIcon]="true"
+          PreIcon="SmartToy"
+          fontSize="m"
+          variant="ghost"
+        >
+        </app-link>
+      </li>
+      <li class="nav-item">
+        <app-link
+          to="/dashboard/history"
+          label="Historial"
+          [showPreIcon]="true"
+          PreIcon="History"
+          fontSize="m"
+          variant="ghost"
+        >
+        </app-link>
+      </li>
+      <!-- Proxima Presentación -->
+      <!-- <li class="nav-item">
+        <app-link
+          to="/dashboard/services"
+          label="Servicios"
+          [showPreIcon]="true"
+          PreIcon="AccountBalance"
+          fontSize="m"
+          variant="ghost"
+        >
+        </app-link>
+      </li> -->
+      <li class="nav-item">
+        <app-link
+          to="/dashboard/documents"
+          label="Documentos"
+          [showPreIcon]="true"
+          PreIcon="Description"
+          fontSize="m"
+          variant="ghost"
+        >
+        </app-link>
+      </li>
+    </ul>
+  </nav>
+
+  <footer class="sidebar-footer">
+    <nav class="utils-nav">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <app-link
+            to="/dashboard/settings"
+            label="Configuración"
+            [showPreIcon]="true"
+            PreIcon="Settings"
+            fontSize="s"
+            variant="ghost"
+          >
+          </app-link>
+        </li>
+        <!-- Proxima Presentación -->
+        <!-- <li class="nav-item">
+          <app-link
+            to="/dashboard/help"
+            label="Ayuda"
+            [showPreIcon]="true"
+            PreIcon="ContactSupport"
+            fontSize="s"
+            variant="ghost"
+          >
+          </app-link>
+        </li> -->
+        <li class="nav-item">
+          <app-link
+            to="/"
+            label="Cerrar Cesión"
+            [showPreIcon]="true"
+            PreIcon="AccountBalance"
+            fontSize="m"
+            variant="ghost"
+          >
+          </app-link>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="action-container">
+      <app-link
+        to="/dashboard/assistant"
+        label="Nueva Solicitud"
+        fontSize="s"
+        fontWeight="semibold"
+        [showPreIcon]="true"
+        PreIcon="Add"
+      >
+      </app-link>
+    </div>
+  </footer>
+</aside>

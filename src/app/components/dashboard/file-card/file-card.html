@@ -1,0 +1,15 @@
+<article class="document-card">
+  <figure class="document-preview">
+    <app-icon-component name="Description" [size]="50" />
+  </figure>
+  <div class="document-body">
+    <header class="document-info">
+      <h4 class="document-name">{{ title() }}</h4>
+      <span class="document-date">Remisión: {{ date() }}</span>
+    </header>
+    <footer class="document-actions">
+      <app-button variant="ghost" label="Ver" [showPreIcon]="true" PreIcon="Visibility" />
+      <app-button variant="ghost" [showLabel]="false" [showPreIcon]="true" PreIcon="Download" />
+    </footer>
+  </div>
+</article>

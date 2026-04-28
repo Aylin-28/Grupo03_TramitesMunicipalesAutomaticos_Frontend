@@ -1,0 +1,15 @@
+<button [className]="variant()">
+  @if (showPreIcon()) {
+    <app-icon-component [name]="PreIcon()" />
+  }
+
+  @if (showLabel()) {
+    <span [style.font-size]="fontSizeClass()" [style.font-weight]="fontWeightClass()">
+      {{ label() }}
+    </span>
+  }
+
+  @if (showSubIcon()) {
+    <app-icon-component [name]="SubIcon()" />
+  }
+</button>

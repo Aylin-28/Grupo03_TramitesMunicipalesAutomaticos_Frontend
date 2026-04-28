@@ -1,0 +1,32 @@
+<app-layout-landing>
+    <article class="hero">
+        <section class="hero-content">
+            <span class="badge-hero">Un buen badge relacionado</span>
+            <h1>La gestión pública, <span>simplificada por IA.</span></h1>
+            <p>
+                Accede a todos los servicios gubernamentales desde un solo lugar. Nuestra inteligencia
+                artificial te guía en trámites, pagos y consultas ciudadanas con transparencia absoluta.
+            </p>
+            <div>
+                <app-link to="/auth/login" label="Iniciar Sesion con DNI" [showSubIcon]="true"
+                    SubIcon="ArrowRightAlt" />
+                <app-link to="/auth/register" label="Registrarme Ahora" variant="inverse" />
+            </div>
+        </section>
+        <section class="hero-display">
+            <div class="hero-display-image">
+                <img src="https://media.istockphoto.com/id/2156599809/es/foto/volando-a-trav%C3%A9s-de-un-paisaje-de-tecnolog%C3%ADa-digital-futurista-azul-brillante-fondo-de.jpg?s=612x612&w=0&k=20&c=szSHyRa3lrierS9dgw6tu3IpH2kA9E7lUygYExCrn5I="
+                    alt="" />
+            </div>
+            <div class="hero-display-card">
+                <div class="hero-display-card-header">
+                    <div class="app-icon-wrapper">
+                        <app-icon-component name="SmartToy" />
+                    </div>
+                    <span>Asistente Virtual</span>
+                </div>
+                <p>"Hola Juan, tu trámite de renovación de licencia ha sido aprobado exitosamente."</p>
+            </div>
+        </section>
+    </article>
+</app-layout-landing>

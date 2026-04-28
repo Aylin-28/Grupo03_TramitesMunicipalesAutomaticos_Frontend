@@ -1,0 +1,40 @@
+<app-layout-landing>
+  <article class="services-section">
+    <header class="services-header">
+      <h2 class="services-title">Servicios Destacados</h2>
+      <p class="services-subtitle">Soluciones rápidas para tus necesidades diarias.</p>
+    </header>
+    <div class="services-container">
+      <section class="service-card">
+        <div class="service-icon-wrapper">
+          <app-icon-component name="ShieldLock" class="service-icon" />
+        </div>
+        <div class="service-body">
+          <h3 class="service-card-title">Impuestos y Tasas</h3>
+          <p class="service-card-description">
+            Consulta tus deudas, descarga boletas y paga online con cualquier medio de pago de forma
+            segura.
+          </p>
+        </div>
+        <footer class="service-footer">
+          <app-link
+            to="/impuestos"
+            label="Ir a impuestos"
+            [showSubIcon]="true"
+            SubIcon="ArrowRightAlt"
+            variant="inline"
+          />
+        </footer>
+      </section>
+      <section class="service-card" style="background-color: var(--color-neutral-100)">
+        <div class="service-icon-wrapper"></div>
+        <div class="service-body">
+          <h3 class="service-card-title">Próximamente</h3>
+        </div>
+        <footer class="service-footer">
+          <app-link to="/" label="Próximamente" [showSubIcon]="true" SubIcon="ArrowRightAlt" />
+        </footer>
+      </section>
+    </div>
+  </article>
+</app-layout-landing>

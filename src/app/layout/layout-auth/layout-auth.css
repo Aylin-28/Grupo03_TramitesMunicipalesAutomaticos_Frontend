@@ -1,0 +1,8 @@
+main {
+  width: 100%;
+  padding: 44px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 35px;
+}

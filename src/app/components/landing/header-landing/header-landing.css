@@ -1,0 +1,52 @@
+.header {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+}
+
+.header .header-main {
+  display: flex;
+  align-items: center;
+  gap: 58px;
+}
+
+.header-main h2 {
+  font-size: var(--font-size-l);
+  font-weight: var(--font-weight-semibold);
+  color: var(--highlight);
+}
+
+.header-main div {
+  display: flex;
+  gap: 24px;
+}
+
+.header-main div ::ng-deep a.inline {
+  color: var(--foreground);
+  border-bottom: 2px solid transparent;
+}
+
+.header-main div ::ng-deep a.inline:hover {
+  border-color: var(--foreground);
+}
+
+.header-main div ::ng-deep a.inline span {
+  font-weight: var(--font-weight-medium) !important;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-actions ::ng-deep a.ghost {
+  color: var(--highlight);
+}
+
+.header-actions ::ng-deep a.small span {
+  font-weight: var(--font-weight-semibold) !important;
+}

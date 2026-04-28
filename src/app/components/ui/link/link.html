@@ -1,0 +1,20 @@
+<a
+  [className]="variant()"
+  [routerLink]="to()"
+  routerLinkActive="active-link"
+  [routerLinkActiveOptions]="{ exact: false }"
+>
+  @if (showPreIcon()) {
+    <app-icon-component [name]="PreIcon()" />
+  }
+
+  @if (showLabel()) {
+    <span [style.font-size]="fontSizeClass()" [style.font-weight]="fontWeightClass()">
+      {{ label() }}
+    </span>
+  }
+
+  @if (showSubIcon()) {
+    <app-icon-component [name]="SubIcon()" />
+  }
+</a>

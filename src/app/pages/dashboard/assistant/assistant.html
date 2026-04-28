@@ -1,0 +1,36 @@
+<section class="chat-container">
+  @if (showHeader()) {
+    <article class="chat-header">
+      <h1 class="chat-title">¿Cómo puedo ayudarle hoy con sus necesidades?</h1>
+      <p class="chat-subtitle">
+        Acceda a servicios municipales verificados, reporte problemas de la ciudad...
+      </p>
+    </article>
+  }
+
+  <div class="scroll-viewport">
+    <div class="messages-list">
+      @for (msg of messages(); track $index) {
+        @if (msg.role === 'assistant') {
+          <app-bubble-message-ia
+            [messageText]="msg.content"
+            [timestamp]="msg.timestamp"
+            [downloadCards]="msg.downloadCards || []"
+            [quickReplies]="msg.quickReplies || []"
+            [inputFields]="msg.inputFields || []"
+          />
+        } @else {
+          <app-chat-message-user [message]="msg.content" [timestamp]="msg.timestamp" />
+        }
+      }
+
+      @if (isProcessing()) {
+        <app-iaprocessing />
+      }
+
+      <app-alert-privacity />
+    </div>
+  </div>
+
+  <app-chat-input (onSendMessage)="handleNewMessage($event)" />
+</section>

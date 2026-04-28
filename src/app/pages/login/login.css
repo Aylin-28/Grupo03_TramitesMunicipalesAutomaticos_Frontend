@@ -1,0 +1,213 @@
+
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; 
+  padding: 20px;
+}
+
+.login-card {
+  background: var(--color-white);
+  border-radius: var(--border-radius-l);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 450px;
+  overflow: hidden;
+}
+
+/* Estilo de Pestañas */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--color-neutral-300);
+}
+
+.tab {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-neutral-500);
+  font-size: var(--font-size-s);
+}
+
+.tab.active {
+  color: var(--highlight);
+  border-bottom: 3px solid var(--highlight);
+}
+
+/* Contenido del formulario */
+.login-content {
+  padding: 30px;
+}
+
+.login-content h2 {
+  color: var(--highlight);
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: var(--color-neutral-600);
+  font-size: var(--font-size-s);
+  margin-bottom: 24px;
+}
+
+/* Inputs */
+.input-field label {
+  display: block;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-neutral-700);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.input-wrapper {
+  position: relative;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    color: var(--color-neutral-500);
+    display: flex;
+}
+
+.left-icon {
+    left: 12px;
+}
+
+.right-icon {
+    right: 12px;
+    cursor: pointer;
+    transition: color 0.2s;
+    z-index: 10;
+}
+
+.right-icon:hover {
+    color: var(--highlight);
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 12px 40px;
+  background: var(--input-box-background);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--border-radius-m); 
+  font-size: var(--font-size-s);
+  color: var(--foreground);
+  font-weight: 400;
+}
+
+.input-wrapper input::placeholder {
+  color: var(--input-box-placeholder);
+}
+
+/* Botón Principal */
+.btn-primary {
+  background-color: var(--button-normal);
+  color: var(--color-white);
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--border-radius-m);
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  font-size: var(--font-size-s);
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: var(--button-hover);
+}
+
+/* Centrado para los botones */
+.btn-alt app-icon-component {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Opciones de formulario (Recordarme y Olvidé contraseña) */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-xs);
+  margin-bottom: 20px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--color-neutral-600);
+}
+
+.remember-me input {
+  margin: 0;
+  cursor: pointer;
+}
+
+.forgot-password {
+  color: var(--highlight);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/*"ACCEDER MEDIANTE"*/
+.divider {
+  text-align: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Botones sociales/alternativos */
+.social-login {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-alt {
+  flex: 1;
+  background: var(--color-white);
+  border: 1px solid var(--color-neutral-300);
+  padding: 10px;
+  border-radius: var(--border-radius-m);
+  font-weight: 600;
+  color: var(--foreground);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-alt:hover {
+  background: var(--color-neutral-100);
+}
+
+/* Texto de soporte */
+.support-text {
+  margin-top: 20px;
+  font-size: var(--font-size-s);
+  color: var(--color-neutral-600);
+}
+
+.support-text strong {
+  color: var(--highlight);
+  cursor: pointer;
+}

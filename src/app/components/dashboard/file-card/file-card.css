@@ -1,0 +1,58 @@
+.document-card {
+  border-radius: var(--border-radius-l);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.document-preview {
+  height: 150px;
+  background: var(--file-card-icon-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--foreground);
+}
+
+.document-body {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.document-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.document-name {
+  font-weight: var(--font-weight-bold);
+}
+
+.document-date {
+  font-size: var(--font-size-xs);
+}
+
+.document-actions {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+/* Custom Button with Variant Ghost */
+.document-actions ::ng-deep app-button:first-child {
+  width: 100%;
+}
+.document-actions ::ng-deep app-button button {
+  width: 100%;
+  color: var(--highlight);
+  background-color: var(--button-inverse-hover);
+  padding: 12px;
+}
+.document-actions ::ng-deep app-button button:active {
+  transition: background 100ms ease-out;
+  background-color: var(--button-inverse-active);
+}
