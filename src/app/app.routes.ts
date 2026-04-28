@@ -5,6 +5,7 @@ import { Register } from './pages/register/register';
 import { Landing } from './pages/landing/landing';
 import { LayoutDashboard } from './layout/layout-dashboard/layout-dashboard';
 import { Assistant } from './pages/dashboard/assistant/assistant';
+import { History } from './pages/dashboard/history/history';
 
 export const routes: Routes = [
   { path: '', component: Landing },
@@ -19,6 +20,9 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: LayoutDashboard,
-    children: [{ path: 'assistant', component: Assistant }],
+    children: [
+      { path: 'assistant', component: Assistant },
+      { path: 'history', component: History },
+    ],
   },
 ];

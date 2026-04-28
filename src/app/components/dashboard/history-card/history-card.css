@@ -1,0 +1,133 @@
+.procedure-card {
+  display: flex;
+  background: var(--history-card-background);
+  border-radius: var(--border-radius-l);
+  padding: 24px;
+}
+
+.procedure-info {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+}
+
+.procedure-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  aspect-ratio: 1 / 1;
+  background: var(--color-neutral-200);
+  border-radius: var(--border-radius-l);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--highlight);
+}
+
+.procedure-card.action .procedure-icon-wrapper {
+  color: var(--color-red-600);
+}
+
+.procedure-content {
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 4px;
+  display: inline-flex;
+}
+
+.procedure-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.procedure-name {
+  font-size: var(--font-size-l);
+  font-weight: var(--font-weight-bold);
+}
+
+.procedure-tag {
+  padding: 2px 8px;
+  background: var(--history-card-bg-badge);
+  border-radius: var(--border-radius-l);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.procedure-meta {
+  display: flex;
+  gap: 24px;
+}
+
+.meta-data {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta-text {
+  font-size: var(--font-size-s);
+}
+
+.procedure-actions {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.status-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.status-title {
+  padding-bottom: 4px;
+  font-size: var(--border-radius-l);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 1px;
+}
+
+.status-badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--highlight);
+  border-radius: var(--border-radius-l);
+}
+
+.procedure-card.action .status-dot {
+  background: var(--color-red-600);
+}
+
+.status-text {
+  color: var(--highlight);
+  font-weight: var(--font-weight-semibold);
+}
+
+.procedure-card.action .status-text {
+  color: var(--color-red-600);
+}
+
+.procedure-card.completed .status-text {
+  color: var(--foreground);
+}
+
+/* Custom Link with Variant Ghost */
+.procedure-actions ::ng-deep app-link a {
+  color: var(--highlight);
+  background-color: var(--button-inverse-hover);
+  padding: 12px;
+}
+.procedure-actions ::ng-deep app-link a:hover {
+  background-color: var(--button-inverse-active);
+}
+.procedure-actions ::ng-deep app-link a:active {
+  background-color: var(--button-inverse-hover);
+}

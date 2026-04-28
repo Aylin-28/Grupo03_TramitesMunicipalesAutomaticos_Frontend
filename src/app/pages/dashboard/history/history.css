@@ -1,0 +1,63 @@
+.history-container {
+  width: 100%;
+  height: 100%;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  overflow: hidden;
+}
+
+.history-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-title {
+  color: var(--highlight);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.history-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Custom Button with Variant Ghost */
+.tabs-wrapper {
+  width: fit-content;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--multitabs-background);
+  border-radius: var(--border-radius-m);
+}
+
+.tabs-wrapper ::ng-deep .tab button {
+  padding: 8px 24px;
+  color: var(--foreground);
+}
+
+.tabs-wrapper ::ng-deep .tab button:hover {
+  transition: background 100ms ease-out;
+  background-color: var(--multitabs-hover);
+}
+
+.tabs-wrapper ::ng-deep .tab.active button {
+  transition: background 100ms ease-out;
+  background-color: var(--multitabs-active-background);
+  color: var(--highlight);
+}
+
+.records-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.records-list app-history-card {
+  width: 100%;
+}
