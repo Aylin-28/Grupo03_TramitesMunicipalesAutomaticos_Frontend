@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { InjectionToken } from '@angular/core';
 import { Auth } from '../../interfaces/auth';
 import { Inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 export const AUTH_TOKEN = new InjectionToken<Auth>('Auth');
 
@@ -18,7 +19,7 @@ export const AUTH_TOKEN = new InjectionToken<Auth>('Auth');
 
 export class Register {
 
-  constructor(@Inject(AUTH_TOKEN) private authService: Auth, private http: HttpClient) { }
+  constructor(@Inject(AUTH_TOKEN) private authService: Auth, private http: HttpClient, private router: Router) { }
 
   form = {
     nombre: '',
@@ -133,8 +134,9 @@ export class Register {
         // Guardar usando service
         this.authService.register(this.form);
 
-        alert('Registro exitoso');
-
+        
+        // alert('Registro exitoso');
+        this.router.navigate(["/dashboard/assistant"])
       },
       error: () => {
         alert('Error al validar el DNI');
