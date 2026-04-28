@@ -10,6 +10,7 @@ import { IconComponent } from '../icon-component/icon-component';
 })
 export class Link {
   to = input.required<string>();
+  fragment = input<string>('');
   variant = input<Variant>('default');
   label = input<string>('Link');
   fontSize = input<FontSize>('m');
