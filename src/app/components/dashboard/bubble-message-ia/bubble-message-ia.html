@@ -1,0 +1,48 @@
+<article class="message-row admin">
+  <div class="avatar">
+    <app-icon-component name="SmartToy"></app-icon-component>
+  </div>
+
+  <div class="message-content">
+    <div class="bubble">
+      <p class="text">{{ messageText() }}</p>
+      <time class="timestamp">{{ timestamp() }}</time>
+    </div>
+
+    @if (downloadCards().length > 0) {
+      <div class="actions-grid">
+        @for (card of downloadCards(); track $index) {
+          <app-card-download-ia
+            [tag]="card.tag"
+            [icon]="card.icon"
+            [title]="card.title"
+            [description]="card.description"
+            [buttonLabel]="card.buttonLabel"
+          />
+        }
+      </div>
+    }
+
+    @if (quickReplies().length > 0) {
+      <div class="quick-replies">
+        @for (reply of quickReplies(); track $index) {
+          <app-button [label]="reply.label" variant="ghost" fontSize="s" fontWeight="medium" />
+        }
+      </div>
+    }
+
+    @if (inputFields().length > 0) {
+      <div class="form-row">
+        @for (field of inputFields(); track $index) {
+          <app-card-input-field-ia
+            [label]="field.label"
+            [description]="field.description"
+            [placeholder]="field.placeholder"
+            [icon]="field.icon"
+            [statusBadge]="field.statusBadge"
+          />
+        }
+      </div>
+    }
+  </div>
+</article>
