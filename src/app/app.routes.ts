@@ -7,6 +7,7 @@ import { LayoutDashboard } from './layout/layout-dashboard/layout-dashboard';
 import { Assistant } from './pages/dashboard/assistant/assistant';
 import { History } from './pages/dashboard/history/history';
 import { Documents } from './pages/dashboard/documents/documents';
+import { Settings } from './pages/dashboard/settings/settings';
 
 export const routes: Routes = [
   { path: '', component: Landing },
@@ -25,6 +26,7 @@ export const routes: Routes = [
       { path: 'assistant', component: Assistant },
       { path: 'history', component: History },
       { path: 'documents', component: Documents },
+      { path: 'settings', component: Settings },
     ],
   },
 ];

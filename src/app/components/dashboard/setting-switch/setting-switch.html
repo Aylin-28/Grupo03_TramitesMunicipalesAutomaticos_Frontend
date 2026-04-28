@@ -1,0 +1,22 @@
+<div
+  class="setting-switch-item"
+  [class.is-disabled]="disabled()"
+  [class.is-active]="checked()"
+  (click)="toggleValue()"
+>
+  <div class="setting-switch-content">
+    <div class="icon-container">
+      <app-icon-component [name]="icon()"></app-icon-component>
+    </div>
+    <div class="text-group">
+      <h4 class="item-title">{{ title() }}</h4>
+      @if (description()) {
+        <p class="item-desc">{{ description() }}</p>
+      }
+    </div>
+  </div>
+
+  <div class="toggle-track">
+    <div class="toggle-knob"></div>
+  </div>
+</div>
