@@ -15,12 +15,10 @@ export const AUTH_TOKEN = new InjectionToken<Auth>('Auth');
   templateUrl: './register.html',
   styleUrls: ['./register.css']
 })
+
 export class Register {
 
-  constructor(
-    @Inject(AUTH_TOKEN) private authService: Auth,
-    private http: HttpClient
-  ) { }
+  constructor(@Inject(AUTH_TOKEN) private authService: Auth, private http: HttpClient) { }
 
   form = {
     nombre: '',

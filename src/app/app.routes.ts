@@ -6,7 +6,7 @@ import { Landing } from './pages/landing/landing';
 import { AuthComponent } from './pages/auth/auth';
 
 export const routes: Routes = [
-  { path: '', component: AuthComponent },
+  { path: '', component: Landing },
   {
     path: 'auth',
     component: LayoutAuth,
@@ -15,4 +15,5 @@ export const routes: Routes = [
       { path: 'register', component: Register },
     ],
   },
+
 ];
