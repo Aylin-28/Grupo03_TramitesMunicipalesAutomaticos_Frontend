@@ -43,7 +43,8 @@
   width: 100%;
 }
 
-.input-wrapper input {
+.input-wrapper input,
+.input-wrapper select {
   width: 100%;
   padding: 12px;
   background: var(--input-box-background);
@@ -51,6 +52,10 @@
   border-radius: var(--border-radius-m);
   font-size: var(--font-size-s);
   color: var(--foreground);
+}
+
+.input-wrapper select {
+  cursor: pointer;
 }
 
 /* CHECKBOX */
