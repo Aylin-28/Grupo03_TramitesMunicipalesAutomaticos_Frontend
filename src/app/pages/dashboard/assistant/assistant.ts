@@ -193,7 +193,7 @@ export class Assistant {
         formData.append('file', file);
       }
 
-      const response = await fetch(`${BASE_URL}/ask`, {
+      const response = await fetch(`${BASE_URL}/ai/ask`, {
         method: 'POST',
         body: formData,
         headers: {
