@@ -185,26 +185,21 @@ export class Assistant {
 
       formData.append('question', userText);
       formData.append('chat_id', 'session_default');
-      formData.append('provider', 'llama');
+      formData.append('provider', 'gemini');
 
-      if (files?.length > 0) {
-        formData.append('file', files[0]);
+      const file = files?.length > 0 ? files[0].file : null;
+
+      if (file) {
+        formData.append('file', file);
       }
 
-      const token = TOKEN;
-
-      const response = await fetch(`${BASE_URL}/ai/ask`, {
+      const response = await fetch(`${BASE_URL}/ask`, {
         method: 'POST',
         body: formData,
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        credentials: 'include',
       });
-
-      if (!response.ok) {
-        throw new Error('Error en API');
-      }
 
       const data = await response.json();
 
@@ -215,11 +210,7 @@ export class Assistant {
       }]);
 
     } catch (err) {
-      this.messages.update(prev => [...prev, {
-        role: 'assistant',
-        content: 'Error conectando con el servidor.',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      }]);
+      console.error(err);
     } finally {
       this.isProcessing.set(false);
       this.scrollToBottom();
