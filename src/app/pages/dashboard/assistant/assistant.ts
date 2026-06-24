@@ -44,7 +44,7 @@ export class Assistant {
     this.scrollToBottom();
 
     if (userText.startsWith('/simular')) this.handleCommands(userText);
-    else this.simulateAssistantResponse(userText);
+    else this.callAssistantAPI(userText);
   }
 
   private handleCommands(command: string): void {
@@ -174,5 +174,52 @@ export class Assistant {
       const container = document.querySelector('.scroll-viewport');
       container?.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
     }, 100);
+  }
+
+
+  private async callAssistantAPI(userText: string, files: any[] = []): Promise<void> {
+    this.isProcessing.set(true);
+
+    try {
+      const formData = new FormData();
+
+      formData.append('question', userText);
+      formData.append('chat_id', 'session_default');
+      formData.append('provider', 'gemini');
+
+      if (files?.length > 0) {
+        formData.append('file', files[0]);
+      }
+
+      const response = await fetch('https://tu-api.com/ask', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error('Error en API');
+      }
+
+      const data = await response.json();
+
+      const botMsg: Message = {
+        role: 'assistant',
+        content: data.answer,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+
+      this.messages.update(prev => [...prev, botMsg]);
+
+    } catch (err) {
+      this.messages.update(prev => [...prev, {
+        role: 'assistant',
+        content: 'Error conectando con el servidor.',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      }]);
+    } finally {
+      this.isProcessing.set(false);
+      this.scrollToBottom();
+    }
   }
 }
