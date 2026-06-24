@@ -206,6 +206,7 @@ export class Assistant {
       this.messages.update(prev => [...prev, {
         role: 'assistant',
         content: data.answer,
+        provider: "llama",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       }]);
 
