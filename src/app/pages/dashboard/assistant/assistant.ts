@@ -45,7 +45,7 @@ export class Assistant {
     this.scrollToBottom();
 
     if (userText.startsWith('/simular')) this.handleCommands(userText);
-    else this.callAssistantAPI(userText, event.files);;
+    else this.callAssistantAPI(userText, event.files);
   }
 
   private handleCommands(command: string): void {
@@ -187,9 +187,9 @@ export class Assistant {
       formData.append('chat_id', 'session_default');
       formData.append('provider', 'llama');
 
-      const file = files?.length > 0 ? files[0].file : null;
+      const file = files?.[0]?.file;
 
-      if (file) {
+      if (file instanceof File) {
         formData.append('file', file);
       }
 
