@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
 import { Auth } from '../interfaces/auth';
 
 @Injectable({
@@ -6,34 +8,84 @@ import { Auth } from '../interfaces/auth';
 })
 export class Authservice implements Auth {
 
-  private readonly DB_KEY = 'temp_users_session';
-  private readonly SESSION_KEY = 'current_session_user';
+  private readonly API_URL =
+    'http://localhost:8000/api/v1/auth';
 
-  private getAll(): any[] {
-    return JSON.parse(sessionStorage.getItem(this.DB_KEY) || '[]');
-  }
+  private readonly TOKEN_KEY =
+    'access_token';
 
-  register(user: any): void {
-    const users = this.getAll();
-    //Busca en localstorage si en la lista de usuarios existe este. Si no existe, lo crea.
-    if (!users.find(u => u.correo === user.correo))  {
-      users.push(user);
-      // Lo guarda como usuario activo
-      sessionStorage.setItem(this.DB_KEY, JSON.stringify(users));
+  constructor(private http: HttpClient) { }
+
+  register(user: any): Observable<any> {
+
+    if (user.tipoDocumento === 'dni') {
+
+      return this.http.post(
+        `${this.API_URL}/register/dni`,
+        {
+          fullname: user.nombre,
+          email: user.correo,
+          password: user.password,
+          dni: user.numeroDocumento
+        }
+      ).pipe(
+        tap((response: any) => {
+          sessionStorage.setItem(
+            this.TOKEN_KEY,
+            response.access_token
+          );
+        })
+      );
     }
+
+    return this.http.post(
+      `${this.API_URL}/register/inmigrationcard`,
+      {
+        fullname: user.nombre,
+        email: user.correo,
+        password: user.password,
+        immigration_card: user.numeroDocumento
+      }
+    ).pipe(
+      tap((response: any) => {
+        sessionStorage.setItem(
+          this.TOKEN_KEY,
+          response.access_token
+        );
+      })
+    );
   }
 
-  login(email: string, pass: string): boolean {
-    const user = this.getAll().find(u => u.email === email && u.pass === pass);
-    if (user) {
-      sessionStorage.setItem(this.SESSION_KEY, JSON.stringify(user));
-      return true;
-    }
-    return false;
+  login(
+    document: string,
+    password: string
+  ): Observable<any> {
+
+    return this.http.post(
+      `${this.API_URL}/login`,
+      {
+        document,
+        password
+      }
+    ).pipe(
+      tap((response: any) => {
+        sessionStorage.setItem(
+          this.TOKEN_KEY,
+          response.access_token
+        );
+      })
+    );
   }
 
-  isLoggedIn = () => !!sessionStorage.getItem(this.SESSION_KEY);
+  isLoggedIn(): boolean {
+    return !!sessionStorage.getItem(
+      this.TOKEN_KEY
+    );
+  }
 
-  logout = () => sessionStorage.removeItem(this.SESSION_KEY);
-
+  logout(): void {
+    sessionStorage.removeItem(
+      this.TOKEN_KEY
+    );
+  }
 }
