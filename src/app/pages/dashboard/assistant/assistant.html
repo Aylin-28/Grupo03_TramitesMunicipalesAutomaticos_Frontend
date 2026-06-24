@@ -18,6 +18,7 @@
             [downloadCards]="msg.downloadCards || []"
             [quickReplies]="msg.quickReplies || []"
             [inputFields]="msg.inputFields || []"
+            [steps]="msg.steps || []"
           />
         } @else {
           <app-chat-message-user [message]="msg.content" [timestamp]="msg.timestamp" />

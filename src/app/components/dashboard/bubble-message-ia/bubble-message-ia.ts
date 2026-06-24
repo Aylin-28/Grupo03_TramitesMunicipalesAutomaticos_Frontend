@@ -16,4 +16,5 @@ export class BubbleMessageIA {
   downloadCards = input<DownloadCardItem[]>([]);
   quickReplies = input<QuickReplyItem[]>([]);
   inputFields = input<InputFieldCardItem[]>([]);
+  steps = input<string[]>([]);
 }
