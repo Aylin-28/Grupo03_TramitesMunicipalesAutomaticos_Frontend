@@ -5,6 +5,7 @@ import { ChatMessageUser } from '../../../components/dashboard/chat-message-user
 import { IAProcessing } from '../../../components/dashboard/iaprocessing/iaprocessing';
 import { AlertPrivacity } from '../../../components/dashboard/alert-privacity/alert-privacity';
 import { BubbleMessageIA } from '../../../components/dashboard/bubble-message-ia/bubble-message-ia';
+import { BASE_URL } from '../../../core/api'
 
 type Message = {
   role: 'user' | 'assistant';
@@ -176,7 +177,6 @@ export class Assistant {
     }, 100);
   }
 
-
   private async callAssistantAPI(userText: string, files: any[] = []): Promise<void> {
     this.isProcessing.set(true);
 
@@ -191,10 +191,10 @@ export class Assistant {
         formData.append('file', files[0]);
       }
 
-      const response = await fetch('https://tu-api.com/ask', {
+      const response = await fetch(`${BASE_URL}/ask`, {
         method: 'POST',
         body: formData,
-        credentials: 'include'
+        credentials: 'include',
       });
 
       if (!response.ok) {
@@ -203,13 +203,11 @@ export class Assistant {
 
       const data = await response.json();
 
-      const botMsg: Message = {
+      this.messages.update(prev => [...prev, {
         role: 'assistant',
         content: data.answer,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      };
-
-      this.messages.update(prev => [...prev, botMsg]);
+      }]);
 
     } catch (err) {
       this.messages.update(prev => [...prev, {
