@@ -1,17 +1,38 @@
-.register-content {
-  padding: 30px;
+/* =========================
+   WRAPPER GENERAL
+========================= */
+.register-wrapper {
   display: flex;
-  flex-direction: column;
-  width: 500px;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 40px 20px;
 }
 
-/* TÍTULO Y SUBTÍTULO CENTRADOS */
-.register-content h2,
-.subtitle {
-  text-align: center;
+/* =========================
+   CARD PRINCIPAL
+========================= */
+.register-card {
+  width: 100%;
+  max-width: 1000px;
+  background: var(--color-white);
+  border-radius: var(--border-radius-l);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 50px 80px;
 }
 
+/* =========================
+   CONTENT
+========================= */
+.register-content {
+  width: 100%;
+}
+
+/* =========================
+   TITULOS
+========================= */
 .register-content h2 {
+  text-align: center;
   color: var(--highlight);
   font-size: var(--font-size-xl);
   font-weight: 600;
@@ -19,15 +40,26 @@
 }
 
 .subtitle {
+  text-align: center;
   color: var(--color-neutral-600);
   font-size: var(--font-size-s);
   margin-bottom: 24px;
 }
 
-/* INPUTS */
+/* =========================
+   FORM (VERTICAL)
+========================= */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* =========================
+   INPUTS
+========================= */
 .input-field {
   width: 100%;
-  margin-bottom: 15px;
 }
 
 .input-field label {
@@ -54,14 +86,11 @@
   color: var(--foreground);
 }
 
-.input-wrapper select {
-  cursor: pointer;
-}
-
-/* CHECKBOX */
+/* =========================
+   CHECKBOX
+========================= */
 .checkbox-field {
   width: 100%;
-  margin: 15px 0;
 }
 
 .checkbox-label {
@@ -76,25 +105,69 @@
 .checkbox-label input {
   width: 16px;
   height: 16px;
-  margin: 0;
   accent-color: var(--highlight);
 }
 
-/* BOTÓN */
+/* =========================
+   BOTÓN
+========================= */
 .btn-primary {
+  width: 100%;
   background-color: var(--button-normal);
   color: var(--color-white);
-  width: 100%;
   padding: 12px;
   border-radius: var(--border-radius-m);
   border: none;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 15px;
+  margin-top: 10px;
   font-size: var(--font-size-s);
   transition: background-color 0.2s ease;
 }
 
 .btn-primary:hover {
   background-color: var(--button-hover);
+}
+
+/* =========================
+   TABLET
+========================= */
+@media (max-width: 768px) {
+  .register-card {
+    padding: 30px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 480px) {
+  .register-card {
+    padding: 20px;
+  }
+
+  .register-content h2 {
+    font-size: 20px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+}
+
+/* =========================
+   INPUT FIX IOS ZOOM
+========================= */
+input, select {
+  font-size: 16px;
+}
+
+/* =========================
+   RESET
+========================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
 }
