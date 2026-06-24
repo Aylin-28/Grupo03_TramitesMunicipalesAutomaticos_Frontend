@@ -14,6 +14,7 @@ type Message = {
   downloadCards?: any[];
   quickReplies?: any[];
   inputFields?: any[];
+  steps?: string[];
 };
 
 @Component({
@@ -209,6 +210,7 @@ export class Assistant {
         role: 'assistant',
         content: data.answer,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        steps: data.steps ?? [],
       }]);
 
     } catch (err) {
