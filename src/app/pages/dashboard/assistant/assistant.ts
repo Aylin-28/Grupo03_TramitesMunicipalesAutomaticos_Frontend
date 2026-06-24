@@ -5,7 +5,7 @@ import { ChatMessageUser } from '../../../components/dashboard/chat-message-user
 import { IAProcessing } from '../../../components/dashboard/iaprocessing/iaprocessing';
 import { AlertPrivacity } from '../../../components/dashboard/alert-privacity/alert-privacity';
 import { BubbleMessageIA } from '../../../components/dashboard/bubble-message-ia/bubble-message-ia';
-import { BASE_URL } from '../../../core/api'
+import { BASE_URL, TOKEN } from '../../../core/api'
 
 type Message = {
   role: 'user' | 'assistant';
@@ -185,15 +185,20 @@ export class Assistant {
 
       formData.append('question', userText);
       formData.append('chat_id', 'session_default');
-      formData.append('provider', 'gemini');
+      formData.append('provider', 'llama');
 
       if (files?.length > 0) {
         formData.append('file', files[0]);
       }
 
-      const response = await fetch(`${BASE_URL}/ask`, {
+      const token = TOKEN;
+
+      const response = await fetch(`${BASE_URL}/ai/ask`, {
         method: 'POST',
         body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         credentials: 'include',
       });
 
