@@ -1,66 +1,63 @@
-<div class="register-content">
-  <h2>Crear cuenta</h2>
-  <p class="subtitle">Complete sus datos oficiales</p>
+<div class="register-wrapper">
+  <div class="register-card">
+    <div class="register-content">
+      <h2>Crear cuenta</h2>
+      <p class="subtitle">Complete sus datos oficiales</p>
 
-  <form (ngSubmit)="handleSubmit()">
-    <div class="input-field">
-      <label>APELLIDOS Y NOMBRES</label>
-      <div class="input-wrapper">
-        <input type="text" [(ngModel)]="form.nombre" name="nombre" placeholder="Nombre completo" />
-      </div>
+      <form (ngSubmit)="handleSubmit()">
+        <div class="input-field">
+          <label>APELLIDOS Y NOMBRES</label>
+          <div class="input-wrapper">
+            <input type="text" [(ngModel)]="form.nombre" name="nombre" placeholder="Nombre completo" />
+          </div>
+        </div>
+
+        <div class="input-field">
+          <label>TIPO DE DOCUMENTO</label>
+
+          <div class="input-wrapper">
+            <select [(ngModel)]="form.tipoDocumento" name="tipoDocumento">
+              <option value="dni">DNI</option>
+              <option value="ce">Carné de Extranjería</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-field">
+          <label>NÚMERO DE DOCUMENTO</label>
+
+          <div class="input-wrapper">
+            <input type="text" [(ngModel)]="form.numeroDocumento" name="numeroDocumento" (input)="validarDocumento()"
+              [attr.maxlength]="form.tipoDocumento === 'dni' ? 8 : 12"
+              [attr.inputmode]="form.tipoDocumento === 'dni' ? 'numeric' : 'text'" [placeholder]="form.tipoDocumento === 'dni'
+    ? 'Ej: 12345678'
+    : 'Ej: A1B2C3D4E5'" />
+          </div>
+        </div>
+
+        <div class="input-field">
+          <label>CORREO</label>
+          <div class="input-wrapper">
+            <input type="email" [(ngModel)]="form.correo" name="correo" placeholder="usuario@email.com" />
+          </div>
+        </div>
+
+        <div class="input-field">
+          <label>CONTRASEÑA</label>
+          <div class="input-wrapper">
+            <input type="password" [(ngModel)]="form.password" name="password" placeholder="••••••••" />
+          </div>
+        </div>
+
+        <div class="checkbox-field">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="form.acepta" name="acepta" />
+            <span>Acepto términos y condiciones</span>
+          </label>
+        </div>
+
+        <button class="btn-primary" type="submit">CREAR CUENTA</button>
+      </form>
     </div>
-
-    <div class="input-field">
-      <label>TIPO DE DOCUMENTO</label>
-
-      <div class="input-wrapper">
-        <select [(ngModel)]="form.tipoDocumento" name="tipoDocumento">
-          <option value="dni">DNI</option>
-          <option value="ce">Carné de Extranjería</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="input-field">
-      <label>NÚMERO DE DOCUMENTO</label>
-
-      <div class="input-wrapper">
-        <input
-          type="text"
-          [(ngModel)]="form.numeroDocumento"
-          name="numeroDocumento"
-          placeholder="Ingrese documento"
-          (input)="validarDocumento()"
-        />
-      </div>
-    </div>
-
-    <div class="input-field">
-      <label>CORREO</label>
-      <div class="input-wrapper">
-        <input
-          type="email"
-          [(ngModel)]="form.correo"
-          name="correo"
-          placeholder="usuario@email.com"
-        />
-      </div>
-    </div>
-
-    <div class="input-field">
-      <label>CONTRASEÑA</label>
-      <div class="input-wrapper">
-        <input type="password" [(ngModel)]="form.password" name="password" placeholder="••••••••" />
-      </div>
-    </div>
-
-    <div class="checkbox-field">
-      <label class="checkbox-label">
-        <input type="checkbox" [(ngModel)]="form.acepta" name="acepta" />
-        <span>Acepto términos y condiciones</span>
-      </label>
-    </div>
-
-    <button class="btn-primary" type="submit">CREAR CUENTA</button>
-  </form>
+  </div>
 </div>
