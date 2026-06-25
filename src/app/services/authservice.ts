@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Auth } from '../interfaces/auth';
+import { BASE_AUTH_URL } from '../core/api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Authservice implements Auth {
-
-  private readonly API_URL =
-    'http://localhost:8000/api/v1/auth';
 
   private readonly TOKEN_KEY =
     'access_token';
@@ -21,7 +19,7 @@ export class Authservice implements Auth {
     if (user.tipoDocumento === 'dni') {
 
       return this.http.post(
-        `${this.API_URL}/register/dni`,
+        `${BASE_AUTH_URL}/register/dni`,
         {
           fullname: user.nombre,
           email: user.correo,
@@ -39,7 +37,7 @@ export class Authservice implements Auth {
     }
 
     return this.http.post(
-      `${this.API_URL}/register/inmigrationcard`,
+      `${BASE_AUTH_URL}/register/inmigrationcard`,
       {
         fullname: user.nombre,
         email: user.correo,
@@ -62,7 +60,7 @@ export class Authservice implements Auth {
   ): Observable<any> {
 
     return this.http.post(
-      `${this.API_URL}/login`,
+      `${BASE_AUTH_URL}/login`,
       {
         document,
         password
@@ -85,6 +83,12 @@ export class Authservice implements Auth {
 
   logout(): void {
     sessionStorage.removeItem(
+      this.TOKEN_KEY
+    );
+  }
+
+  getToken(): string | null {
+    return sessionStorage.getItem(
       this.TOKEN_KEY
     );
   }

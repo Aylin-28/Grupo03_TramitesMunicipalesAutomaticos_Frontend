@@ -14,4 +14,6 @@ export interface Auth {
   isLoggedIn(): boolean;
 
   logout(): void;
+
+  getToken(): string | null;
 }
