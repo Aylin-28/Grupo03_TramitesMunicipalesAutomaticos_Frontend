@@ -162,3 +162,37 @@
   font-size: 14px;
   color: #003b72;
 }
+
+@media (width < 1024px) {
+  .features {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+  .features-content {
+    width: 100px;
+    gap: 20%;
+    place-content: center;
+  }
+
+  .features-header {
+    padding: 96px 24px;
+  }
+}
+
+@media (width < 580px) {
+  .features-content {
+    grid-template-columns: 284px;
+    gap: 0px;
+  }
+
+  .features-header {
+    padding: 20px;
+  }
+
+  .features-header h2 {
+    text-align: center;
+  }
+}

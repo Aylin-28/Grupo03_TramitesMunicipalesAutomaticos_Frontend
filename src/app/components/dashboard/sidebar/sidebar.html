@@ -1,11 +1,24 @@
-<aside class="sidebar" role="navigation" aria-label="Menú principal">
+<button 
+  class="sidebar-toggle-btn" 
+  (click)="toggleSidebar()" 
+  aria-label="Toggle menú navigation"
+>
+  <app-icon-component name="AccountBalance" aria-hidden="true"></app-icon-component>
+</button>
+
+<aside 
+  class="sidebar" 
+  [class.is-open]="isSidebarOpen" 
+  role="navigation" 
+  aria-label="Menú principal"
+>
   <header class="sidebar-header">
     <div class="logo-wrapper">
       <app-icon-component name="AccountBalance" aria-hidden="true"></app-icon-component>
     </div>
     <div class="branding-text">
-      <h2 class="brand-title">Falta un buen titulo</h2>
-      <p class="brand-tagline">no se algo</p>
+      <h2 class="brand-title">AutoGov</h2>
+      <p class="brand-tagline">Siempre ágil y transparente</p>
     </div>
   </header>
 
@@ -19,8 +32,7 @@
           PreIcon="SmartToy"
           fontSize="m"
           variant="ghost"
-        >
-        </app-link>
+        ></app-link>
       </li>
       <li class="nav-item">
         <app-link
@@ -30,21 +42,8 @@
           PreIcon="History"
           fontSize="m"
           variant="ghost"
-        >
-        </app-link>
+        ></app-link>
       </li>
-      <!-- Proxima Presentación -->
-      <!-- <li class="nav-item">
-        <app-link
-          to="/dashboard/services"
-          label="Servicios"
-          [showPreIcon]="true"
-          PreIcon="AccountBalance"
-          fontSize="m"
-          variant="ghost"
-        >
-        </app-link>
-      </li> -->
       <li class="nav-item">
         <app-link
           to="/dashboard/documents"
@@ -53,8 +52,7 @@
           PreIcon="Description"
           fontSize="m"
           variant="ghost"
-        >
-        </app-link>
+        ></app-link>
       </li>
     </ul>
   </nav>
@@ -70,21 +68,8 @@
             PreIcon="Settings"
             fontSize="s"
             variant="ghost"
-          >
-          </app-link>
+          ></app-link>
         </li>
-        <!-- Proxima Presentación -->
-        <!-- <li class="nav-item">
-          <app-link
-            to="/dashboard/help"
-            label="Ayuda"
-            [showPreIcon]="true"
-            PreIcon="ContactSupport"
-            fontSize="s"
-            variant="ghost"
-          >
-          </app-link>
-        </li> -->
         <li class="nav-item">
           <app-link
             to="/"
@@ -93,8 +78,7 @@
             PreIcon="AccountBalance"
             fontSize="m"
             variant="ghost"
-          >
-          </app-link>
+          ></app-link>
         </li>
       </ul>
     </nav>
@@ -107,8 +91,7 @@
         fontWeight="semibold"
         [showPreIcon]="true"
         PreIcon="Add"
-      >
-      </app-link>
+      ></app-link>
     </div>
   </footer>
 </aside>
