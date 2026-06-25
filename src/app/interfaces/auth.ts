@@ -1,6 +1,17 @@
+import { Observable } from 'rxjs';
+
 export interface Auth {
-    register(user: any): void;
-    login(email: string, pass: string): boolean;
-    isLoggedIn(): boolean;
-    logout(): void;
+
+  register(
+    user: any
+  ): Observable<any>;
+
+  login(
+    document: string,
+    password: string
+  ): Observable<any>;
+
+  isLoggedIn(): boolean;
+
+  logout(): void;
 }
