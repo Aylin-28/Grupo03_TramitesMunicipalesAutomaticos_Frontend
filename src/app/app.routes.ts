@@ -8,6 +8,7 @@ import { Assistant } from './pages/dashboard/assistant/assistant';
 import { History } from './pages/dashboard/history/history';
 import { Documents } from './pages/dashboard/documents/documents';
 import { Settings } from './pages/dashboard/settings/settings';
+import { AuthComponent } from './pages/auth/auth';
 
 export const routes: Routes = [
   { path: '', component: Landing },
@@ -15,6 +16,7 @@ export const routes: Routes = [
     path: 'auth',
     component: LayoutAuth,
     children: [
+      { path: '', component: AuthComponent },   
       { path: 'login', component: Login },
       { path: 'register', component: Register },
     ],
