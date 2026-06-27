@@ -8,4 +8,11 @@ import { Link } from '../../ui/link/link';
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
-export class Sidebar {}
+export class Sidebar {
+
+  menuOpen = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+}
