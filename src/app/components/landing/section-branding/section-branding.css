@@ -39,3 +39,14 @@ p {
   font-weight: var(--font-weight-semibold) !important;
   font-size: var(--font-size-l) !important;
 }
+
+@media (width < 580px) {
+  .branding-content {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .content-main {
+    text-align: center;
+  }
+}

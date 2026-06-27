@@ -9,10 +9,9 @@ import { Link } from '../../ui/link/link';
   styleUrl: './sidebar.css',
 })
 export class Sidebar {
+  isSidebarOpen = false;
 
-  menuOpen = false;
-
-  toggleMenu() {
-    this.menuOpen = !this.menuOpen;
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
 }

@@ -1,12 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component, Inject, InjectionToken, signal } from '@angular/core';
 import { ChatInput } from '../../../components/dashboard/chat-input/chat-input';
 import { CommonModule } from '@angular/common';
 import { ChatMessageUser } from '../../../components/dashboard/chat-message-user/chat-message-user';
 import { IAProcessing } from '../../../components/dashboard/iaprocessing/iaprocessing';
 import { AlertPrivacity } from '../../../components/dashboard/alert-privacity/alert-privacity';
 import { BubbleMessageIA } from '../../../components/dashboard/bubble-message-ia/bubble-message-ia';
-import { BASE_URL, TOKEN } from '../../../core/api'
-import { ActivatedRoute } from '@angular/router';
+import { BASE_IA_URL } from '../../../core/api'
+import { Auth } from '../../../interfaces/auth';
+import { AUTH_TOKEN } from '../../register/register';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -48,6 +49,10 @@ export class Assistant {
 
   showHeader = signal<boolean>(true);
   isProcessing = signal<boolean>(false);
+
+  constructor(
+    @Inject(AUTH_TOKEN) private authService: Auth
+  ) {}
 
   handleNewMessage(event: { text: string; files: any[] }): void {
     if (this.isProcessing() || !event.text.trim()) return;
@@ -207,9 +212,9 @@ export class Assistant {
         formData.append('file', file);
       }
 
-      const token = TOKEN;
+      const token = this.authService.getToken();
 
-      const response = await fetch(`${BASE_URL}/ai/ask`, {
+      const response = await fetch(BASE_IA_URL, {
         method: 'POST',
         body: formData,
         headers: {

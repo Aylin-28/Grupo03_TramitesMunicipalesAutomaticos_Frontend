@@ -128,3 +128,29 @@
 .hero-display-card p {
   font-size: var(--font-size-s);
 }
+
+@media (width < 1024px) {
+  .hero {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-content div {
+    flex-direction: column;
+  }
+
+  .hero-display .hero-display-card {
+    left: 40px;
+    bottom: 40px;
+  }
+}
+
+@media (width < 780px) {
+  .hero-content h1 {
+    font-size: var(--font-size-3xl);
+  }
+
+  .hero-display .hero-display-card {
+    width: 250px;
+  }
+}
