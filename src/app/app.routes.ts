@@ -24,6 +24,7 @@ export const routes: Routes = [
     component: LayoutDashboard,
     children: [
       { path: 'assistant', component: Assistant },
+      { path: 'assistant/:chat_id', component: Assistant },
       { path: 'history', component: History },
       { path: 'documents', component: Documents },
       { path: 'settings', component: Settings },
