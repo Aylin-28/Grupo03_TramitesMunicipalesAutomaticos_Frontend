@@ -6,6 +6,7 @@ import { IAProcessing } from '../../../components/dashboard/iaprocessing/iaproce
 import { AlertPrivacity } from '../../../components/dashboard/alert-privacity/alert-privacity';
 import { BubbleMessageIA } from '../../../components/dashboard/bubble-message-ia/bubble-message-ia';
 import { BASE_URL, TOKEN } from '../../../core/api'
+import { ActivatedRoute } from '@angular/router';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -32,6 +33,18 @@ type Message = {
 })
 export class Assistant {
   messages = signal<Message[]>([]);
+
+  constructor(private route: ActivatedRoute) {
+
+  }
+
+  ngOnInit() {
+    const chatId = this.route.snapshot.paramMap.get('chat_id');
+
+    if (chatId) {
+      this.loadHistory(chatId);
+    }
+  }
 
   showHeader = signal<boolean>(true);
   isProcessing = signal<boolean>(false);
@@ -219,5 +232,49 @@ export class Assistant {
       this.isProcessing.set(false);
       this.scrollToBottom();
     }
+  }
+
+  private async loadHistory(chatId: string) {
+
+    try {
+
+      const response = await fetch(
+        `${BASE_URL}/ai/history/${chatId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`
+          }
+        }
+      );
+
+      const data = await response.json();
+
+      console.log("HISTORY:", data);
+
+
+      const loadedMessages: Message[] = data.history.map((msg: any) => ({
+        role: msg.role,
+        content: msg.message,
+        timestamp: ''
+      }));
+
+
+      this.messages.set(loadedMessages);
+
+
+      if (loadedMessages.length > 0) {
+        this.showHeader.set(false);
+      }
+
+
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100);
+
+
+    } catch (error) {
+      console.error("Error cargando historial:", error);
+    }
+
   }
 }
