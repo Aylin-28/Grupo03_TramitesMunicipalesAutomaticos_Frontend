@@ -9,19 +9,13 @@
   <nav class="filter-tabs">
     <div class="tabs-wrapper">
       @for (tab of tabs; track $index) {
-        <app-button
-          class="tab"
-          variant="ghost"
-          [label]="tab"
-          fontWeight="medium"
-          [class.active]="$index === currentTab"
-          (click)="setCurrentTab($index)"
-        />
+      <app-button class="tab" variant="ghost" [label]="tab" fontWeight="medium" [class.active]="$index === currentTab"
+        (click)="setCurrentTab($index)" />
       }
     </div>
   </nav>
 
-  <main class="records-list">
+  <!-- <main class="records-list">
     @for (card of filteredCards; track card.label) {
       <app-history-card
         [title]="card.title"
@@ -34,6 +28,22 @@
       ></app-history-card>
     } @empty {
       <p>No hay trámites en esta categoría.</p>
+    }
+  </main> -->
+
+  <main class="records-list">
+    @for (card of filteredCards; track card.chat_id) {
+      <app-history-card 
+        [title]="card.title" 
+        [label]="card.chat_id.toString()" 
+        [date]="card.created_at"
+        [department]="card.department" 
+        [status]="card.status" 
+        [icon]="card.icon"
+        [linkUrl]="card.linkUrl"
+      ></app-history-card>
+    } @empty {
+    <p>No hay trámites en esta categoría.</p>
     }
   </main>
 </section>
