@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Button } from '../../../components/ui/button/button';
 import { HistoryCard } from '../../../components/dashboard/history-card/history-card';
 import { BASE_URL, TOKEN } from '../../../core/api';
@@ -63,7 +63,7 @@ export class History {
   //   },
   // ];
 
-  cards: HistoryCardType[] = [];
+  cards = signal<HistoryCardType[]>([]);
 
   ngOnInit() {
     this.fetchChats();
@@ -85,9 +85,7 @@ export class History {
 
       const data = await response.json();
 
-      console.log("CHATS:", data);
-
-      this.cards = data.map((item: any) => ({
+      this.cards.set(data.map((item: any) => ({
         chat_id: item.chat_id,
         title: item.title,
         created_at: item.created_at,
@@ -95,9 +93,7 @@ export class History {
         department: 'General',
         icon: 'CheckList',
         linkUrl: `/dashboard/assistant/${item.chat_id}`
-      }));
-
-      console.log("CARDS:", this.cards);
+      })));
 
     } catch (error) {
       console.error("Error al cargar chats:", error);
@@ -105,8 +101,18 @@ export class History {
   }
 
   get filteredCards() {
-    if (this.currentTab === 0) return this.cards;
-    const statusMap: { [key: number]: string } = { 1: 'action', 2: 'progress', 3: 'completed' };
-    return this.cards.filter((card) => card.status === statusMap[this.currentTab]);
+    const cards = this.cards();
+
+    if (this.currentTab === 0) return cards;
+
+    const statusMap: { [key: number]: string } = {
+      1: 'action',
+      2: 'progress',
+      3: 'completed'
+    };
+
+    return cards.filter(
+      card => card.status === statusMap[this.currentTab]
+    );
   }
 }
