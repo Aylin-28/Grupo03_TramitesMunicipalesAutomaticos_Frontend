@@ -131,3 +131,80 @@
 .procedure-actions ::ng-deep app-link a:active {
   background-color: var(--button-inverse-hover);
 }
+
+@media (max-width: 1000px) {
+
+  .procedure-card {
+    flex-direction: column;
+    padding: 16px;
+    gap: 20px;
+  }
+
+
+  .procedure-info {
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+
+  .procedure-icon-wrapper {
+    width: 48px;
+    height: 48px;
+  }
+
+
+  .procedure-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+
+  .procedure-name {
+    font-size: var(--font-size-m);
+  }
+
+
+  .procedure-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+
+  .meta-data {
+    gap: 8px;
+  }
+
+
+  .procedure-actions {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+
+  .status-title {
+    font-size: 0.7rem;
+  }
+
+
+  .status-text {
+    font-size: 0.85rem;
+  }
+
+
+  .procedure-actions ::ng-deep app-link a {
+    padding: 10px;
+  }
+
+  .procedure-content {
+    flex: 1 1 0;
+    flex-direction: row;
+  justify-content: space-between;    
+  align-items: flex-start;
+    gap: 4px;
+    display: inline-flex;
+  }
+
+}
