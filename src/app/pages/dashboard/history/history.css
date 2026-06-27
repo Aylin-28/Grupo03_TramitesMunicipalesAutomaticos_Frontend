@@ -8,6 +8,11 @@
   overflow: hidden;
 }
 
+.mobile-filter {
+  display: none;
+}
+
+
 .history-header {
   display: flex;
   flex-direction: column;
@@ -60,4 +65,23 @@
 
 .records-list app-history-card {
   width: 100%;
+}
+
+@media (max-width: 1000px) {
+
+  .desktop-tabs {
+    display: none;
+  }
+
+  .mobile-filter {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: var(--border-radius-m);
+    border: 1px solid var(--multitabs-background);
+    background: var(--multitabs-background);
+    color: var(--foreground);
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
 }
