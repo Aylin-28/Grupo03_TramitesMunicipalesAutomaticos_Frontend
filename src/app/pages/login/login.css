@@ -226,6 +226,8 @@
 
 .btn-link:hover {
   text-decoration: underline;
+}
+
 .error-banner {
   background-color: #fee2e2; 
   color: #991b1b;
