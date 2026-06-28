@@ -1,7 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, Inject, OnInit, signal } from '@angular/core';
 import { Button } from '../../../components/ui/button/button';
 import { HistoryCard } from '../../../components/dashboard/history-card/history-card';
-import { BASE_URL, TOKEN } from '../../../core/api';
+import { BASE_URL } from '../../../core/api';
+import { AUTH_TOKEN } from '../../register/register';
+import { Auth } from '../../../interfaces/auth';
 
 // type HistoryCardType = {
 //   title: string;
@@ -30,6 +32,9 @@ type HistoryCardType = {
   styleUrl: './history.css',
 })
 export class History {
+
+  constructor(@Inject(AUTH_TOKEN) private authService: Auth) { }
+
   tabs = ['Todos', 'Acción Requerida', 'En Progreso', 'Completado'];
   currentTab = 0;
 
@@ -75,10 +80,12 @@ export class History {
 
   async fetchChats() {
     try {
+      const token = this.authService.getToken();
+
       const response = await fetch(`${BASE_URL}/ai/chats`, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${TOKEN}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
