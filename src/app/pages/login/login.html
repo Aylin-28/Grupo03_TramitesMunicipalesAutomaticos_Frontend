@@ -5,13 +5,23 @@
   <p class="subtitle">
     Acceda a su área personal para gestionar sus trámites y servicios oficiales.
   </p>
+  
+  <div *ngIf="errorMessage()" class="error-banner">
+    {{ errorMessage() }}
+  </div>
 
+<<<<<<< HEAD
   <form class="login-form" novalidate>
 
     <!-- DOCUMENTO -->
+=======
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+>>>>>>> origin/feat-login
     <div class="input-field">
       <label for="dni">DNI</label>
 
+<<<<<<< HEAD
       <div class="input-wrapper">
         <app-icon-component
           name="Fingerprint"
@@ -28,15 +38,25 @@
     </div>
 
     <!-- CONTRASEÑA -->
+=======
+        <input type="text" id="dni" placeholder="12345678A" formControlName="document">
+      </div>
+    </div>
+
+>>>>>>> origin/feat-login
     <div class="input-field">
       <label for="password">CONTRASEÑA</label>
 
       <div class="input-wrapper">
 
+<<<<<<< HEAD
         <app-icon-component
           name="Lock"
           class="input-icon left-icon">
         </app-icon-component>
+=======
+        <input [type]="showPassword() ? 'text' : 'password'" id="password" placeholder="••••••••" formControlName="password">
+>>>>>>> origin/feat-login
 
         <input
           [type]="showPassword() ? 'text' : 'password'"
@@ -54,7 +74,10 @@
       </div>
     </div>
 
+<<<<<<< HEAD
     <!-- OPCIONES -->
+=======
+>>>>>>> origin/feat-login
     <div class="form-options">
 
       <label class="remember-me">
@@ -68,11 +91,17 @@
 
     </div>
 
+<<<<<<< HEAD
     <!-- BOTÓN LOGIN -->
     <button
       type="button"
       class="btn-primary"
       (click)="login()">
+=======
+    <button type="submit" class="submit-btn" style="width: 100%; padding: 12px; background-color: var(--primary-color, #0056b3); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 15px;">
+      INGRESAR A LA CUENTA
+    </button>
+>>>>>>> origin/feat-login
 
       INGRESAR A LA CUENTA
 
@@ -83,6 +112,7 @@
       <span>¿Aún no tienes cuenta?</span>
     </div>
 
+<<<<<<< HEAD
     <button
       type="button"
       class="btn-link"
@@ -95,11 +125,20 @@
   </form>
 
   <!-- DIVISOR -->
+=======
+    <app-link to="/auth/register" label="Registrarse" variant="small"></app-link>
+
+  </form>
+
+>>>>>>> origin/feat-login
   <div class="divider">
     <span>O ACCEDER MEDIANTE</span>
   </div>
 
+<<<<<<< HEAD
   <!-- LOGIN ALTERNATIVO -->
+=======
+>>>>>>> origin/feat-login
   <div class="social-login">
 
     <button class="btn-alt" type="button">
@@ -122,7 +161,10 @@
 
   </div>
 
+<<<<<<< HEAD
   <!-- SOPORTE -->
+=======
+>>>>>>> origin/feat-login
   <p class="support-text">
     ¿Necesita ayuda con el acceso?
     <strong>Contacte con soporte técnico</strong>
