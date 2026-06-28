@@ -1,173 +1,103 @@
 <div class="login-content">
-
   <h2>Bienvenido de nuevo</h2>
 
   <p class="subtitle">
     Acceda a su área personal para gestionar sus trámites y servicios oficiales.
   </p>
-  
+
   <div *ngIf="errorMessage()" class="error-banner">
     {{ errorMessage() }}
   </div>
 
-<<<<<<< HEAD
-  <form class="login-form" novalidate>
-
-    <!-- DOCUMENTO -->
-=======
   <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
->>>>>>> origin/feat-login
+    <!-- DOCUMENTO -->
     <div class="input-field">
       <label for="dni">DNI</label>
 
-<<<<<<< HEAD
       <div class="input-wrapper">
-        <app-icon-component
-          name="Fingerprint"
-          class="input-icon left-icon">
-        </app-icon-component>
+        <app-icon-component name="Fingerprint" class="input-icon left-icon"> </app-icon-component>
 
-        <input
-          type="text"
-          id="dni"
-          name="document"
-          [(ngModel)]="document"
-          placeholder="12345678" />
+        <input type="text" id="dni" placeholder="12345678A" formControlName="document" />
       </div>
     </div>
 
-    <!-- CONTRASEÑA -->
-=======
-        <input type="text" id="dni" placeholder="12345678A" formControlName="document">
-      </div>
-    </div>
-
->>>>>>> origin/feat-login
     <div class="input-field">
       <label for="password">CONTRASEÑA</label>
 
       <div class="input-wrapper">
-
-<<<<<<< HEAD
-        <app-icon-component
-          name="Lock"
-          class="input-icon left-icon">
-        </app-icon-component>
-=======
-        <input [type]="showPassword() ? 'text' : 'password'" id="password" placeholder="••••••••" formControlName="password">
->>>>>>> origin/feat-login
+        <app-icon-component name="Lock" class="input-icon left-icon"> </app-icon-component>
 
         <input
           [type]="showPassword() ? 'text' : 'password'"
           id="password"
-          name="password"
-          [(ngModel)]="password"
-          placeholder="••••••••" />
+          placeholder="••••••••"
+          formControlName="password"
+        />
 
         <app-icon-component
           [name]="showPassword() ? 'VisibilityOff' : 'Visibility'"
           class="input-icon right-icon"
-          (click)="togglePassword()">
+          (click)="togglePassword()"
+        >
         </app-icon-component>
-
       </div>
     </div>
 
-<<<<<<< HEAD
-    <!-- OPCIONES -->
-=======
->>>>>>> origin/feat-login
     <div class="form-options">
-
       <label class="remember-me">
-        <input type="checkbox">
+        <input type="checkbox" />
         <span>Recordarme</span>
       </label>
 
-      <a href="#" class="forgot-password">
-        ¿Olvidaste tu contraseña?
-      </a>
-
+      <a href="#" class="forgot-password"> ¿Olvidaste tu contraseña? </a>
     </div>
 
-<<<<<<< HEAD
-    <!-- BOTÓN LOGIN -->
     <button
-      type="button"
-      class="btn-primary"
-      (click)="login()">
-=======
-    <button type="submit" class="submit-btn" style="width: 100%; padding: 12px; background-color: var(--primary-color, #0056b3); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 15px;">
+      type="submit"
+      class="submit-btn"
+      style="
+        width: 100%;
+        padding: 12px;
+        background-color: var(--primary-color, #0056b3);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-top: 15px;
+      "
+    >
       INGRESAR A LA CUENTA
     </button>
->>>>>>> origin/feat-login
 
-      INGRESAR A LA CUENTA
-
-    </button>
-
-    <!-- CAMBIAR A REGISTRO -->
     <div class="divider">
       <span>¿Aún no tienes cuenta?</span>
     </div>
 
-<<<<<<< HEAD
-    <button
-      type="button"
-      class="btn-link"
-      (click)="irARegistro()">
-
-      Registrarse
-
-    </button>
-
-  </form>
-
-  <!-- DIVISOR -->
-=======
     <app-link to="/auth/register" label="Registrarse" variant="small"></app-link>
-
   </form>
 
->>>>>>> origin/feat-login
   <div class="divider">
     <span>O ACCEDER MEDIANTE</span>
   </div>
 
-<<<<<<< HEAD
-  <!-- LOGIN ALTERNATIVO -->
-=======
->>>>>>> origin/feat-login
   <div class="social-login">
-
     <button class="btn-alt" type="button">
-      <app-icon-component
-        name="ShieldLock"
-        [size]="18">
-      </app-icon-component>
+      <app-icon-component name="ShieldLock" [size]="18"> </app-icon-component>
 
       Cl@ve
     </button>
 
     <button class="btn-alt" type="button">
-      <app-icon-component
-        name="Badge"
-        [size]="18">
-      </app-icon-component>
+      <app-icon-component name="Badge" [size]="18"> </app-icon-component>
 
       DNIe
     </button>
-
   </div>
 
-<<<<<<< HEAD
   <!-- SOPORTE -->
-=======
->>>>>>> origin/feat-login
   <p class="support-text">
     ¿Necesita ayuda con el acceso?
     <strong>Contacte con soporte técnico</strong>
   </p>
-
 </div>

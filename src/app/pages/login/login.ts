@@ -4,22 +4,15 @@ import { CommonModule } from '@angular/common';
 import { Link } from '../../components/ui/link/link';
 import { FormsModule } from '@angular/forms';
 import { Inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { Output, EventEmitter } from '@angular/core';
-
 import { AUTH_TOKEN } from '../register/register';
 import { Auth } from '../../interfaces/auth';
-
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-
 import { Router } from '@angular/router';
-import { Authservice } from '../../services/authservice';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [IconComponent, CommonModule, Link, FormsModule],
-  imports: [IconComponent, CommonModule, Link, ReactiveFormsModule],
+  imports: [IconComponent, CommonModule, Link, FormsModule, ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -60,8 +53,6 @@ export class Login {
 
   // Inyección de dependencias
   private fb = inject(FormBuilder);
-  private authService = inject(Authservice);
-  private router = inject(Router);
 
   // Definición del formulario reactivo
   loginForm: FormGroup = this.fb.group({
