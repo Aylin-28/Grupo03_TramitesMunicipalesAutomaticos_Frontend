@@ -5,26 +5,24 @@
     Acceda a su área personal para gestionar sus trámites y servicios oficiales.
   </p>
 
-  <form class="login-form">
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-    <!-- DNI -->
     <div class="input-field">
       <label for="dni">DNI</label>
       <div class="input-wrapper">
         <app-icon-component name="Fingerprint" class="input-icon left-icon"></app-icon-component>
 
-        <input type="text" id="dni" placeholder="12345678A">
+        <input type="text" id="dni" placeholder="12345678A" formControlName="document">
       </div>
     </div>
 
-    <!-- PASSWORD -->
     <div class="input-field">
       <label for="password">CONTRASEÑA</label>
 
       <div class="input-wrapper">
         <app-icon-component name="Lock" class="input-icon left-icon"></app-icon-component>
 
-        <input [type]="showPassword() ? 'text' : 'password'" id="password" placeholder="••••••••">
+        <input [type]="showPassword() ? 'text' : 'password'" id="password" placeholder="••••••••" formControlName="password">
 
         <app-icon-component [name]="showPassword() ? 'VisibilityOff' : 'Visibility'" class="input-icon right-icon"
           (click)="togglePassword()">
@@ -32,7 +30,6 @@
       </div>
     </div>
 
-    <!-- OPTIONS -->
     <div class="form-options">
       <label class="remember-me">
         <input type="checkbox">
@@ -42,22 +39,22 @@
       <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
     </div>
 
-    <app-link to="/dashboard/assistant" label="INGRESAR A LA CUENTA"></app-link>
+    <button type="submit" class="submit-btn" style="width: 100%; padding: 12px; background-color: var(--primary-color, #0056b3); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 15px;">
+      INGRESAR A LA CUENTA
+    </button>
 
     <div class="divider">
       <span>¿Aún no tienes cuenta?</span>
     </div>
 
-    <app-link to="/auth/register" label="Registrarse" variant="small" />
+    <app-link to="/auth/register" label="Registrarse" variant="small"></app-link>
 
   </form>
 
-  <!-- DIVIDER -->
   <div class="divider">
     <span>O ACCEDER MEDIANTE</span>
   </div>
 
-  <!-- SOCIAL -->
   <div class="social-login">
     <button class="btn-alt">
       <app-icon-component name="ShieldLock" [size]="18"></app-icon-component>
@@ -70,7 +67,6 @@
     </button>
   </div>
 
-  <!-- SUPPORT -->
   <p class="support-text">
     ¿Necesita ayuda con el acceso?
     <strong>Contacte con soporte técnico</strong>
