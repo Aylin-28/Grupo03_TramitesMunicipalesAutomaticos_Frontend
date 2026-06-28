@@ -37,15 +37,22 @@ export class Assistant {
   messages = signal<Message[]>([]);
 
   ngOnInit() {
-    const chatId = this.route.snapshot.paramMap.get('chat_id');
 
-    if (chatId) {
-      this.loadHistory(chatId);
+    const routeChatId = this.route.snapshot.paramMap.get('chat_id');
+
+    if (routeChatId) {
+      this.chatId = routeChatId;
+      this.loadHistory(routeChatId);
+    } else {
+      this.chatId = this.generateChatId();
     }
+
   }
 
   showHeader = signal<boolean>(true);
   isProcessing = signal<boolean>(false);
+
+  chatId!: string;
 
   constructor(
     @Inject(AUTH_TOKEN) private authService: Auth,
@@ -201,7 +208,7 @@ export class Assistant {
       const formData = new FormData();
 
       formData.append('question', userText);
-      formData.append('chat_id', 'session_default');
+      formData.append('chat_id', this.chatId);
       formData.append('provider', 'llama');
 
       const file = files?.[0]?.file;
@@ -281,5 +288,9 @@ export class Assistant {
       console.error("Error cargando historial:", error);
     }
 
+  }
+
+  private generateChatId(): string {
+    return Math.floor(100000 + Math.random() * 900000).toString();
   }
 }
