@@ -49,6 +49,14 @@
   overflow: hidden;
 }
 
+.login-card.login {
+  max-width: 450px;
+}
+
+.login-card.register {
+  max-width: 600px;
+}
+
 .auth-content {
   padding: 30px; 
 }
