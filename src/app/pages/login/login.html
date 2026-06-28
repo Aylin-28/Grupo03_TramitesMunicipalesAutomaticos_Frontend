@@ -4,6 +4,10 @@
   <p class="subtitle">
     Acceda a su área personal para gestionar sus trámites y servicios oficiales.
   </p>
+  
+  <div *ngIf="errorMessage()" class="error-banner">
+    {{ errorMessage() }}
+  </div>
 
   <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
