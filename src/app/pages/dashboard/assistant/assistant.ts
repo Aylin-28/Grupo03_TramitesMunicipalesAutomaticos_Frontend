@@ -5,9 +5,10 @@ import { ChatMessageUser } from '../../../components/dashboard/chat-message-user
 import { IAProcessing } from '../../../components/dashboard/iaprocessing/iaprocessing';
 import { AlertPrivacity } from '../../../components/dashboard/alert-privacity/alert-privacity';
 import { BubbleMessageIA } from '../../../components/dashboard/bubble-message-ia/bubble-message-ia';
-import { BASE_IA_URL } from '../../../core/api'
+import { BASE_IA_URL, BASE_URL, TOKEN } from '../../../core/api'
 import { Auth } from '../../../interfaces/auth';
 import { AUTH_TOKEN } from '../../register/register';
+import { ActivatedRoute } from '@angular/router';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -35,10 +36,6 @@ type Message = {
 export class Assistant {
   messages = signal<Message[]>([]);
 
-  constructor(private route: ActivatedRoute) {
-
-  }
-
   ngOnInit() {
     const chatId = this.route.snapshot.paramMap.get('chat_id');
 
@@ -51,8 +48,9 @@ export class Assistant {
   isProcessing = signal<boolean>(false);
 
   constructor(
-    @Inject(AUTH_TOKEN) private authService: Auth
-  ) {}
+    @Inject(AUTH_TOKEN) private authService: Auth,
+    private route: ActivatedRoute
+  ) { }
 
   handleNewMessage(event: { text: string; files: any[] }): void {
     if (this.isProcessing() || !event.text.trim()) return;
@@ -243,11 +241,13 @@ export class Assistant {
 
     try {
 
+      const token = this.authService.getToken();
+
       const response = await fetch(
         `${BASE_URL}/ai/history/${chatId}`,
         {
           headers: {
-            Authorization: `Bearer ${TOKEN}`
+            Authorization: `Bearer ${token}`
           }
         }
       );
