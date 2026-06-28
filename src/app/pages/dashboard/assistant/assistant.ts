@@ -35,6 +35,18 @@ type Message = {
 export class Assistant {
   messages = signal<Message[]>([]);
 
+  constructor(private route: ActivatedRoute) {
+
+  }
+
+  ngOnInit() {
+    const chatId = this.route.snapshot.paramMap.get('chat_id');
+
+    if (chatId) {
+      this.loadHistory(chatId);
+    }
+  }
+
   showHeader = signal<boolean>(true);
   isProcessing = signal<boolean>(false);
 
@@ -225,5 +237,49 @@ export class Assistant {
       this.isProcessing.set(false);
       this.scrollToBottom();
     }
+  }
+
+  private async loadHistory(chatId: string) {
+
+    try {
+
+      const response = await fetch(
+        `${BASE_URL}/ai/history/${chatId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`
+          }
+        }
+      );
+
+      const data = await response.json();
+
+      console.log("HISTORY:", data);
+
+
+      const loadedMessages: Message[] = data.history.map((msg: any) => ({
+        role: msg.role,
+        content: msg.message,
+        timestamp: ''
+      }));
+
+
+      this.messages.set(loadedMessages);
+
+
+      if (loadedMessages.length > 0) {
+        this.showHeader.set(false);
+      }
+
+
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100);
+
+
+    } catch (error) {
+      console.error("Error cargando historial:", error);
+    }
+
   }
 }
