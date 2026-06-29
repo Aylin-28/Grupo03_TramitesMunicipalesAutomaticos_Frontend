@@ -63,14 +63,8 @@
             {{ message()?.text }}
           </div>
 
-          <div class="form-actions" style="grid-column: 1 / -1; display: flex; justify-content: flex-end;">
-            <app-button 
-              label="Guardar Cambios" 
-              variant="small" 
-              fontSize="m"
-              (click)="onSubmit()"
-              [disabled]="isSaving()"
-            ></app-button>
+          <div class="form-actions">
+            <app-button label="Guardar Cambios" variant="small" fontSize="m"></app-button>
           </div>
           
         </form>
@@ -97,4 +91,4 @@
       </section>
     </div>
   </section>
-</main>
+</main> 

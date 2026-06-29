@@ -3,12 +3,12 @@
     <span>{{ label() }}</span>
   }
 
-  <div class="input-wrapper">
+  <div class="input-wrapper" [style.opacity]="isDisabled ? '0.6' : '1'">
     @if (showPreIcon()) {
       <app-icon-component
         [name]="PreIcon()"
-        [style.cursor]="isPreIconClickable() ? 'pointer' : 'default'"
-        (click)="isPreIconClickable() ? clickPreIcon.emit() : null"
+        [style.cursor]="isPreIconClickable() && !isDisabled ? 'pointer' : 'default'"
+        (click)="isPreIconClickable() && !isDisabled ? clickPreIcon.emit() : null"
       />
     }
 
@@ -18,14 +18,18 @@
         [class]="inputClass()"
         [placeholder]="placeholder()"
         [value]="value()"
+        [disabled]="isDisabled"
         (input)="handleInput($event)"
+        (blur)="handleBlur()"
       />
     } @else {
       <textarea
         [class]="inputClass()"
         [placeholder]="placeholder()"
         [value]="value()"
+        [disabled]="isDisabled"
         (input)="handleInput($event)"
+        (blur)="handleBlur()"
         rows="1"
       ></textarea>
     }
@@ -33,8 +37,8 @@
     @if (showSubIcon()) {
       <app-icon-component
         [name]="SubIcon()"
-        [style.cursor]="isSubIconClickable() ? 'pointer' : 'default'"
-        (click)="isSubIconClickable() ? clickSubIcon.emit() : null"
+        [style.cursor]="isSubIconClickable() && !isDisabled ? 'pointer' : 'default'"
+        (click)="isSubIconClickable() && !isDisabled ? clickSubIcon.emit() : null"
       />
     }
   </div>
