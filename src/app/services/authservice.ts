@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders   } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Auth } from '../interfaces/auth';
 import { BASE_AUTH_URL } from '../core/api';
@@ -14,6 +14,27 @@ export class Authservice implements Auth {
 
   constructor(private http: HttpClient) { }
 
+  private getHeaders(): HttpHeaders {
+    const token = this.getToken();
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
+  getMe(): Observable<any> {
+    return this.http.get(
+      `${BASE_AUTH_URL}/me`, 
+      { headers: this.getHeaders() }
+    );
+  }
+
+  updateEmail(email: string): Observable<any> {
+    return this.http.put(
+      `${BASE_AUTH_URL}/me`, 
+      { email }, 
+      { headers: this.getHeaders() }
+    );
+  }
   register(user: any): Observable<any> {
 
     if (user.tipoDocumento === 'dni') {
