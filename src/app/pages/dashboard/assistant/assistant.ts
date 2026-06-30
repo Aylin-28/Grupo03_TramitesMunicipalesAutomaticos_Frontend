@@ -5,7 +5,7 @@ import { ChatMessageUser } from '../../../components/dashboard/chat-message-user
 import { IAProcessing } from '../../../components/dashboard/iaprocessing/iaprocessing';
 import { AlertPrivacity } from '../../../components/dashboard/alert-privacity/alert-privacity';
 import { BubbleMessageIA } from '../../../components/dashboard/bubble-message-ia/bubble-message-ia';
-import { BASE_IA_URL, BASE_URL, TOKEN } from '../../../core/api'
+import { BASE_IA_URL, BASE_URL } from '../../../core/api'
 import { Auth } from '../../../interfaces/auth';
 import { AUTH_TOKEN } from '../../register/register';
 import { ActivatedRoute } from '@angular/router';

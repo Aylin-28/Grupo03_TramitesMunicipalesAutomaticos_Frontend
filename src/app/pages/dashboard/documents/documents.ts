@@ -1,8 +1,19 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, Inject, signal } from '@angular/core';
 import { Button } from '../../../components/ui/button/button';
 import { Link } from '../../../components/ui/link/link';
 import { DocumentCard } from '../../../components/dashboard/document-card/document-card';
 import { FileCard } from '../../../components/dashboard/file-card/file-card';
+import { Auth } from '../../../interfaces/auth';
+import { AUTH_TOKEN } from '../../register/register';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BASE_DOCUMENTS_URL } from '../../../core/api';
+
+interface FileRecord {
+  id: number;
+  title: string;
+  date: string;
+  tipo: string;
+}
 
 type DocumentCardType = {
   title: string;
@@ -19,33 +30,69 @@ type DocumentCardType = {
   styleUrl: './documents.css',
 })
 export class Documents {
-  documentCategories = signal<DocumentCardType[]>([
-    {
-      title: 'Impuestos y Tasas',
-      description:
-        'Consulta tus deudas, descarga boletas y paga online con cualquier medio de pago de forma segura.',
-      icon: 'History',
-      linkLabel: '0 Registros',
-      linkUrl: '/dashboard/documents',
-    },
-    {
-      title: 'Próximamente',
-      description: 'Próximamente disponible',
-      icon: 'AccountBalance',
-      linkLabel: 'No disponible',
-      linkUrl: '/dashboard/documents',
-    },
-  ]);
+  private http = inject(HttpClient);
 
-  fileRecords = signal([
-    { id: 1, title: 'Factura de Servicios - Abril', date: '2026-04-10', tipo: 'Factura' },
-    { id: 2, title: 'Certificado de Dominio', date: '2026-03-15', tipo: 'Certificado' },
-    { id: 3, title: 'Comprobante de Pago Web', date: '2026-04-25', tipo: 'Comprobante' },
-    { id: 4, title: 'Licencia de Conducir Digital', date: '2026-01-20', tipo: 'Documento' },
-  ]);
+  constructor(@Inject(AUTH_TOKEN) private authService: Auth) {
+    this.loadFiles();
+  }
 
+  fileRecords = signal<FileRecord[]>([]);
   tabs = signal(['Fecha', 'Tipo']);
   currentTab = signal(0);
+
+  marriageCount = computed(() => {
+    return this.fileRecords().filter((file) => file.tipo.toLowerCase() === 'matrimonio').length;
+  });
+
+  documentCategories = computed<DocumentCardType[]>(() => [
+    {
+      title: 'Matrimonio Civil',
+      description:
+        'Consulta tus actas de matrimonio, descarga copias certificadas y gestiona tus trámites.',
+      icon: 'History',
+      linkLabel: `${this.marriageCount()} Registros`,
+      linkUrl: '/dashboard/documents',
+    },
+    {
+      title: 'Actas de Nacimiento',
+      description:
+        'Accede a copias certificadas de nacimiento registradas, descarga extractos oficiales y realiza seguimientos.',
+      icon: 'Badge',
+      linkLabel: `0 Registros`,
+      linkUrl: '/dashboard/documents',
+    },
+    {
+      title: 'Bienes y Propiedades',
+      description:
+        'Consulta constancias de dominio, certificados registrales inmobiliarios y estado de gravámenes vigentes.',
+      icon: 'AccountBalance',
+      linkLabel: `0 Registros`,
+      linkUrl: '/dashboard/documents',
+    },
+  ]);
+
+  loadFiles() {
+    const token = this.authService.getToken();
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    this.http.get<FileRecord[]>(BASE_DOCUMENTS_URL, { headers }).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.fileRecords.set(data);
+      },
+      error: (err) => {
+        console.error('Error al cargar archivos con token:', err);
+        if (err.status === 401) {
+          alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+        } else {
+          alert('No se pudieron obtener los registros.');
+        }
+      },
+    });
+  }
 
   setCurrentTab(index: number) {
     this.currentTab.set(index);

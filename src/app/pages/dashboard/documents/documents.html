@@ -24,6 +24,7 @@
       }
     </div>
   </section>
+
   <section class="records-section">
     <header class="section-header">
       <h2 class="section-title">Registros del Sistema Verificados</h2>
@@ -43,6 +44,8 @@
     <div class="records-grid">
       @for (file of filteredCards(); track file.id) {
         <app-file-card [title]="file.title" [date]="file.date" />
+      } @empty {
+        <p class="empty-state">No se encontraron registros disponibles.</p>
       }
     </div>
   </section>

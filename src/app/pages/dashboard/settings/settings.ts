@@ -1,7 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IconComponent } from '../../../components/ui/icon-component/icon-component';
 import { InputField } from '../../../components/ui/input-field/input-field';
 import { Button } from '../../../components/ui/button/button';
 import { SettingSwitch } from '../../../components/dashboard/setting-switch/setting-switch';
@@ -10,7 +9,7 @@ import { Authservice } from '../../../services/authservice';
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IconComponent, InputField, Button, SettingSwitch],
+  imports: [CommonModule, ReactiveFormsModule, InputField, Button, SettingSwitch],
   templateUrl: './settings.html',
   styleUrl: './settings.css',
 })
