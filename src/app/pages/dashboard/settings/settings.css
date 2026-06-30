@@ -3,6 +3,10 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
+  overflow-y: auto;
+  height: 100%;
+  padding-bottom: 2rem;
+
 }
 
 .config-header {
