@@ -80,3 +80,12 @@
   font-weight: var(--font-weight-semibold) !important;
   color: var(--highlight);
 }
+
+@media (width < 1024px) {
+  .services-header {
+    text-align: center;
+  }
+  .services-container {
+    flex-direction: column;
+  }
+}

@@ -1,20 +1,36 @@
 <div class="login-wrapper">
-  <div class="login-card">
+
+  <div class="login-card" [ngClass]="tab">
 
     <div class="tabs">
-      <button class="tab" [class.active]="tab === 'register'" (click)="cambiarTab('register')">
-        Registrarse
+      <button
+        class="tab"
+        [class.active]="tab === 'login'"
+        (click)="cambiarTab('login')">
+        Iniciar sesión
       </button>
 
-      <button class="tab" [class.active]="tab === 'login'" (click)="cambiarTab('login')">
-        Iniciar Sesión
+      <button
+        class="tab"
+        [class.active]="tab === 'register'"
+        (click)="cambiarTab('register')">
+        Registrarse
       </button>
     </div>
 
     <div class="auth-content">
-      <app-register *ngIf="tab === 'register'"></app-register>
-      <app-login *ngIf="tab === 'login'"></app-login>
+
+      <app-login
+        *ngIf="tab === 'login'"
+        (registerClick)="cambiarTab('register')">
+      </app-login>
+
+      <app-register
+        *ngIf="tab === 'register'">
+      </app-register>
+
     </div>
 
   </div>
+
 </div>

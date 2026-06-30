@@ -1,3 +1,7 @@
+.sidebar-toggle-btn {
+  display: none;
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -6,6 +10,11 @@
   min-height: 100vh;
   width: 100%;
   max-width: 300px;
+  background-color: var(--background-sidebar, #ffffff);
+  transition:
+    max-width 0.3s ease,
+    transform 0.3s ease;
+  box-sizing: border-box;
 }
 
 .sidebar-header {
@@ -53,7 +62,6 @@
   gap: 4px;
 }
 
-/* Custom Link with Variant Inline */
 .nav-item ::ng-deep app-link a {
   color: var(--foreground);
   justify-content: start;
@@ -84,67 +92,109 @@
   width: 100%;
 }
 
-.menu-toggle {
-  display: none;
+@media (max-width: 1023px) {
+  .sidebar {
+    max-width: 80px;
+    padding: 20px 10px;
+    align-items: center;
+  }
+
+  .branding-text {
+    display: none !important;
+  }
+
+  .nav-item ::ng-deep app-link a {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 44px;
+    height: 44px;
+    padding: 0 !important;
+    margin: 0 auto;
+    border-radius: 10px;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .nav-item ::ng-deep app-link a span,
+  .utils-nav ::ng-deep app-link a span,
+  .action-container ::ng-deep app-link a span {
+    display: none !important;
+  }
 }
 
-
-@media (max-width: 800px) {
-
-  .menu-toggle {
+@media (max-width: 579px) {
+  .sidebar-toggle-btn {
     display: flex;
-
-    position: fixed;
-    top: 16px;
-    left: 16px;
-
-    z-index: 1001;
-
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
     width: 42px;
     height: 42px;
-
-    justify-content: center;
-    align-items: center;
-
+    background: var(--highlight);
+    color: var(--color-white, #ffffff);
     border: none;
     border-radius: var(--border-radius-s);
-
-    background: var(--highlight);
-    color: white;
-
-    font-size: 22px;
-
     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   }
-
 
   .sidebar {
-
     position: fixed;
-
     top: 0;
     left: 0;
-
-    z-index: 1000;
-
-    height: 100vh;
-
+    z-index: 1050;
     width: 280px;
-    max-width: 80%;
-
-    background: var(--background);
-
+    max-width: 280px;
+    height: 100vh;
     transform: translateX(-100%);
-
-    transition: transform .25s ease;
-
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
   }
 
-
-  .sidebar.open {
-
+  .sidebar.is-open {
     transform: translateX(0);
-
   }
 
+  .sidebar-nav,
+  .sidebar-footer {
+    width: 100% !important;
+  }
+
+  .branding-text {
+    display: flex !important;
+  }
+
+  .nav-item ::ng-deep app-link a,
+  .utils-nav ::ng-deep app-link a,
+  .action-container ::ng-deep app-link a {
+    display: flex !important;
+    justify-content: start !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 10px 16px !important;
+    box-sizing: border-box;
+  }
+
+  .nav-item ::ng-deep app-link a span,
+  .utils-nav ::ng-deep app-link a span,
+  .action-container ::ng-deep app-link a span {
+    display: inline-block !important;
+    margin-left: 8px;
+  }
+
+  .sidebar-header {
+    margin-top: -5px;
+    margin-left: 25px;
+  }
+
+  .logo-wrapper {
+    display: none;
+  }
 }

@@ -1,6 +1,13 @@
 // Para las apis
 
-export const BASE_URL = 'http://localhost:8000/api/v1'
-export const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJleHAiOjE3ODI1ODUyNjB9.j3kCHPC8e-63YCXxcmg0IsffA0xXm13GE3bjXIGgdAI'
+const IS_PRODUCTION = true;
+
+const PRODUCTION_URL = 'https://tramitesmunicipales.onrender.com/api/v1';
+const DEVELOPMENT_URL = 'http://localhost:8000/api/v1'
+export const BASE_URL = IS_PRODUCTION ? PRODUCTION_URL : DEVELOPMENT_URL;
+
+export const BASE_AUTH_URL = `${BASE_URL}/auth`;
+export const BASE_IA_URL = `${BASE_URL}/ai/ask`;
+export const BASE_DOCUMENTS_URL = `${BASE_URL}/ai/files`;
 
 // CAMBIAR LA UBICACIÓN DEL TOKEN, SOLO PRUEBAS 

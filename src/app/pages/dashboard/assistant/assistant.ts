@@ -1,11 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component, Inject, InjectionToken, signal } from '@angular/core';
 import { ChatInput } from '../../../components/dashboard/chat-input/chat-input';
 import { CommonModule } from '@angular/common';
 import { ChatMessageUser } from '../../../components/dashboard/chat-message-user/chat-message-user';
 import { IAProcessing } from '../../../components/dashboard/iaprocessing/iaprocessing';
 import { AlertPrivacity } from '../../../components/dashboard/alert-privacity/alert-privacity';
 import { BubbleMessageIA } from '../../../components/dashboard/bubble-message-ia/bubble-message-ia';
-import { BASE_URL, TOKEN } from '../../../core/api'
+import { BASE_IA_URL, BASE_URL } from '../../../core/api'
+import { Auth } from '../../../interfaces/auth';
+import { AUTH_TOKEN } from '../../register/register';
 import { ActivatedRoute } from '@angular/router';
 
 type Message = {
@@ -34,20 +36,28 @@ type Message = {
 export class Assistant {
   messages = signal<Message[]>([]);
 
-  constructor(private route: ActivatedRoute) {
-
-  }
-
   ngOnInit() {
-    const chatId = this.route.snapshot.paramMap.get('chat_id');
 
-    if (chatId) {
-      this.loadHistory(chatId);
+    const routeChatId = this.route.snapshot.paramMap.get('chat_id');
+
+    if (routeChatId) {
+      this.chatId = routeChatId;
+      this.loadHistory(routeChatId);
+    } else {
+      this.chatId = this.generateChatId();
     }
+
   }
 
   showHeader = signal<boolean>(true);
   isProcessing = signal<boolean>(false);
+
+  chatId!: string;
+
+  constructor(
+    @Inject(AUTH_TOKEN) private authService: Auth,
+    private route: ActivatedRoute
+  ) { }
 
   handleNewMessage(event: { text: string; files: any[] }): void {
     if (this.isProcessing() || !event.text.trim()) return;
@@ -198,7 +208,7 @@ export class Assistant {
       const formData = new FormData();
 
       formData.append('question', userText);
-      formData.append('chat_id', 'session_default');
+      formData.append('chat_id', this.chatId);
       formData.append('provider', 'llama');
 
       const file = files?.[0]?.file;
@@ -207,9 +217,9 @@ export class Assistant {
         formData.append('file', file);
       }
 
-      const token = TOKEN;
+      const token = this.authService.getToken();
 
-      const response = await fetch(`${BASE_URL}/ai/ask`, {
+      const response = await fetch(BASE_IA_URL, {
         method: 'POST',
         body: formData,
         headers: {
@@ -238,11 +248,13 @@ export class Assistant {
 
     try {
 
+      const token = this.authService.getToken();
+
       const response = await fetch(
         `${BASE_URL}/ai/history/${chatId}`,
         {
           headers: {
-            Authorization: `Bearer ${TOKEN}`
+            Authorization: `Bearer ${token}`
           }
         }
       );
@@ -276,5 +288,9 @@ export class Assistant {
       console.error("Error cargando historial:", error);
     }
 
+  }
+
+  private generateChatId(): string {
+    return Math.floor(100000 + Math.random() * 900000).toString();
   }
 }

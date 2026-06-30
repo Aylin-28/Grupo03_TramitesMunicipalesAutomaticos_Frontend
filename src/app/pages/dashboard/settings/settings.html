@@ -8,14 +8,8 @@
 
   <section class="profile-section">
     <div class="profile-card">
-      <div class="avatar-wrapper">
-        <img class="avatar-img" src="https://placehold.co/96x96" alt="Foto de perfil" />
-        <div class="avatar-badge">
-          <app-icon-component name="Edit"></app-icon-component>
-        </div>
-      </div>
       <div class="profile-info">
-        <h2 class="user-name">JUAN PABLO</h2>
+        <h2 class="user-name">{{ userName() }}</h2> 
         <span class="user-role">UN CIUDADANO</span>
       </div>
     </div>
@@ -28,48 +22,53 @@
             <span class="update-text">Última actualización: 12 Oct 2023</span>
           </div>
         </div>
-        <div class="form-grid">
+        
+        <form class="form-grid" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+          
           <app-input-field
             label="NOMBRES COMPLETOS"
-            placeholder="Ej. Example"
+            placeholder="Ej. Juan"
             [showLabel]="true"
+            formControlName="nombres"
           ></app-input-field>
 
           <app-input-field
             label="DNI / Documento de Identidad"
-            placeholder="Ej. Example"
+            placeholder="Ej. 12345678"
             [showLabel]="true"
+            formControlName="documento"
           ></app-input-field>
 
           <app-input-field
             label="APELLIDOS COMPLETOS"
-            placeholder="Ej. Example"
+            placeholder="Ej. Perez"
             [showLabel]="true"
+            formControlName="apellidos"
           ></app-input-field>
 
           <app-input-field
             label="CORREO ELECTRÓNICO"
-            placeholder="Ej. Example"
+            placeholder="correo@ejemplo.com"
             [showLabel]="true"
+            formControlName="correo"
           ></app-input-field>
+
+          <div *ngIf="message()" [ngClass]="message()?.type === 'success' ? 'success-text' : 'error-text'" style="grid-column: 1 / -1; font-size: 14px; font-weight: bold; margin-bottom: 10px;">
+            {{ message()?.text }}
+          </div>
 
           <div class="form-actions">
             <app-button label="Guardar Cambios" variant="small" fontSize="m"></app-button>
           </div>
-        </div>
-      </section>
+          
+        </form>
+        </section>
 
       <section class="settings-card">
         <div class="card-header">
           <h3 class="card-title">Preferencias de Notificación</h3>
         </div>
         <div class="notification-list">
-          <app-setting-switch
-            icon="Description"
-            title="Notificaciones por Email"
-            description="Recibe avisos sobre tus trámites en curso."
-          ></app-setting-switch>
-
           <app-setting-switch
             icon="Forum"
             title="Novedades de la Ciudad"
@@ -80,4 +79,4 @@
       </section>
     </div>
   </section>
-</main>
+</main> 

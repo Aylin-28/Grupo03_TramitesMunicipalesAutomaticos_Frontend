@@ -1,11 +1,7 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Authservice } from '../../services/authservice';
+import { Component, Inject, InjectionToken } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { InjectionToken } from '@angular/core';
-import { Auth } from '../../interfaces/auth';
-import { Inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { Auth } from '../../interfaces/auth';
 
 export const AUTH_TOKEN = new InjectionToken<Auth>('Auth');
 
@@ -14,132 +10,104 @@ export const AUTH_TOKEN = new InjectionToken<Auth>('Auth');
   standalone: true,
   imports: [FormsModule],
   templateUrl: './register.html',
-  styleUrls: ['./register.css']
+  styleUrls: ['./register.css'],
 })
-
 export class Register {
 
-  constructor(@Inject(AUTH_TOKEN) private authService: Auth, private http: HttpClient, private router: Router) { }
+  constructor(
+    @Inject(AUTH_TOKEN) private authService: Auth,
+    private router: Router,
+  ) {}
 
   form = {
     nombre: '',
-    dni: '',
+    tipoDocumento: 'dni',
+    numeroDocumento: '',
     correo: '',
     password: '',
-    acepta: false
+    acepta: false,
   };
 
-  //Quita tildes, pasa a minusculas, elimina comas y elimina espacios al inicio y al final
-  limpiar(texto: string): string {
+  limpiarTexto(texto: string): string {
     return texto
-      .toLowerCase()
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
-      .replace(',', '')
+      .replace(/[^a-zA-ZñÑ\s]/g, '')
+      .replace(/\s+/g, ' ')
       .trim();
   }
 
-  validarDni() {
-    // eliminar todo lo que no sea número
-    this.form.dni = this.form.dni.replace(/\D/g, '');
+  limpiarDNI(texto: string): string {
+    return texto.replace(/\D/g, '');
+  }
 
-    // limitar a 8 dígitos
-    if (this.form.dni.length > 8) {
-      this.form.dni = this.form.dni.slice(0, 8);
+  limpiarAlfanumerico(texto: string): string {
+    return texto.replace(/[^a-zA-Z0-9]/g, '');
+  }
+
+  validarDocumento() {
+    if (this.form.tipoDocumento === 'dni') {
+      this.form.numeroDocumento = this.limpiarDNI(this.form.numeroDocumento);
+      this.form.numeroDocumento = this.form.numeroDocumento.slice(0, 8);
+    } else {
+      this.form.numeroDocumento = this.limpiarAlfanumerico(this.form.numeroDocumento);
+      this.form.numeroDocumento = this.form.numeroDocumento.slice(0, 12);
     }
   }
 
   handleSubmit() {
 
-    // Validar campos
-    if (!this.form.nombre || !this.form.correo || !this.form.password) {
-      alert('Completa todos los campos');
-      return;
-    }
+    // Limpieza final antes de enviar
+    this.form.nombre = this.limpiarTexto(this.form.nombre);
+    this.form.numeroDocumento =
+      this.form.tipoDocumento === 'dni'
+        ? this.limpiarDNI(this.form.numeroDocumento)
+        : this.limpiarAlfanumerico(this.form.numeroDocumento);
 
-    if (!this.form.dni) {
-      alert('Ingresa un DNI válido (solo números)');
-      return;
-    }
+    // Validaciones básicas
+    if (!this.form.nombre) return alert('Nombre inválido: solo letras y espacios');
+    if (!this.form.correo) return alert('Correo requerido');
+    if (!this.form.password) return alert('Contraseña requerida');
+    if (!this.form.numeroDocumento) return alert('Documento inválido');
+    if (!this.form.acepta) return alert('Debes aceptar términos');
 
-    // Validar términos
-    if (!this.form.acepta) {
-      alert('Debes aceptar los términos');
-      return;
-    }
-
-    if (this.form.dni.length !== 8) {
-      alert('El DNI debe tener exactamente 8 dígitos');
-      return;
-    }
-
-    if (this.form.password.length < 8) {
-      alert('La contraseña debe tener mínimo 8 caracteres');
-      return;
-    }
-
-    //Valida que la contraseña tenga al menos una letra mayuscula
-    if (!/[A-Z]/.test(this.form.password)) {
-      alert('La contraseña debe tener al menos una mayúscula');
-      return;
-    }
-
-    //Valida que la contraseña tenga al menos un numero
-    if (!/[0-9]/.test(this.form.password)) {
-      alert('La contraseña debe tener al menos un número');
-      return;
-    }
-
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    if (!emailRegex.test(this.form.correo)) {
-      alert('Correo inválido');
-      return;
-    }
-
-    // Llamada a API DNI
-    this.http.get<any>(`https://apiperu.dev/api/dni/${this.form.dni}`, {
-      headers: {
-        Authorization: 'Bearer 2e2d06338eddc98894bf69f9268b96554060d628ed34416ea0c64b9358a0ce8d'
+    // DNI
+    if (this.form.tipoDocumento === 'dni') {
+      if (!/^\d{8}$/.test(this.form.numeroDocumento)) {
+        return alert('DNI inválido: debe contener exactamente 8 números sin símbolos');
       }
-    }).subscribe({
-      next: (data) => {
+    }
 
-        if (!data || !data.data) {
-          alert('DNI no válido');
-          return;
-        }
+    // CE
+    if (this.form.tipoDocumento === 'ce') {
+      if (this.form.numeroDocumento.length < 9) {
+        return alert('Carné inválido: mínimo 9 caracteres');
+      }
 
-        const nombreAPI = this.limpiar(data.data.nombre_completo);
-        const nombreForm = this.limpiar(this.form.nombre);
+      if (!/^[a-zA-Z0-9]+$/.test(this.form.numeroDocumento)) {
+        return alert('El documento no puede contener símbolos o espacios');
+      }
+    }
 
-        const palabrasAPI = nombreAPI.split(' ');
-        const palabrasForm = nombreForm.split(' ');
+    // Password
+    if (this.form.password.length < 8) return alert('Mínimo 8 caracteres');
+    if (!/[A-Z]/.test(this.form.password)) return alert('La contraseña debe tener una mayúscula');
+    if (!/[0-9]/.test(this.form.password)) return alert('La contraseña debe tener un número');
 
-        // Validar nombre completo
-        if (palabrasForm.length < palabrasAPI.length) {
-          alert('Debe ingresar el nombre completo');
-          return;
-        }
+    // Email
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(this.form.correo)) {
+      return alert('Correo inválido');
+    }
 
-        //  Validar coincidencia REAL
-        const coincide =
-          palabrasAPI.length === palabrasForm.length &&
-          palabrasAPI.every(p => palabrasForm.includes(p));
-
-        if (!coincide) {
-          alert('El nombre no coincide con el DNI');
-          return;
-        }
-        // Guardar usando service
-        this.authService.register(this.form);
-
-        
-        // alert('Registro exitoso');
-        this.router.navigate(["/dashboard/assistant"])
+    // Registro
+    this.authService.register(this.form).subscribe({
+      next: () => {
+        alert('Cuenta creada correctamente');
+        this.router.navigate(['/dashboard/assistant']);
       },
-      error: () => {
-        alert('Error al validar el DNI');
+      error: (err) => {
+        alert(err.error?.detail || 'Error al registrar usuario');
       }
     });
   }
