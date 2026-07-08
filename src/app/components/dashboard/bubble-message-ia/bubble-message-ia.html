@@ -35,17 +35,29 @@
     </div>
     }
 
-    @for(step of steps(); track $index) {
+    @for (step of steps(); track $index) {
 
-    <label class="step-item">
+    <div class="step-item">
 
-      <input type="checkbox" />
+      <div class="timeline">
 
-      <span>
+        <input class="step-checkbox" type="checkbox" id="step-{{$index}}" (change)="toggleStep($index, $event)">
+
+        <label class="circle" for="step-{{$index}}">
+          ✓
+        </label>
+
+        @if (!$last) {
+        <div class="line"></div>
+        }
+
+      </div>
+
+      <label class="step-content" for="step-{{$index}}">
         {{ step }}
-      </span>
+      </label>
 
-    </label>
+    </div>
 
     }
 
