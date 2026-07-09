@@ -9,6 +9,8 @@ import { History } from './pages/dashboard/history/history';
 import { Documents } from './pages/dashboard/documents/documents';
 import { Settings } from './pages/dashboard/settings/settings';
 import { AuthComponent } from './pages/auth/auth';
+import { TermsConditions } from './pages/terms-conditions/terms-conditions';
+import { CentroAyuda } from './pages/centro-ayuda/centro-ayuda';
 
 export const routes: Routes = [
   { path: '', component: Landing },
@@ -16,9 +18,11 @@ export const routes: Routes = [
     path: 'auth',
     component: LayoutAuth,
     children: [
-      { path: '', component: AuthComponent },   
+      { path: '', component: AuthComponent },
       { path: 'login', component: Login },
       { path: 'register', component: Register },
+      { path: 'centro-ayuda', component: CentroAyuda },
+      { path: 'terminos-y-condiciones', component: TermsConditions },
     ],
   },
   {

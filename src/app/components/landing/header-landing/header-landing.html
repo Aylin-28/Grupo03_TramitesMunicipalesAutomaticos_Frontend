@@ -1,7 +1,9 @@
 <app-layout-landing>
   <header class="header">
     <section class="header-main">
-      <h2>AutoGov</h2>
+      <a class="link-head" href="/">  
+        <h2>AutoGov</h2>
+      </a>
       <div>
         <app-link to="/" label="Inicio" variant="inline" />
         <app-link to="/" fragment="services" label="Servicios" variant="inline" />
@@ -10,7 +12,7 @@
     </section>
     <section class="header-actions">
       <!-- Selected -->
-      <app-link to="/" variant="ghost" [showLabel]="false" [showPreIcon]="true" PreIcon="ContactSupport" />
+      <app-link to="/auth/centro-ayuda" variant="ghost" [showLabel]="false" [showPreIcon]="true" PreIcon="ContactSupport" />
       <app-link to="/auth" label="Iniciar Sesion" variant="small" />
     </section>
   </header>

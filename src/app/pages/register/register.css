@@ -87,6 +87,18 @@ form {
   accent-color: var(--highlight);
 }
 
+.link-terms {
+  color: var(--highlight) !important;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.link-terms:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
 /* =========================
    BOTÓN
 ========================= */

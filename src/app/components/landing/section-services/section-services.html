@@ -5,34 +5,51 @@
       <p class="services-subtitle">Soluciones rápidas para tus necesidades diarias.</p>
     </header>
     <div class="services-container">
+      <!-- Tarjeta 1: Matrimonio Civil -->
       <section class="service-card">
         <div class="service-icon-wrapper">
-          <app-icon-component name="ShieldLock" class="service-icon" />
+          <app-icon-component name="History" class="service-icon" />
         </div>
         <div class="service-body">
-          <h3 class="service-card-title">Impuestos y Tasas</h3>
+          <h3 class="service-card-title">Matrimonio Civil</h3>
           <p class="service-card-description">
-            Consulta tus deudas, descarga boletas y paga online con cualquier medio de pago de forma
-            segura.
+            Consulta tus actas de matrimonio, descarga copias certificadas y gestiona tus trámites.
           </p>
         </div>
         <footer class="service-footer">
-          <app-link
-            to="/impuestos"
-            label="Ir a impuestos"
-            [showSubIcon]="true"
-            SubIcon="ArrowRightAlt"
-            variant="inline"
-          />
+          <app-link to="/dashboard/assistant" label="Ir a Asistente" [showSubIcon]="true" SubIcon="ArrowRightAlt" variant="inline" />
         </footer>
       </section>
-      <section class="service-card" style="background-color: var(--color-neutral-100)">
-        <div class="service-icon-wrapper"></div>
+
+      <!-- Tarjeta 2: Actas de Nacimiento -->
+      <section class="service-card">
+        <div class="service-icon-wrapper">
+          <app-icon-component name="Badge" class="service-icon" />
+        </div>
         <div class="service-body">
-          <h3 class="service-card-title">Próximamente</h3>
+          <h3 class="service-card-title">Actas de Nacimiento</h3>
+          <p class="service-card-description">
+            Accede a copias certificadas de nacimiento registradas oficiales y realiza seguimientos.
+          </p>
         </div>
         <footer class="service-footer">
-          <app-link to="/" label="Próximamente" [showSubIcon]="true" SubIcon="ArrowRightAlt" />
+          <app-link to="/dashboard/documents" label="Ir a Documentos" [showSubIcon]="true" SubIcon="ArrowRightAlt" variant="inline" />
+        </footer>
+      </section>
+
+      <!-- Tarjeta 3: Bienes y Propiedades -->
+      <section class="service-card">
+        <div class="service-icon-wrapper">
+          <app-icon-component name="AccountBalance" class="service-icon" />
+        </div>
+        <div class="service-body">
+          <h3 class="service-card-title">Bienes y Propiedades</h3>
+          <p class="service-card-description">
+            Consulta constancias de dominio, certificados registrales inmobiliarios y estado de gravámenes vigentes.
+          </p>
+        </div>
+        <footer class="service-footer">
+          <app-link to="/dashboard/documents" label="Ir a Historial" [showSubIcon]="true" SubIcon="ArrowRightAlt" variant="inline" />
         </footer>
       </section>
     </div>
