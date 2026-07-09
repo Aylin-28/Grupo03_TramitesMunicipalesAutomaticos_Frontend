@@ -1,37 +1,43 @@
 <section class="chat-container">
   @if (showHeader()) {
-    <article class="chat-header">
-      <h1 class="chat-title">¿Cómo puedo ayudarle hoy con sus necesidades?</h1>
-      <p class="chat-subtitle">
-        Acceda a servicios municipales verificados, reporte problemas de la ciudad...
-      </p>
-    </article>
+  <article class="chat-header">
+    <h1 class="chat-title">¿Cómo puedo ayudarle hoy con sus necesidades?</h1>
+    <p class="chat-subtitle">
+      Acceda a servicios municipales verificados, reporte problemas de la ciudad...
+    </p>
+  </article>
   }
 
   <div class="scroll-viewport">
     <div class="messages-list">
       @for (msg of messages(); track $index) {
-        @if (msg.role === 'assistant') {
-          <app-bubble-message-ia
-            [messageText]="msg.content"
-            [timestamp]="msg.timestamp"
-            [downloadCards]="msg.downloadCards || []"
-            [quickReplies]="msg.quickReplies || []"
-            [inputFields]="msg.inputFields || []"
-            [steps]="msg.steps || []"
-          />
-        } @else {
-          <app-chat-message-user [message]="msg.content" [timestamp]="msg.timestamp" />
-        }
+      @if (msg.role === 'assistant') {
+      <app-bubble-message-ia [messageText]="msg.content" [timestamp]="msg.timestamp"
+        [downloadCards]="msg.downloadCards || []" [quickReplies]="msg.quickReplies || []"
+        [inputFields]="msg.inputFields || []" [steps]="msg.steps || []"
+        (onCompletionReady)="showCompletionBanner.set(true)" />
+      } @else {
+      <app-chat-message-user [message]="msg.content" [timestamp]="msg.timestamp" />
+      }
       }
 
       @if (isProcessing()) {
-        <app-iaprocessing />
+      <app-iaprocessing />
       }
 
       <app-alert-privacity />
     </div>
   </div>
+
+  @if (showCompletionBanner()) {
+  <div class="fixed-completion-banner">
+    <p>Has terminado el proceso de tu trámite. ¿Quieres guardarlo como completado?</p>
+    <div class="actions">
+      <app-button label="Sí, completar" (click)="saveCompletion()" />
+      <app-button label="No, aún no termino" (click)="showCompletionBanner.set(false)" />
+    </div>
+  </div>
+  }
 
   <app-chat-input (onSendMessage)="handleNewMessage($event)" />
 </section>

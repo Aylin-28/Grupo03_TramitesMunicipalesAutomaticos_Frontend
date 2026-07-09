@@ -63,3 +63,29 @@ app-chat-input {
   margin: 0 auto;
   padding-bottom: 60px;
 }
+
+.fixed-completion-banner {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  background: white;
+  display: flex;
+  padding: 1rem;
+  text-align: center;
+  align-items: center;
+  border-top: 1px solid #e5e7eb;
+  flex-direction: column;
+  z-index: 1000;
+  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.actions{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.fixed-completion-banner .actions ::ng-deep app-button button {
+  padding: 6px 12px !important;
+  font-size: 0.85rem !important;
+}

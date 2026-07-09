@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 import { Button } from '../../ui/button/button';
 import { IconComponent } from '../../ui/icon-component/icon-component';
 import { CardDownloadIA } from '../card-download-ia/card-download-ia';
@@ -12,6 +12,8 @@ import confetti from 'canvas-confetti';
   styleUrl: './bubble-message-ia.css',
 })
 export class BubbleMessageIA {
+  @Output() onCompletionReady = new EventEmitter<void>();
+
   messageText = input<string>('');
   timestamp = input<string>('');
   downloadCards = input<DownloadCardItem[]>([]);
@@ -48,16 +50,11 @@ export class BubbleMessageIA {
 
     const totalSteps = this.steps().length;
 
-    if (
-      this.checkedSteps.size === totalSteps &&
-      !this.celebrated
-    ) {
-
-      this.celebrated = true;
-
+    if (this.checkedSteps.size === totalSteps && !this.celebrated) {
       this.celebrate();
-
+      this.onCompletionReady.emit();
     }
 
   }
+
 }

@@ -9,6 +9,7 @@ import { BASE_IA_URL, BASE_URL } from '../../../core/api'
 import { Auth } from '../../../interfaces/auth';
 import { AUTH_TOKEN } from '../../register/register';
 import { ActivatedRoute } from '@angular/router';
+import { Button } from "../../../components/ui/button/button";
 
 type Message = {
   role: 'user' | 'assistant';
@@ -29,6 +30,7 @@ type Message = {
     IAProcessing,
     AlertPrivacity,
     BubbleMessageIA,
+    Button
   ],
   templateUrl: './assistant.html',
   styleUrl: './assistant.css',
@@ -53,6 +55,8 @@ export class Assistant {
   isProcessing = signal<boolean>(false);
 
   chatId!: string;
+
+  showCompletionBanner = signal<boolean>(false);
 
   constructor(
     @Inject(AUTH_TOKEN) private authService: Auth,
@@ -292,5 +296,28 @@ export class Assistant {
 
   private generateChatId(): string {
     return Math.floor(100000 + Math.random() * 900000).toString();
+  }
+
+  async saveCompletion() {
+    try {
+      const token = this.authService.getToken();
+
+      const response = await fetch(`${BASE_URL}/ai/chats/state/${this.chatId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ state: 'completed' })
+      });
+
+      if (!response.ok) throw new Error('Error al actualizar el estado');
+
+      console.log("Estado guardado correctamente en el servidor");
+      this.showCompletionBanner.set(false);
+
+    } catch (error) {
+      console.error("No se pudo guardar el estado:", error);
+    }
   }
 }
