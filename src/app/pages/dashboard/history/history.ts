@@ -96,7 +96,7 @@ export class History {
         chat_id: item.chat_id,
         title: item.title,
         created_at: item.created_at,
-        status: 'completed',
+        status: item.state,
         department: 'General',
         icon: 'CheckList',
         linkUrl: `/dashboard/assistant/${item.chat_id}`
