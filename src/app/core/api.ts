@@ -1,6 +1,6 @@
 // Para las apis
 
-const IS_PRODUCTION = false;
+const IS_PRODUCTION = true;
 
 const PRODUCTION_URL = 'https://tramitesmunicipales.onrender.com/api/v1';
 const DEVELOPMENT_URL = 'http://localhost:8000/api/v1'
