@@ -238,7 +238,7 @@ export class Assistant {
       const data = await response.json();
 
       this.messages.update(prev => [...prev, {
-          chat_id: '',
+          chat_id: data.chat_id,
           role: 'assistant',
           content: data.answer,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
