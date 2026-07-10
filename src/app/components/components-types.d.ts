@@ -54,3 +54,10 @@ interface InputFieldCardItem {
   icon: any;
   statusBadge: string;
 }
+
+interface StepItem {
+  id: number;
+  priority: number;
+  state: boolean;
+  message: string;
+}

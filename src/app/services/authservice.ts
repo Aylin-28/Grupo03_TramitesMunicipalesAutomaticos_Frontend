@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders   } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Auth } from '../interfaces/auth';
-import { BASE_AUTH_URL } from '../core/api';
+import { BASE_AUTH_URL, BASE_URL } from '../core/api';
 
 @Injectable({
   providedIn: 'root',
@@ -93,6 +93,14 @@ export class Authservice implements Auth {
           response.access_token
         );
       })
+    );
+  }
+
+  updateStepState(stepId: number, state: boolean): Observable<any> {
+    return this.http.put(
+      `${BASE_URL}/ai/chats/steps/update/${stepId}`,
+      { state: state },
+      { headers: this.getHeaders() }
     );
   }
 

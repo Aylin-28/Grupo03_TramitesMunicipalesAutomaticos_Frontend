@@ -5,11 +5,11 @@ import { ChatMessageUser } from '../../../components/dashboard/chat-message-user
 import { IAProcessing } from '../../../components/dashboard/iaprocessing/iaprocessing';
 import { AlertPrivacity } from '../../../components/dashboard/alert-privacity/alert-privacity';
 import { BubbleMessageIA } from '../../../components/dashboard/bubble-message-ia/bubble-message-ia';
-import { BASE_IA_URL, BASE_URL } from '../../../core/api'
+import { BASE_IA_URL, BASE_URL } from '../../../core/api';
 import { Auth } from '../../../interfaces/auth';
 import { AUTH_TOKEN } from '../../register/register';
 import { ActivatedRoute } from '@angular/router';
-import { Button } from "../../../components/ui/button/button";
+import { Button } from '../../../components/ui/button/button';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -18,8 +18,10 @@ type Message = {
   downloadCards?: any[];
   quickReplies?: any[];
   inputFields?: any[];
-  steps?: string[];
+  steps?: StepItem[];
 };
+
+type MessageWithId = Message & { chat_id: string };
 
 @Component({
   selector: 'app-assistant',
@@ -36,7 +38,7 @@ type Message = {
   styleUrl: './assistant.css',
 })
 export class Assistant {
-  messages = signal<Message[]>([]);
+  messages = signal<MessageWithId[]>([]);
 
   ngOnInit() {
 
@@ -156,7 +158,8 @@ export class Assistant {
     content: string,
     extra: Partial<Message> = {},
   ): void {
-    const newMsg: Message = {
+    const newMsg: MessageWithId = {
+      chat_id: '',
       role,
       content,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -167,7 +170,8 @@ export class Assistant {
 
   private simulateAssistantResponse(userText: string): void {
     setTimeout(() => {
-      const botMsg: Message = {
+      const botMsg: MessageWithId = {
+        chat_id: '',
         role: 'assistant',
         content: `He analizado tu solicitud sobre "${userText}". Aquí tienes la documentación necesaria.`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -234,10 +238,11 @@ export class Assistant {
       const data = await response.json();
 
       this.messages.update(prev => [...prev, {
-        role: 'assistant',
-        content: data.answer,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        steps: data.steps ?? [],
+          chat_id: '',
+          role: 'assistant',
+          content: data.answer,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          steps: data.steps ?? [],
       }]);
 
     } catch (err) {
@@ -257,7 +262,7 @@ export class Assistant {
       const response = await fetch(
         `${BASE_URL}/ai/history/${chatId}`,
         {
-          headers: {
+        headers: {
             Authorization: `Bearer ${token}`
           }
         }
@@ -265,13 +270,14 @@ export class Assistant {
 
       const data = await response.json();
 
-      console.log("HISTORY:", data);
+      console.log('HISTORY:', data);
 
-
-      const loadedMessages: Message[] = data.history.map((msg: any) => ({
+      const loadedMessages: MessageWithId[] = data.history.map((msg: any) => ({
+        chat_id: data.chat_id,
         role: msg.role,
         content: msg.message,
-        timestamp: ''
+        timestamp: '',
+        steps: msg.steps,
       }));
 
 

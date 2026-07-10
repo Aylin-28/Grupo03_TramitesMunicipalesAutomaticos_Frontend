@@ -14,7 +14,7 @@
       @if (msg.role === 'assistant') {
       <app-bubble-message-ia [messageText]="msg.content" [timestamp]="msg.timestamp"
         [downloadCards]="msg.downloadCards || []" [quickReplies]="msg.quickReplies || []"
-        [inputFields]="msg.inputFields || []" [steps]="msg.steps || []"
+        [inputFields]="msg.inputFields || []" [steps]="msg.steps || []" [chatId]="msg.chat_id"
         (onCompletionReady)="showCompletionBanner.set(true)" />
       } @else {
       <app-chat-message-user [message]="msg.content" [timestamp]="msg.timestamp" />
