@@ -41,9 +41,10 @@
 
       <div class="timeline">
 
-        <input class="step-checkbox" type="checkbox" id="step-{{$index}}" [checked]="step.state" (change)="toggleStep($index, $event)">
+        <input class="step-checkbox" type="checkbox" [id]="'step-' + chatId() + '-' + step.id" [checked]="step.state"
+          (change)="toggleStep($index, $event)">
 
-        <label class="circle" for="step-{{$index}}">
+        <label class="circle" [for]="'step-' + chatId() + '-' + step.id">
           ✓
         </label>
 
@@ -53,7 +54,7 @@
 
       </div>
 
-      <label class="step-content" for="step-{{$index}}">
+      <label class="step-content" [for]="'step-' + chatId() + '-' + step.id">
         {{ step.message }}
       </label>
 
