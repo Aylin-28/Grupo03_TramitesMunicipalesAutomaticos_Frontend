@@ -56,3 +56,8 @@
   transition: background 100ms ease-out;
   background-color: var(--button-inverse-active);
 }
+
+.document-stars {
+  display: flex;
+  color: #ffc107;
+}

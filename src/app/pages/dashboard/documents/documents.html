@@ -1,51 +1,58 @@
 <section class="dashboard-wrapper">
   <section class="categories-section">
     <header class="section-header">
-      <h2 class="section-title">Categorías de Documentos</h2>
-      <app-link
-        label="Explorar mas"
-        variant="inline"
-        to="/categorias"
-        [showSubIcon]="true"
-        SubIcon="ArrowRightAlt"
-        fontWeight="semibold"
-      />
+      <h2 class="section-title">Categorías de sugerencias</h2>
+      <app-link label="Sugerir nueva categoría" variant="inline" to="javascript:void(0)" (click)="toggleModal()"
+        [showSubIcon]="true" SubIcon="ArrowRightAlt" fontWeight="semibold" />
     </header>
     <div class="cards-grid">
       @for (doc of documentCategories(); track doc.title) {
-        <app-document-card
-          variant="document"
-          [title]="doc.title"
-          [description]="doc.description"
-          [icon]="doc.icon"
-          [linkLabel]="doc.linkLabel"
-          [linkUrl]="doc.linkUrl"
-        />
+      <app-document-card variant="document" [title]="doc.title" [description]="doc.description" [icon]="doc.icon"
+        [linkLabel]="doc.linkLabel" [linkUrl]="doc.linkUrl" [category_id]="doc.category_id" />
       }
     </div>
   </section>
 
+  @if (isModalOpen()) {
+  <div class="modal-overlay" (click)="toggleModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h3>Sugerir nueva categoría</h3>
+
+      <div class="input-group">
+        <label>Nombre de la categoría</label>
+        <!-- Aquí el usuario escribe el nombre de la nueva categoría -->
+        <input type="text" class="modal-input" [(ngModel)]="newCategoryName" placeholder="Ej. Infraestructura...">
+      </div>
+
+      <div class="input-group">
+        <label>Explicación o razones de la sugerencia</label>
+        <textarea class="modal-textarea" [(ngModel)]="descInput"></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <app-link label="Cancelar" variant="small" to="javascript:void(0)" (click)="toggleModal()" />
+        <app-link label="Enviar" variant="small" to="javascript:void(0)" (click)="enviarNuevaCategoria()" />
+      </div>
+    </div>
+  </div>
+  }
+
   <section class="records-section">
     <header class="section-header">
-      <h2 class="section-title">Registros del Sistema Verificados</h2>
+      <h2 class="section-title">Todas las sugerencias</h2>
       <nav class="filter-switch">
         @for (tab of tabs(); track $index) {
-          <app-button
-            class="tab"
-            [class.active]="currentTab() === $index"
-            variant="ghost"
-            [label]="tab"
-            [fontWeight]="currentTab() === $index ? 'semibold' : 'medium'"
-            (click)="setCurrentTab($index)"
-          />
+        <app-button class="tab" [class.active]="currentTab() === $index" variant="ghost" [label]="tab"
+          [fontWeight]="currentTab() === $index ? 'semibold' : 'medium'" (click)="setCurrentTab($index)" />
         }
       </nav>
     </header>
     <div class="records-grid">
       @for (file of filteredCards(); track file.id) {
-        <app-file-card [title]="file.title" [date]="file.date" />
+      <app-file-card [title]="file.title" [description]="file.description" [points]="file.points"
+        [category_title]="file.category_title" />
       } @empty {
-        <p class="empty-state">No se encontraron registros disponibles.</p>
+      <p class="empty-state">No se encontraron sugerencias disponibles.</p>
       }
     </div>
   </section>
