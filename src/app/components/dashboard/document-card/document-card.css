@@ -1,16 +1,27 @@
 .service-card {
-  background: var(--card-background);
-  border-radius: var(--border-radius-l);
+  background-color: var(--card-background);
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   padding: 32px;
   gap: 12px;
   height: 100%;
+  border-radius: 10px;
+}
+
+.card-header {
+  display: flex;
+  gap: 20px;
 }
 
 .icon-container {
   width: 56px;
   height: 56px;
+  min-width: 56px;
+  min-height: 56px;
+  max-width: 56px;
+  max-height: 56px;
   border-radius: var(--border-radius-l);
   background-color: var(--card-icon-background);
   display: flex;
@@ -19,18 +30,22 @@
   color: var(--highlight);
 }
 
-.service-content {
-  padding-top: 12px;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 12px;
+.card-header-content {
+  width: 100%;
 }
 
-.service-title {
+.card-header-title {
+  width: 100%;
   color: var(--highlight);
   font-size: var(--font-size-l);
   font-weight: var(--font-weight-bold);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.service-description {
+  width: 100%;
 }
 
 .service-footer {
@@ -43,26 +58,39 @@
 }
 
 /* Custom Link with Variant Inline */
-.service-footer ::ng-deep app-link a {
+.service-footer ::ng-deep app-link a,
+.card-header ::ng-deep app-link a {
   color: var(--highlight);
+  justify-content: flex-start;
 }
 
 .modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: flex; align-items: center; justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 1000;
 }
 
 .modal-content {
-  background: white; 
-  padding: 2rem; 
-  border-radius: 8px; 
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
   width: 400px;
-  display: flex; 
-  flex-direction: column; 
-  gap: 1rem; 
-  color: black;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--foreground);
+}
+
+.modal-content h3,
+.modal-content span {
+  color: var(--highlight);
 }
 
 .modal-actions {
@@ -70,29 +98,7 @@
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 1rem;
-  align-items: center; /* ¡Esta es la clave para que no se desalineen! */
-}
-
-.modal-textarea {
-  width: 100%;
-  min-height: 120px;
-  padding: 12px;
-  border-radius: var(--border-radius-m, 8px); /* Usa tu variable si la tienes */
-  border: 1px solid #ccc;
-  font-family: inherit;
-  font-size: 1rem;
-  resize: vertical; /* Permite al usuario ajustar la altura si quiere */
-  transition: border-color 0.2s ease;
-  outline: none;
-}
-
-.modal-textarea:focus {
-  border-color: var(--highlight); /* O el color que uses para tus bordes activos */
-  box-shadow: 0 0 0 2px rgba(var(--highlight-rgb), 0.2);
-}
-
-.modal-textarea::placeholder {
-  color: #999;
+  align-items: center;
 }
 
 .input-group {
@@ -104,21 +110,50 @@
 .input-group label {
   font-weight: 600;
   font-size: 0.9rem;
-  color: #333;
 }
 
-.modal-input {
+.modal-input,
+.modal-textarea {
+  background-color: var(--input-box-background);
   width: 100%;
   padding: 12px;
   border-radius: var(--border-radius-m, 8px);
-  border: 1px solid #ccc;
+  border: none;
   font-family: inherit;
   font-size: 1rem;
   outline: none;
   transition: border-color 0.2s ease;
+  color: var(--foreground);
 }
 
-.modal-input:focus, .modal-textarea:focus {
-  border-color: var(--highlight);
-  box-shadow: 0 0 0 2px rgba(var(--highlight-rgb, 0, 123, 255), 0.2);
+.modal-textarea {
+  min-height: 120px;
+}
+
+.stars {
+  display: flex;
+  gap: 10px;
+}
+
+.star {
+  cursor: pointer;
+  border: 1px solid var(--highlight);
+  border-radius: var(--border-radius-m);
+  background-color: color-mix(in srgb, var(--highlight) 5%, white);
+  flex: 1;
+  height: 30px;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+  color: var(--highlight);
+}
+
+.star:hover {
+  background-color: color-mix(in srgb, var(--highlight) 15%, white);
+  transform: scale(1.05);
+}
+
+.star.active {
+  background-color: var(--highlight);
+  color: var(--color-white);
 }

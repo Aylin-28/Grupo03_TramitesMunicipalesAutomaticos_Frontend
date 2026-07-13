@@ -15,6 +15,7 @@ interface FileRecord {
   description: string;
   points: number;
   category_title: string;
+  category_id: number;
   date: string;
   tipo: string;
 }
@@ -35,9 +36,9 @@ interface CategoryCount {
 
 @Component({
   selector: 'app-documents',
-  imports: [FormsModule, Button, Link, DocumentCard, FileCard],
-  templateUrl: './documents.html',
-  styleUrl: './documents.css',
+  imports: [FormsModule, Link, DocumentCard, FileCard],
+  templateUrl: './feedback.html',
+  styleUrl: './feedback.css',
 })
 export class Documents {
   private http = inject(HttpClient);
@@ -51,6 +52,7 @@ export class Documents {
   fileRecords = signal<FileRecord[]>([]);
   tabs = signal(['Fecha', 'Tipo']);
   currentTab = signal(0);
+  selectedCategoryId = signal<number | null>(null);
 
   marriageCount = computed(() => {
     return this.fileRecords().filter((file) => file.tipo.toLowerCase() === 'matrimonio').length;
@@ -93,33 +95,36 @@ export class Documents {
     const allCounts = this.counts();
 
     const getCount = (id: number) => {
-      return allCounts.find(c => c.category_id === id)?.total || 0;
+      return allCounts.find((c) => c.category_id === id)?.total || 0;
     };
 
     return [
       {
         title: 'Matrimonio Civil',
         category_id: 1,
-        description: 'Consulta tus actas de matrimonio, descarga copias certificadas y gestiona tus trámites.',
+        description:
+          'Consulta tus actas de matrimonio, descarga copias certificadas y gestiona tus trámites.',
         icon: 'History',
         linkLabel: `${getCount(1)} Registros`,
-        linkUrl: '/dashboard/documents',
+        linkUrl: 'javascript:void(0)',
       },
       {
         title: 'Actas de Nacimiento',
         category_id: 2,
-        description: 'Accede a copias certificadas de nacimiento registradas, descarga extractos oficiales y realiza seguimientos.',
+        description:
+          'Accede a copias certificadas de nacimiento registradas, descarga extractos oficiales y realiza seguimientos.',
         icon: 'Badge',
         linkLabel: `${getCount(2)} Registros`,
-        linkUrl: '/dashboard/documents',
+        linkUrl: 'javascript:void(0)',
       },
       {
         title: 'Bienes y Propiedades',
         category_id: 3,
-        description: 'Consulta constancias de dominio, certificados registrales inmobiliarios y estado de gravámenes vigentes.',
+        description:
+          'Consulta constancias de dominio, certificados registrales inmobiliarios y estado de gravámenes vigentes.',
         icon: 'AccountBalance',
         linkLabel: `${getCount(3)} Registros`,
-        linkUrl: '/dashboard/documents',
+        linkUrl: 'javascript:void(0)',
       },
     ];
   });
@@ -152,14 +157,14 @@ export class Documents {
   async loadFiles() {
     const token = this.authService.getToken();
     const headers = {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     };
 
     try {
       const countsResponse = await fetch(`${BASE_URL}/feedback/counts`, {
         method: 'GET',
-        headers: headers
+        headers: headers,
       });
 
       if (countsResponse.ok) {
@@ -169,14 +174,13 @@ export class Documents {
 
       const recordsResponse = await fetch(`${BASE_URL}/feedback/`, {
         method: 'GET',
-        headers: headers
+        headers: headers,
       });
 
       if (recordsResponse.ok) {
         const recordsData = await recordsResponse.json();
         this.fileRecords.set(recordsData);
       }
-
     } catch (error) {
       console.error('Error al cargar datos:', error);
     }
@@ -186,13 +190,24 @@ export class Documents {
     this.currentTab.set(index);
   }
 
+  setCategoryFilter(categoryId: number | null) {
+    this.selectedCategoryId.update((current) => (current === categoryId ? null : categoryId));
+  }
+
   filteredCards = computed(() => {
     const list = [...this.fileRecords()];
+    const filteredByCategory =
+      this.selectedCategoryId() === null
+        ? list
+        : list.filter((file) => file.category_id === this.selectedCategoryId());
+
     if (this.currentTab() === 0) {
-      return list.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    } else {
-      return list.sort((a, b) => a.tipo.localeCompare(b.tipo));
+      return filteredByCategory.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      );
     }
+
+    return filteredByCategory.sort((a, b) => a.tipo.localeCompare(b.tipo));
   });
 
   async enviarNuevaCategoria() {
@@ -201,17 +216,17 @@ export class Documents {
       title: `Agregar categoría: ${this.newCategoryName()}`,
       description: this.descInput(),
       points: 0,
-      category_id: 0
+      category_id: 0,
     };
 
     try {
       const response = await fetch(`${BASE_URL}/feedback/`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {

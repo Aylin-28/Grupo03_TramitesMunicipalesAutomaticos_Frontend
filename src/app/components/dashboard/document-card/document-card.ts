@@ -26,41 +26,46 @@ export class DocumentCard {
   points = signal(0);
 
   onAddFeedback = output<void>();
+  categorySelected = output<number>();
   isModalOpen = signal(false);
 
-  constructor(@Inject(AUTH_TOKEN) private authService: Auth) {
-  }
+  constructor(@Inject(AUTH_TOKEN) private authService: Auth) {}
 
   toggleModal() {
-    this.isModalOpen.update(v => !v);
+    this.isModalOpen.update((v) => !v);
   }
 
   setPoints(val: number) {
     this.points.set(val);
   }
 
-  async enviarSugerencia() {
+  onLinkClick(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.categorySelected.emit(this.category_id());
+  }
 
-    console.log("Título actual en la señal:", this.titleInput());
-    console.log("Descripción actual en la señal:", this.descInput());
+  async enviarSugerencia() {
+    console.log('Título actual en la señal:', this.titleInput());
+    console.log('Descripción actual en la señal:', this.descInput());
     const token = this.authService.getToken();
     const headers = {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     };
 
     const payload = {
       title: this.titleInput(),
       description: this.descInput(),
       points: this.points(),
-      category_id: this.category_id()
+      category_id: this.category_id(),
     };
 
     try {
       const response = await fetch(`${BASE_URL}/feedback/`, {
         method: 'POST',
         headers: headers,
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {

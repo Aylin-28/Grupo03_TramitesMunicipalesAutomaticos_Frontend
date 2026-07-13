@@ -6,7 +6,7 @@ import { Landing } from './pages/landing/landing';
 import { LayoutDashboard } from './layout/layout-dashboard/layout-dashboard';
 import { Assistant } from './pages/dashboard/assistant/assistant';
 import { History } from './pages/dashboard/history/history';
-import { Documents } from './pages/dashboard/documents/documents';
+import { Documents } from './pages/dashboard/feedback/feedback';
 import { Settings } from './pages/dashboard/settings/settings';
 import { AuthComponent } from './pages/auth/auth';
 import { TermsConditions } from './pages/terms-conditions/terms-conditions';

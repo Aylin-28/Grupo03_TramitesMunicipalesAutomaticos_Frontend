@@ -4,7 +4,7 @@ import { Button } from '../../ui/button/button';
 
 @Component({
   selector: 'app-file-card',
-  imports: [IconComponent, Button],
+  imports: [IconComponent],
   templateUrl: './file-card.html',
   styleUrl: './file-card.css',
 })

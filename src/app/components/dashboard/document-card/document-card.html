@@ -1,54 +1,83 @@
 <article class="service-card {{ variant() }}">
-  <div class="icon-container">
-    <app-icon-component [name]="icon()" />
+  <div class="card-header">
+    <div class="icon-container">
+      <app-icon-component [name]="icon()" />
+    </div>
+    <div class="card-header-content">
+      <h3 class="card-header-title">{{ title() }}</h3>
+      <app-link
+        variant="ghost"
+        [label]="linkLabel()"
+        [to]="linkUrl()"
+        SubIcon="ArrowRightAlt"
+        (click)="onLinkClick($event)"
+      />
+    </div>
   </div>
-  <div class="service-content">
-    <h3 class="service-title">{{ title() }}</h3>
-    <p class="service-description">{{ description() }}</p>
-  </div>
+  <p class="service-description">{{ description() }}</p>
   <footer class="service-footer">
-    @if (variant() === 'document') {
-    <app-link variant="inline" [label]="linkLabel()" [to]="linkUrl()" [showSubIcon]="true" SubIcon="KeyboardArrowRight"
-      fontWeight="semibold" />
-    } @else {
-    <app-link variant="inline" [label]="linkLabel()" [to]="linkUrl()" [showSubIcon]="true" SubIcon="ArrowRightAlt"
-      fontWeight="semibold" />
-    }
-    <app-link variant="inline" [label]="newFeedback()" to="javascript:void(0)" (click)="toggleModal()"
-      [showSubIcon]="true" SubIcon="KeyboardArrowRight" />
+    <app-link
+      variant="inline"
+      [label]="newFeedback()"
+      to="javascript:void(0)"
+      (click)="toggleModal()"
+      [showSubIcon]="true"
+      SubIcon="KeyboardArrowRight"
+      fontWeight="semibold"
+    />
   </footer>
 
   @if (isModalOpen()) {
-  <div class="modal-overlay" (click)="toggleModal()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <h3>Nueva sugerencia:</h3>
-      <span>Categoria: {{ title() }}</span>
-      <div class="input-group">
-        <label>Título</label>
-        <input type="text" class="modal-input" placeholder="Ej. Mejora en la interfaz..." [value]="titleInput()"
-          (input)="titleInput.set($any($event.target).value)">
-      </div>
+    <div class="modal-overlay" (click)="toggleModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <h3>Nueva sugerencia:</h3>
+        <span>Categoria: {{ title() }}</span>
+        <div class="input-group">
+          <label>Título</label>
+          <input
+            type="text"
+            class="modal-input"
+            placeholder="Ej. Mejora en la interfaz..."
+            [value]="titleInput()"
+            (input)="titleInput.set($any($event.target).value)"
+          />
+        </div>
 
-      <div class="rating-group">
-        <div class="stars">
-          @for (i of [1, 2, 3, 4, 5]; track i) {
-          <button class="star" [class.active]="i <= points()" (click)="setPoints(i)">
-            ★
-          </button>
-          }
+        <div class="input-group">
+          <label>Calificación</label>
+          <div class="stars">
+            @for (i of [1, 2, 3, 4, 5]; track i) {
+              <button class="star" [class.active]="i <= points()" (click)="setPoints(i)">
+                {{ i }}
+              </button>
+            }
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Descripción</label>
+          <textarea
+            class="modal-textarea"
+            placeholder="Describe tu sugerencia aquí..."
+            [value]="descInput()"
+            (input)="descInput.set($any($event.target).value)"
+          ></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <app-link
+            label="Cancelar"
+            variant="small"
+            to="javascript:void(0)"
+            (click)="toggleModal()"
+          />
+          <app-link
+            label="Enviar"
+            variant="small"
+            to="javascript:void(0)"
+            (click)="enviarSugerencia()"
+          />
         </div>
       </div>
-      <div class="input-group">
-        <label>Descripción</label>
-        <textarea class="modal-textarea" placeholder="Describe tu sugerencia aquí..." [value]="descInput()"
-          (input)="descInput.set($any($event.target).value)"></textarea>
-      </div>
-
-      <div class="modal-actions">
-        <app-link label="Cancelar" variant="small" to="javascript:void(0)" (click)="toggleModal()" />
-        <app-link label="Enviar" variant="small" to="javascript:void(0)" (click)="enviarSugerencia()" />
-      </div>
     </div>
-  </div>
   }
 </article>
