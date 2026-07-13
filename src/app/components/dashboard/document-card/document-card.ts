@@ -74,7 +74,7 @@ export class DocumentCard {
 
         this.titleInput.set('');
         this.descInput.set('');
-
+        this.onAddFeedback.emit();
         this.toggleModal();
       } else {
         console.error('Error en el servidor:', response.statusText);

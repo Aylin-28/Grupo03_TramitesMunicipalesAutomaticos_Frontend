@@ -233,6 +233,7 @@ export class Documents {
         this.toggleModal();
         this.newCategoryName.set('');
         this.descInput.set('');
+        this.loadFiles();
       }
     } catch (error) {
       console.error('Error:', error);

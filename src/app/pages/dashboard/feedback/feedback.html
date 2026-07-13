@@ -23,6 +23,7 @@
           [linkUrl]="doc.linkUrl"
           [category_id]="doc.category_id"
           (categorySelected)="setCategoryFilter($event)"
+          (onAddFeedback)="loadFiles()"
         />
       }
     </div>

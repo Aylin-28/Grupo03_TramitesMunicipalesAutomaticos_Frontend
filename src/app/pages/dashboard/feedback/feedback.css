@@ -147,6 +147,7 @@
 
 .modal-textarea {
   min-height: 120px;
+  resize: none;
 }
 
 @media (max-width: 480px) {
