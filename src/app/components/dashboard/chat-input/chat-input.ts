@@ -1,4 +1,4 @@
-import { Component, computed, input, output, signal, OnDestroy } from '@angular/core';
+import { Component, computed, input, output, signal, inject, DestroyRef } from '@angular/core';
 import { Button } from '../../ui/button/button';
 import { InputField } from '../../ui/input-field/input-field';
 import { IconComponent } from '../../ui/icon-component/icon-component';
@@ -8,49 +8,21 @@ type Attachment = {
   file?: File;
 };
 
-type SpeechRecognitionAlternativeLike = {
-  transcript: string;
-};
-
-type SpeechRecognitionResultLike = {
-  [index: number]: SpeechRecognitionAlternativeLike;
-  isFinal: boolean;
-};
-
-type SpeechRecognitionEventLike = {
-  resultIndex: number;
-  results: ArrayLike<SpeechRecognitionResultLike>;
-};
-
-type SpeechRecognitionErrorEventLike = {
-  error?: string;
-  message?: string;
-};
-
-type SpeechRecognitionLike = {
-  continuous: boolean;
-  interimResults: boolean;
-  lang: string;
-  onresult: ((event: SpeechRecognitionEventLike) => void) | null;
-  onerror: ((event: SpeechRecognitionErrorEventLike) => void) | null;
-  onend: (() => void) | null;
-  start: () => void;
-  stop: () => void;
-};
-
-type SpeechRecognitionCtor = new () => SpeechRecognitionLike;
-
 @Component({
   selector: 'app-chat-input',
+  standalone: true,
   imports: [Button, InputField, IconComponent],
   templateUrl: './chat-input.html',
   styleUrl: './chat-input.css',
 })
-export class ChatInput implements OnDestroy {
+export class ChatInput {
+  private readonly destroyRef = inject(DestroyRef);
+
   isTramiteMode = input<boolean>(false);
+  onSendMessage = output<{ text: string; files: Attachment[] }>();
+
   message = signal('');
   attachments = signal<Attachment[]>([]);
-  onSendMessage = output<{ text: string; files: Attachment[] }>();
   isListening = signal(false);
   voicePreview = signal('');
   voiceError = signal<string | null>(null);
@@ -60,34 +32,38 @@ export class ChatInput implements OnDestroy {
     return text.includes('\n') || text.length > 60;
   });
 
-  private recognition: SpeechRecognitionLike | null = null;
-  private lastResultIndex = 0;
+  private mediaStream: MediaStream | null = null;
+  private mediaRecorder: MediaRecorder | null = null;
+  private socket: WebSocket | null = null;
+
+  private readonly DEEPGRAM_API_KEY = '12985ee5438b59e926d9702be518dd4e3124c89f';
 
   constructor() {
-    this.initVoiceRecognition();
-  }
-
-  ngOnDestroy(): void {
-    this.stopVoiceInput();
+    this.destroyRef.onDestroy(() => {
+      this.stopVoiceInput();
+    });
   }
 
   onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files) {
-      const newFiles: Attachment[] = Array.from(input.files).map((file) => ({
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement.files) {
+      const newFiles: Attachment[] = Array.from(inputElement.files).map((file) => ({
         name: file.name,
         file: file,
       }));
       this.attachments.update((current) => [...current, ...newFiles]);
-      input.value = '';
+      inputElement.value = '';
     }
   }
 
-  send() {
-    if (this.message().trim() || this.attachments().length > 0) {
+  send(): void {
+    const textToSend = this.message().trim();
+    const filesToSend = this.attachments();
+
+    if (textToSend || filesToSend.length > 0) {
       this.onSendMessage.emit({
-        text: this.message(),
-        files: this.attachments(),
+        text: textToSend,
+        files: filesToSend,
       });
       this.message.set('');
       this.attachments.set([]);
@@ -108,126 +84,154 @@ export class ChatInput implements OnDestroy {
   toggleVoiceInput(): void {
     if (this.isListening()) {
       this.stopVoiceInput();
-      return;
+    } else {
+      this.startVoiceInput();
     }
-
-    this.startVoiceInput();
   }
 
-  private initVoiceRecognition(): void {
-    const SpeechRecognitionCtor = this.getSpeechRecognitionCtor();
-    if (!SpeechRecognitionCtor) {
-      this.voiceError.set('Tu navegador no admite reconocimiento de voz. Prueba en Chrome o Edge.');
-      return;
-    }
+  private async startVoiceInput(): Promise<void> {
+    if (this.isListening()) return;
 
-    const recognition = new SpeechRecognitionCtor();
-    recognition.continuous = false;
-    recognition.interimResults = true;
-    recognition.lang = navigator.language || 'es';
-
-    recognition.onresult = (event) => {
-      const results = Array.from(event.results);
-      const transcript = results
-        .slice(event.resultIndex)
-        .map((result) => result[0]?.transcript ?? '')
-        .join(' ')
-        .trim();
-
-      if (!transcript) {
-        return;
-      }
-
-      if (results[results.length - 1]?.isFinal) {
-        const cleaned = transcript.replace(/\s+/g, ' ').trim();
-        const currentValue = this.message().trim();
-        this.message.set(currentValue ? `${currentValue} ${cleaned}` : cleaned);
-        this.voicePreview.set('');
-        this.lastResultIndex = 0;
-      } else {
-        this.voicePreview.set(transcript);
-      }
-    };
-
-    recognition.onerror = (event) => {
-      const message = this.formatSpeechError(event.error ?? event.message);
-      this.voiceError.set(message);
-      this.isListening.set(false);
-      this.voicePreview.set('');
-    };
-
-    recognition.onend = () => {
-      this.isListening.set(false);
-      this.voicePreview.set('');
-      this.lastResultIndex = 0;
-    };
-
-    this.recognition = recognition;
-  }
-
-  private startVoiceInput(): void {
-    if (!this.recognition) {
-      this.voiceError.set('Tu navegador no admite reconocimiento de voz.');
-      return;
-    }
-
-    this.voiceError.set(null);
     this.isListening.set(true);
-    this.voicePreview.set('');
-    this.lastResultIndex = 0;
+    this.voiceError.set(null);
+    this.voicePreview.set('Conectando micrófono...');
 
     try {
-      this.recognition.start();
+      this.mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+      const model = 'nova-3';
+      const language = 'es';
+      const queryParams = `model=${model}&language=${language}&smart_format=true&interim_results=true`;
+
+      this.socket = new WebSocket(`wss://api.deepgram.com/v1/listen?${queryParams}`, [
+        'token',
+        this.DEEPGRAM_API_KEY,
+      ]);
+
+      this.socket.onopen = () => {
+        this.voicePreview.set('Escuchando...');
+        this.startRecording();
+      };
+
+      this.socket.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          const transcript = data.channel?.alternatives?.[0]?.transcript;
+
+          if (transcript !== undefined && transcript.trim() !== '') {
+            if (data.is_final) {
+              const cleaned = transcript.trim();
+              this.message.update((current) => (current ? `${current} ${cleaned}` : cleaned));
+              this.voicePreview.set('');
+            } else {
+              this.voicePreview.set(transcript);
+            }
+          }
+        } catch (err) {
+          console.error('Error procesando respuesta de Deepgram:', err);
+        }
+      };
+
+      this.socket.onerror = (event) => {
+        console.error('Error en el WebSocket de Deepgram:', event);
+        this.voiceError.set('Ocurrió un error en la conexión con el servidor de voz.');
+        this.stopVoiceInput();
+      };
+
+      this.socket.onclose = () => {
+        this.stopVoiceInput();
+      };
     } catch (error: any) {
-      const errorName = error?.name || error?.message;
-      let customError = errorName;
-
-      if (errorName === 'NotAllowedError' || errorName === 'PermissionDeniedError') {
-        customError = 'permission-denied';
+      console.error('No se pudo iniciar el dictado por voz:', error);
+      let customError = 'No se pudo acceder al micrófono.';
+      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+        customError = 'Permite el acceso al micrófono para usar la transcripción por voz.';
       }
+      this.voiceError.set(customError);
+      this.stopVoiceInput();
+    }
+  }
 
-      this.voiceError.set(this.formatSpeechError(customError));
-      this.isListening.set(false);
-      this.voicePreview.set('');
+  private getSupportedMimeType(): string {
+    const types = [
+      'audio/webm;codecs=opus',
+      'audio/webm',
+      'audio/ogg;codecs=opus',
+      'audio/mp4',
+      'audio/aac',
+    ];
+    for (const type of types) {
+      if (MediaRecorder.isTypeSupported(type)) {
+        return type;
+      }
+    }
+    return '';
+  }
+
+  private startRecording(): void {
+    if (!this.mediaStream) return;
+
+    const mimeType = this.getSupportedMimeType();
+    const options = mimeType ? { mimeType } : undefined;
+
+    try {
+      this.mediaRecorder = new MediaRecorder(this.mediaStream, options);
+
+      this.mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0 && this.socket && this.socket.readyState === WebSocket.OPEN) {
+          this.socket.send(event.data);
+        }
+      };
+
+      this.mediaRecorder.start(250);
+    } catch (error) {
+      console.error('Error al inicializar MediaRecorder:', error);
+      this.voiceError.set('No se pudo inicializar la grabación en este navegador.');
+      this.stopVoiceInput();
     }
   }
 
   private stopVoiceInput(): void {
-    if (!this.isListening()) {
+    if (!this.isListening() && !this.mediaStream && !this.socket) {
       return;
     }
 
-    this.recognition?.stop();
     this.isListening.set(false);
     this.voicePreview.set('');
-  }
 
-  private getSpeechRecognitionCtor(): SpeechRecognitionCtor | null {
-    const globalScope = globalThis as typeof globalThis & {
-      webkitSpeechRecognition?: SpeechRecognitionCtor;
-      SpeechRecognition?: SpeechRecognitionCtor;
-    };
-
-    return globalScope.SpeechRecognition ?? globalScope.webkitSpeechRecognition ?? null;
-  }
-
-  private formatSpeechError(error?: string): string {
-    const normalizedError = error?.toLowerCase() ?? '';
-
-    switch (normalizedError) {
-      case 'not-allowed':
-      case 'permission-denied':
-        return 'Permite el acceso al micrófono para usar la transcripción por voz.';
-      case 'no-speech':
-        return 'No se detectó audio. Inténtalo de nuevo.';
-      case 'audio-capture':
-        return 'No se pudo acceder al micrófono. Comprueba que esté conectado y disponible.';
-      case 'network':
-        return 'El navegador no pudo iniciar la transcripción por voz. Inténtalo de nuevo y asegúrate de tener permiso para usar el micrófono.';
-      case 'aborted':
-        return 'La transcripción fue cancelada.';
-      default:
-        return 'No se pudo iniciar la transcripción por voz. Prueba de nuevo o revisa el permiso del micrófono.';
+    if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
+      try {
+        this.mediaRecorder.stop();
+      } catch (e) {
+        console.warn('Error al detener MediaRecorder:', e);
+      }
     }
+    this.mediaRecorder = null;
+
+    if (this.mediaStream) {
+      try {
+        this.mediaStream.getTracks().forEach((track) => track.stop());
+      } catch (e) {
+        console.warn('Error al detener los tracks de audio:', e);
+      }
+    }
+    this.mediaStream = null;
+
+    if (this.socket) {
+      this.socket.onopen = null;
+      this.socket.onmessage = null;
+      this.socket.onerror = null;
+      this.socket.onclose = null;
+
+      if (this.socket.readyState === WebSocket.OPEN) {
+        try {
+          this.socket.send(JSON.stringify({ type: 'CloseStream' }));
+        } catch (e) {}
+      }
+      try {
+        this.socket.close();
+      } catch (e) {}
+    }
+    this.socket = null;
   }
 }

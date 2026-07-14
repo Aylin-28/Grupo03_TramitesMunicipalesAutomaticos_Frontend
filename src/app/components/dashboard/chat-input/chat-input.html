@@ -3,60 +3,100 @@
 
   <div class="chat-input-container">
     <div class="input-card-wrapper" [class.stacked-layout]="isLongText()">
-      <app-input-field class="flex-grow" type="textarea" [(value)]="message" [showLabel]="false"
-        [showPreIcon]="!isLongText()" [isPreIconClickable]="true" PreIcon="AttachFile"
-        placeholder="Escribe tu mensaje..." (clickPreIcon)="fileInput.click()"
-        (keydown.enter)="$event.preventDefault(); send()"></app-input-field>
+      <app-input-field
+        class="flex-grow"
+        type="textarea"
+        [value]="message()"
+        (valueChange)="message.set($event)"
+        [showLabel]="false"
+        [showPreIcon]="!isLongText()"
+        [isPreIconClickable]="true"
+        PreIcon="AttachFile"
+        placeholder="Escribe tu mensaje..."
+        (clickPreIcon)="fileInput.click()"
+        (keydown.enter)="$event.preventDefault(); send()"
+      >
+      </app-input-field>
 
       @if (isLongText()) {
-      <div class="actions-row">
+        <div class="actions-row">
+          <div class="action-buttons">
+            <button
+              class="attach-btn"
+              type="button"
+              (click)="fileInput.click()"
+              aria-label="Adjuntar archivo"
+            >
+              <app-icon-component name="AttachFile"></app-icon-component>
+            </button>
+            <button
+              class="attach-btn microphone-btn"
+              type="button"
+              [class.active]="isListening()"
+              (click)="toggleVoiceInput()"
+              aria-label="Activar micrófono"
+            >
+              <app-icon-component name="Microphone"></app-icon-component>
+            </button>
+          </div>
+          <div class="spacer"></div>
+          <app-button
+            label="Siguiente"
+            variant="small"
+            [showLabel]="isTramiteMode()"
+            [showSubIcon]="true"
+            [SubIcon]="isTramiteMode() ? 'ArrowRightAlt' : 'Send'"
+            (click)="send()"
+          ></app-button>
+        </div>
+      } @else {
         <div class="action-buttons">
-          <button class="attach-btn" type="button" (click)="fileInput.click()" aria-label="Adjuntar archivo">
-            <app-icon-component name="AttachFile"></app-icon-component>
-          </button>
-          <button class="attach-btn microphone-btn" type="button" [class.active]="isListening()" (click)="toggleVoiceInput()" aria-label="Activar micrófono">
+          <button
+            class="attach-btn microphone-btn"
+            type="button"
+            [class.active]="isListening()"
+            (click)="toggleVoiceInput()"
+            aria-label="Activar micrófono"
+          >
             <app-icon-component name="Microphone"></app-icon-component>
           </button>
+          <app-button
+            label="Siguiente"
+            variant="small"
+            [showLabel]="isTramiteMode()"
+            [showSubIcon]="true"
+            [SubIcon]="isTramiteMode() ? 'ArrowRightAlt' : 'Send'"
+            (click)="send()"
+          ></app-button>
         </div>
-        <div class="spacer"></div>
-        <app-button label="Siguiente" variant="small" [showLabel]="isTramiteMode()" [showSubIcon]="true"
-          [SubIcon]="isTramiteMode() ? 'ArrowRightAlt' : 'Send'" (click)="send()"></app-button>
-      </div>
-    } @else {
-      <div class="action-buttons">
-        <button class="attach-btn microphone-btn" type="button" [class.active]="isListening()" (click)="toggleVoiceInput()" aria-label="Activar micrófono">
-          <app-icon-component name="Microphone"></app-icon-component>
-        </button>
-        <app-button label="Siguiente" variant="small" [showLabel]="isTramiteMode()" [showSubIcon]="true" [SubIcon]="isTramiteMode() ? 'ArrowRightAlt' : 'Send'" (click)="send()"></app-button>
-      </div>
       }
     </div>
 
     @if (attachments().length > 0) {
-    <div class="attachments-container">
-      @for (file of attachments(); track $index) {
-      <div class="attachment-chip">
-        <div class="attachment-content">
-          <app-icon-component name="AttachFile" class="icon-small" />
-          <span class="attachment-text">{{ file.name }}</span>
-        </div>
-        <button class="remove-btn" (click)="removeFile($index)">
-          <app-icon-component name="Close" class="icon-close" />
-        </button>
+      <div class="attachments-container">
+        @for (file of attachments(); track $index) {
+          <div class="attachment-chip">
+            <div class="attachment-content">
+              <app-icon-component name="AttachFile" class="icon-small" />
+              <span class="attachment-text">{{ file.name }}</span>
+            </div>
+            <button class="remove-btn" (click)="removeFile($index)">
+              <app-icon-component name="Close" class="icon-close" />
+            </button>
+          </div>
+        }
       </div>
-      }
-    </div>
     }
 
     @if (voicePreview() || voiceError()) {
-    <div class="voice-status">
-      @if (voicePreview()) {
-        <span>{{ voicePreview() }}</span>
-      }
-      @if (voiceError()) {
-        <span class="voice-error">{{ voiceError() }}</span>
-      }
-    </div>
+      <div class="voice-status">
+        @if (voicePreview()) {
+          <span>{{ voicePreview() }}</span>
+        }
+        @if (voiceError()) {
+          <span class="voice-error">{{ voiceError() }}</span>
+        }
+      </div>
     }
   </div>
 </footer>
