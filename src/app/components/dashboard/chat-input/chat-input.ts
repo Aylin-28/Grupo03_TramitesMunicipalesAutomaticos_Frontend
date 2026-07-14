@@ -8,8 +8,12 @@ type Attachment = {
   file?: File;
 };
 
-type SpeechRecognitionResultLike = {
+type SpeechRecognitionAlternativeLike = {
   transcript: string;
+};
+
+type SpeechRecognitionResultLike = {
+  [index: number]: SpeechRecognitionAlternativeLike;
   isFinal: boolean;
 };
 
@@ -120,13 +124,13 @@ export class ChatInput implements OnDestroy {
     const recognition = new SpeechRecognitionCtor();
     recognition.continuous = false;
     recognition.interimResults = true;
-    recognition.lang = 'es-ES';
+    recognition.lang = navigator.language || 'es';
 
     recognition.onresult = (event) => {
       const results = Array.from(event.results);
       const transcript = results
         .slice(event.resultIndex)
-        .map((result) => result.transcript)
+        .map((result) => result[0]?.transcript ?? '')
         .join(' ')
         .trim();
 
@@ -174,8 +178,15 @@ export class ChatInput implements OnDestroy {
 
     try {
       this.recognition.start();
-    } catch (error) {
-      this.voiceError.set(this.formatSpeechError((error as Error)?.message));
+    } catch (error: any) {
+      const errorName = error?.name || error?.message;
+      let customError = errorName;
+
+      if (errorName === 'NotAllowedError' || errorName === 'PermissionDeniedError') {
+        customError = 'permission-denied';
+      }
+
+      this.voiceError.set(this.formatSpeechError(customError));
       this.isListening.set(false);
       this.voicePreview.set('');
     }
