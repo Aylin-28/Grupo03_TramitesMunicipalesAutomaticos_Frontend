@@ -15,6 +15,7 @@ type IconName =
   | 'AccountBalance'
   | 'Settings'
   | 'AttachFile'
+  | 'Microphone'
   | 'Description'
   | 'ContactSupport'
   | 'History'

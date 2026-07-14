@@ -10,16 +10,25 @@
 
       @if (isLongText()) {
       <div class="actions-row">
-        <button class="attach-btn" (click)="fileInput.click()">
-          <app-icon-component name="AttachFile"></app-icon-component>
-        </button>
+        <div class="action-buttons">
+          <button class="attach-btn" type="button" (click)="fileInput.click()" aria-label="Adjuntar archivo">
+            <app-icon-component name="AttachFile"></app-icon-component>
+          </button>
+          <button class="attach-btn microphone-btn" type="button" [class.active]="isListening()" (click)="toggleVoiceInput()" aria-label="Activar micrófono">
+            <app-icon-component name="Microphone"></app-icon-component>
+          </button>
+        </div>
         <div class="spacer"></div>
         <app-button label="Siguiente" variant="small" [showLabel]="isTramiteMode()" [showSubIcon]="true"
           [SubIcon]="isTramiteMode() ? 'ArrowRightAlt' : 'Send'" (click)="send()"></app-button>
       </div>
-      } @else {
-      <app-button label="Siguiente" variant="small" [showLabel]="isTramiteMode()" [showSubIcon]="true"
-        [SubIcon]="isTramiteMode() ? 'ArrowRightAlt' : 'Send'" (click)="send()"></app-button>
+    } @else {
+      <div class="action-buttons">
+        <button class="attach-btn microphone-btn" type="button" [class.active]="isListening()" (click)="toggleVoiceInput()" aria-label="Activar micrófono">
+          <app-icon-component name="Microphone"></app-icon-component>
+        </button>
+        <app-button label="Siguiente" variant="small" [showLabel]="isTramiteMode()" [showSubIcon]="true" [SubIcon]="isTramiteMode() ? 'ArrowRightAlt' : 'Send'" (click)="send()"></app-button>
+      </div>
       }
     </div>
 
@@ -35,6 +44,17 @@
           <app-icon-component name="Close" class="icon-close" />
         </button>
       </div>
+      }
+    </div>
+    }
+
+    @if (voicePreview() || voiceError()) {
+    <div class="voice-status">
+      @if (voicePreview()) {
+        <span>{{ voicePreview() }}</span>
+      }
+      @if (voiceError()) {
+        <span class="voice-error">{{ voiceError() }}</span>
       }
     </div>
     }

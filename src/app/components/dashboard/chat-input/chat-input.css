@@ -75,6 +75,12 @@
   padding-top: 4px;
 }
 
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .attach-btn {
   background: transparent;
   border: none;
@@ -89,6 +95,22 @@
 
 .attach-btn:hover {
   background: rgba(0, 0, 0, 0.05);
+}
+
+.microphone-btn.active {
+  color: var(--highlight);
+  background: rgba(0, 122, 255, 0.12);
+}
+
+.voice-status {
+  width: 100%;
+  padding: 4px 0 0;
+  color: var(--color-neutral-700);
+  font-size: var(--font-size-xs);
+}
+
+.voice-error {
+  color: #b42318;
 }
 
 .spacer {
