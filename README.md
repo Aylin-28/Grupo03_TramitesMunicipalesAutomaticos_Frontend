@@ -6,7 +6,7 @@ Aplicacion web desarrollada para automatizar y simplificar los tramites municipa
 
 Este repositorio contiene el código del frontend de la plataforma de tramites municipales automaticos. La aplicacion proporciona una interfaz intuitiva para que los ciudadanos puedan realizar tramites municipales de forma eficiente y segura, integrada con servicios de inteligencia artificial.
 
-Sitio en produccion: https://grupo03-tramitesmunicipalesautomaticos-1kxg.onrender.com
+Sitio en produccion: [Tramites Municipales - AutoGov](https://tramitesmunicipalesweb.onrender.com/)
 
 ## Tecnologias Utilizadas
 
@@ -75,7 +75,7 @@ El proyecto sigue la estructura estandar de una aplicacion Angular:
 
 ```
 src/
-  app/                 # Codigo de la aplicacion
+  app/                # Codigo de la aplicacion
   assets/             # Recursos estaticos (imagenes, etc.)
   styles/             # Estilos globales
   index.html          # Archivo HTML principal
@@ -137,28 +137,6 @@ npm run build
 
 El resultado se generara en el directorio `dist/` y estara listo para ser desplegado.
 
-## Despliegue
-
-La aplicacion esta actualmente desplegada en Render en la siguiente URL:
-
-https://grupo03-tramitesmunicipalesautomaticos-1kxg.onrender.com
-
-Para desplegar cambios:
-
-1. Realiza un push a la rama principal
-2. El pipeline de CI/CD en Render se activara automaticamente
-3. La aplicacion se reconstruira y desplegara
-
-## Contribucion
-
-Este proyecto es parte de un trabajo academico del Grupo 03. Las contribuciones estan limitadas a los miembros autorizados del proyecto.
-
-Si deseas reportar un problema o sugerir una mejora, por favor:
-
-1. Abre un issue describiendo el problema o sugerencia
-2. Proporciona toda la informacion relevante y contexto
-3. Espera la revision del equipo del proyecto
-
 ## Licencia
 
 Este proyecto no tiene una licencia especificada. Todos los derechos estan reservados por el grupo de desarrollo.
@@ -169,20 +147,6 @@ Este proyecto no tiene una licencia especificada. Todos los derechos estan reser
 - **Ultima actualizacion**: 16 de julio de 2026
 - **Estado**: Activo y en produccion
 - **Propietario**: Aylin-28
-
-## Soporte
-
-Para consultas o problemas relacionados con el desarrollo, contacta a los miembros del Grupo 03 a traves de los issues del repositorio.
-
-## Roadmap Futuro
-
-Mejoras planeadas para futuras versiones:
-
-- Optimizacion del rendimiento
-- Mejora de la accesibilidad
-- Expansion de funcionalidades
-- Integracion de nuevos servicios municipales
-- Mejora de la experiencia del usuario basada en feedback
 
 ---
 
