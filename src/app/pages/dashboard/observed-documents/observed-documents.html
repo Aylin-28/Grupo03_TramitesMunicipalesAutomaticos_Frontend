@@ -1,5 +1,4 @@
 <section class="admin-dashboard-wrapper">
-  <!-- Notificación Toast -->
   @if (notification().visible) {
     <div [class]="getNotificationClasses()">
       <div class="notification-content">
@@ -13,7 +12,6 @@
     </div>
   }
 
-  <!-- Cabecera de la Sección -->
   <header class="admin-header">
     <div class="header-titles">
       <h2 class="section-title">Bandeja de Documentos Observados</h2>
@@ -21,7 +19,6 @@
         Portal de revisión y corrección de expedientes para el personal administrativo.
       </p>
     </div>
-    <!-- Campo de Búsqueda -->
     <div class="search-container">
       <input
         type="text"
@@ -33,7 +30,6 @@
     </div>
   </header>
 
-  <!-- Filtros por Pestaña -->
   <div class="tabs-container">
     <div class="filter-switch">
       @for (tab of tabs; track tab; let idx = $index) {
@@ -106,7 +102,6 @@
     }
   </section>
 
-  <!-- Modal de Revisión y Corrección -->
   @if (isModalOpen() && selectedDoc()) {
     <div class="modal-overlay" (click)="closeModal()">
       <div class="modal-content" (click)="$event.stopPropagation()">
@@ -121,7 +116,6 @@
         </header>
 
         <div class="modal-body-content">
-          <!-- Metadata rápida -->
           <div class="metadata-grid">
             <div class="meta-item">
               <span class="meta-label">Usuario Solicitante</span>
@@ -147,7 +141,6 @@
             </div>
           </div>
 
-          <!-- Alerta Informativa de Corrección -->
           <div class="alert-box">
             <app-icon-component name="Info" [size]="20" class="alert-icon"></app-icon-component>
             <div class="alert-text">
@@ -157,7 +150,6 @@
             </div>
           </div>
 
-          <!-- Editor de Texto de Documento -->
           <div class="editor-group">
             <label for="doc-editor">Texto Extraído del Documento (Corregible)</label>
             <textarea
@@ -169,7 +161,6 @@
           </div>
         </div>
 
-        <!-- Botones de Acción -->
         <footer class="modal-footer-actions">
           <app-link
             label="Cancelar"

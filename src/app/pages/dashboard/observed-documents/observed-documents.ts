@@ -36,7 +36,7 @@ export class ObservedDocuments implements OnInit {
   documents = signal<ObservedDocument[]>([]);
   selectedDoc = signal<ObservedDocument | null>(null);
   editText = signal<string>('');
-  currentTab = signal<number>(0); // 0 = Observados, 1 = Aprobados, 2 = Todos
+  currentTab = signal<number>(0);
   searchText = signal<string>('');
   isModalOpen = signal<boolean>(false);
   isLoading = signal<boolean>(false);
@@ -90,17 +90,13 @@ export class ObservedDocuments implements OnInit {
     const list = this.documents();
     const search = this.searchText().toLowerCase().trim();
 
-    // 1. Filtrar por pestaña
     let tabFiltered = list;
     if (this.currentTab() === 0) {
-      // Observados (estado: 'action')
       tabFiltered = list.filter((doc) => doc.chat_state === 'action');
     } else if (this.currentTab() === 1) {
-      // Aprobados (estado: 'completed')
       tabFiltered = list.filter((doc) => doc.chat_state === 'completed');
     }
 
-    // 2. Filtrar por búsqueda
     if (search) {
       return tabFiltered.filter(
         (doc) =>
@@ -167,7 +163,6 @@ export class ObservedDocuments implements OnInit {
       });
 
       if (response.ok) {
-        // Actualizar el documento en la lista local
         this.documents.update((prev) =>
           prev.map((d) => (d.id === doc.id ? { ...d, extracted_text: this.editText() } : d)),
         );
@@ -192,7 +187,6 @@ export class ObservedDocuments implements OnInit {
       return;
     }
 
-    // Primero guardamos los cambios en el texto
     await this.saveDocumentText();
 
     this.isSaving.set(true);
@@ -207,7 +201,6 @@ export class ObservedDocuments implements OnInit {
       });
 
       if (response.ok) {
-        // Lanzar confeti para celebrar la aprobación
         confetti({
           particleCount: 150,
           spread: 80,
@@ -215,7 +208,6 @@ export class ObservedDocuments implements OnInit {
           colors: ['#0254a2', '#1289f8', '#45a1f7', '#ffffff'],
         });
 
-        // Actualizar el estado en local
         this.documents.update((prev) =>
           prev.map((d) => (d.chat_id === doc.chat_id ? { ...d, chat_state: 'completed' } : d)),
         );
