@@ -1,0 +1,215 @@
+<section class="admin-dashboard-wrapper">
+  <!-- Notificación Toast -->
+  @if (notification().visible) {
+    <div [class]="getNotificationClasses()">
+      <div class="notification-content">
+        <app-icon-component
+          name="Notifications"
+          [size]="20"
+          class="notification-icon"
+        ></app-icon-component>
+        <span class="notification-message">{{ notification().message }}</span>
+      </div>
+    </div>
+  }
+
+  <!-- Cabecera de la Sección -->
+  <header class="admin-header">
+    <div class="header-titles">
+      <h2 class="section-title">Bandeja de Documentos Observados</h2>
+      <p class="section-subtitle">
+        Portal de revisión y corrección de expedientes para el personal administrativo.
+      </p>
+    </div>
+    <!-- Campo de Búsqueda -->
+    <div class="search-container">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Buscar por usuario, documento o trámite..."
+        [ngModel]="searchText()"
+        (ngModelChange)="searchText.set($event)"
+      />
+    </div>
+  </header>
+
+  <!-- Filtros por Pestaña -->
+  <div class="tabs-container">
+    <div class="filter-switch">
+      @for (tab of tabs; track tab; let idx = $index) {
+        <div class="tab" [class.active]="currentTab() === idx">
+          <button (click)="setCurrentTab(idx)">{{ tab }}</button>
+        </div>
+      }
+    </div>
+  </div>
+
+  <section class="docs-section">
+    @if (isLoading()) {
+      <div class="loading-state">
+        <app-icon-component name="Badge" [size]="32" class="loading-icon"></app-icon-component>
+        <p>Cargando documentos de la base de datos...</p>
+      </div>
+    } @else {
+      <div class="docs-grid">
+        @for (doc of filteredDocuments(); track doc.id) {
+          <div
+            class="doc-card"
+            [class.card-completed]="doc.chat_state === 'completed'"
+            [class.card-action]="doc.chat_state === 'action'"
+          >
+            <div class="card-header">
+              <app-icon-component
+                name="Description"
+                [size]="20"
+                class="file-icon"
+              ></app-icon-component>
+              <span class="file-name">{{ doc.filename }}</span>
+              <span
+                class="badge"
+                [class.badge-action]="doc.chat_state === 'action'"
+                [class.badge-completed]="doc.chat_state === 'completed'"
+              >
+                @if (doc.chat_state === 'action') {
+                  Observado
+                } @else if (doc.chat_state === 'completed') {
+                  Aprobado
+                } @else {
+                  En Progreso
+                }
+              </span>
+            </div>
+
+            <div class="card-body">
+              <h4 class="procedure-title">{{ doc.chat_title }}</h4>
+              <p class="applicant-name"><strong>Solicitante:</strong> {{ doc.user_name }}</p>
+              <p class="applicant-email">{{ doc.user_email }}</p>
+              <div class="text-preview">{{ doc.extracted_text | slice: 0 : 140 }}...</div>
+            </div>
+
+            <div class="card-footer">
+              <app-link
+                label="Revisar y Corregir"
+                variant="small"
+                to="javascript:void(0)"
+                (click)="openReviewModal(doc)"
+              ></app-link>
+            </div>
+          </div>
+        } @empty {
+          <div class="empty-state">
+            <app-icon-component name="Info" [size]="48" class="empty-icon"></app-icon-component>
+            <p>No se encontraron documentos en esta categoría.</p>
+          </div>
+        }
+      </div>
+    }
+  </section>
+
+  <!-- Modal de Revisión y Corrección -->
+  @if (isModalOpen() && selectedDoc()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <header class="modal-header">
+          <div class="modal-header-text">
+            <h3>Expediente: {{ selectedDoc()?.filename }}</h3>
+            <p>Edición y control del estado del trámite</p>
+          </div>
+          <button class="close-button" (click)="closeModal()" aria-label="Cerrar modal">
+            <app-icon-component name="Close" [size]="20"></app-icon-component>
+          </button>
+        </header>
+
+        <div class="modal-body-content">
+          <!-- Metadata rápida -->
+          <div class="metadata-grid">
+            <div class="meta-item">
+              <span class="meta-label">Usuario Solicitante</span>
+              <span class="meta-value">{{ selectedDoc()?.user_name }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Correo Electrónico</span>
+              <span class="meta-value">{{ selectedDoc()?.user_email }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Trámite Relacionado</span>
+              <span class="meta-value">{{ selectedDoc()?.chat_title }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Estado Actual</span>
+              <span
+                class="meta-value badge"
+                [class.badge-action]="selectedDoc()?.chat_state === 'action'"
+                [class.badge-completed]="selectedDoc()?.chat_state === 'completed'"
+              >
+                {{ selectedDoc()?.chat_state === 'action' ? 'Observado' : 'Aprobado' }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Alerta Informativa de Corrección -->
+          <div class="alert-box">
+            <app-icon-component name="Info" [size]="20" class="alert-icon"></app-icon-component>
+            <div class="alert-text">
+              <strong>Indicación para corrección:</strong> Modifique los datos observados
+              directamente en el editor de abajo. Al hacer clic en "Aprobar", los cambios se
+              consolidarán y el trámite se marcará como aprobado.
+            </div>
+          </div>
+
+          <!-- Editor de Texto de Documento -->
+          <div class="editor-group">
+            <label for="doc-editor">Texto Extraído del Documento (Corregible)</label>
+            <textarea
+              id="doc-editor"
+              class="document-editor"
+              [(ngModel)]="editText"
+              placeholder="Escriba aquí el contenido del documento..."
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Botones de Acción -->
+        <footer class="modal-footer-actions">
+          <app-link
+            label="Cancelar"
+            variant="ghost"
+            to="javascript:void(0)"
+            (click)="closeModal()"
+          ></app-link>
+
+          <div class="action-buttons-group">
+            <app-link
+              label="Guardar Corrección"
+              variant="small"
+              to="javascript:void(0)"
+              (click)="saveDocumentText()"
+              [class.disabled]="isSaving()"
+              class="btn-save"
+            ></app-link>
+
+            @if (selectedDoc()?.chat_state === 'completed') {
+              <app-link
+                label="Devolver a Observado"
+                variant="small"
+                to="javascript:void(0)"
+                (click)="observeProcedure()"
+                [class.disabled]="isSaving()"
+                class="btn-observe"
+              ></app-link>
+            } @else {
+              <app-link
+                label="Aprobar Trámite"
+                variant="small"
+                to="javascript:void(0)"
+                (click)="approveProcedure()"
+                [class.disabled]="isSaving()"
+                class="btn-approve"
+              ></app-link>
+            }
+          </div>
+        </footer>
+      </div>
+    </div>
+  }
+</section>

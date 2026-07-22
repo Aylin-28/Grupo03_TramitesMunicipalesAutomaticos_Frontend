@@ -8,6 +8,7 @@ import { Assistant } from './pages/dashboard/assistant/assistant';
 import { History } from './pages/dashboard/history/history';
 import { Documents } from './pages/dashboard/feedback/feedback';
 import { Settings } from './pages/dashboard/settings/settings';
+import { ObservedDocuments } from './pages/dashboard/observed-documents/observed-documents';
 import { AuthComponent } from './pages/auth/auth';
 import { TermsConditions } from './pages/terms-conditions/terms-conditions';
 import { CentroAyuda } from './pages/centro-ayuda/centro-ayuda';
@@ -34,6 +35,7 @@ export const routes: Routes = [
       { path: 'history', component: History },
       { path: 'documents', component: Documents },
       { path: 'settings', component: Settings },
+      { path: 'observed-documents', component: ObservedDocuments, data: { title: 'Bandeja de Documentos Observados' } },
     ],
   },
 ];
